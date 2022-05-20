@@ -257,6 +257,31 @@ return $sql->result();
 		  return $result->row();
 
 	  }
+
+	  public function get_ro_no($comp_id,$prod_id,$dist_id){
+		$result= $this->db->query('select  ro_no ,ro_dt,short_name, sum(qty) qty
+		  From  (select a.ro_no ro_no ,date_format(a.ro_dt,"%d-%m-%Y") as ro_dt,b.short_name,sum(a.qty) qty
+		  from td_purchase a,mm_company_dtls b
+		  where a.comp_id = b.comp_id 
+		  and a.comp_id    ='.$comp_id.'
+		  and a.prod_id    ='.$prod_id.'
+		  and a.br ='.$dist_id.'
+		  group by a.ro_no ,a.ro_dt,b.short_name
+		  union
+		  select a.sale_ro,date_format(b.ro_dt,"%d-%m-%Y"),d.short_name,(-1) * sum(a.qty) qty
+		  from td_sale a,td_purchase b,mm_company_dtls d
+		  where a.sale_ro=b.ro_no
+		  and a.comp_id =d.comp_id 
+		  and a.comp_id    ='.$comp_id.'
+		  and    a.prod_id  = '.$prod_id.'
+		  and    a.br_cd = '.$dist_id.'
+		  group by a.sale_ro)c
+		  group by ro_no ,ro_dt,short_name
+		  having sum(qty)>0;');
+		  return $result->result();
+
+
+	  }
 	  
 
 	  

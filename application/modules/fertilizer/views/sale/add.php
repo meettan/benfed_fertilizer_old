@@ -698,8 +698,7 @@
         $('.round_tot_amt').eq($('.ro').index(this)).val(0);
 
     });
-    ///       get Gov rate In MT
-    // $('#intro').on( "change", ".gov_sale_rt", function()
+   
     $('#gov_sale_rt').change(function () {
 
         $('.qty').eq($('.ro').index(this)).val(0);
@@ -890,8 +889,9 @@
             ).done(function (data) {
 
                 var string = '<option value="">Select</option>';
-
+                alert(data);
                 $.each(JSON.parse(data), function (index, value) {
+                   
 
                     string += '<option value="' + value.ro_no + '">' + value.ro_dt +
                         '| |' + value.ro_no + '</option>'

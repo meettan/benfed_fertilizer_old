@@ -25,8 +25,8 @@
 			$ro = $this->input->get('ro');
 		
 			$result = $this->SaleModel->js_get_stock_qty($ro);		
-			// echo $this->db->last_query();
-			// die();
+			//echo $this->db->last_query();
+			//die();
  			echo json_encode($result);
 
 		}
@@ -840,34 +840,71 @@ public function f_get_sale_ro(){
 			echo json_encode($ro);
 
 }
+// public function f_get_prodsale_ro_nw(){
+// 	$dist_id = $this->session->userdata['loggedin']['branch_id'];
+
+//         $select = array('a.ro_no ,date_format(a.ro_dt,"%d-%m-%Y") as ro_dt,b.short_name 
+// 		from td_purchase a,mm_company_dtls b
+// 		where a.comp_id = b.comp_id 
+// 		and a.comp_id    ='.$this->input->get("comp_id").'
+		
+// 		and a.prod_id    ='.$this->input->get("prod_id").'
+// 		and a.br ='.$dist_id.'
+// 		  ORDER BY a.ro_dt' );
+    
+// 		$where      =   array(
+
+// 		"a.comp_id = b.comp_id"  => NULL,
+// 		"a.comp_id"              =>  $this->input->get('comp_id'),
+// 		"a.prod_id"              =>  $this->input->get('prod_id'),
+// 		"a.br" =>$dist_id
+// 		// "a.qty>(select sum(qty) from td_sale where sale_ro=a.ro_no)"=>NULL
+//         );
+		   
+// 		// $ro   = $this->SaleModel->f_select('td_purchase a,mm_company_dtls b',$select,$where,0);
+// 		$ro   = $this->SaleModel->f_select(NULL,$select,NULL,0);
+
+// 		//echo $this->db->last_query();
+
+// 		//echo $this->db->last_query();
+// 		//die();
+// 		echo json_encode($ro);
+
+// }
+
+
+
+
 public function f_get_prodsale_ro_nw(){
+	$comp_id=$this->input->get("comp_id");
+	$prod_id=$this->input->get("prod_id");
 	$dist_id = $this->session->userdata['loggedin']['branch_id'];
 
-        $select = array('a.ro_no ,date_format(a.ro_dt,"%d-%m-%Y") as ro_dt,b.short_name 
-		from td_purchase a,mm_company_dtls b
-		where a.comp_id = b.comp_id 
-		and a.comp_id    ='.$this->input->get("comp_id").'
+        // $select = array('a.ro_no ,date_format(a.ro_dt,"%d-%m-%Y") as ro_dt,b.short_name 
+		// from td_purchase a,mm_company_dtls b
+		// where a.comp_id = b.comp_id 
+		// and a.comp_id    ='.$this->input->get("comp_id").'
 		
-		and a.prod_id    ='.$this->input->get("prod_id").'
-		and a.br ='.$dist_id.'
-		  ORDER BY a.ro_dt' );
+		// and a.prod_id    ='.$this->input->get("prod_id").'
+		// and a.br ='.$dist_id.'
+		//   ORDER BY a.ro_dt' );
     
-		$where      =   array(
+		// $where      =   array(
 
-		"a.comp_id = b.comp_id"  => NULL,
-		"a.comp_id"              =>  $this->input->get('comp_id'),
-		"a.prod_id"              =>  $this->input->get('prod_id'),
-		"a.br" =>$dist_id
-		// "a.qty>(select sum(qty) from td_sale where sale_ro=a.ro_no)"=>NULL
-        );
+		// "a.comp_id = b.comp_id"  => NULL,
+		// "a.comp_id"              =>  $this->input->get('comp_id'),
+		// "a.prod_id"              =>  $this->input->get('prod_id'),
+		// "a.br" =>$dist_id
+		// // "a.qty>(select sum(qty) from td_sale where sale_ro=a.ro_no)"=>NULL
+        // );
 		   
 		// $ro   = $this->SaleModel->f_select('td_purchase a,mm_company_dtls b',$select,$where,0);
-		$ro   = $this->SaleModel->f_select(NULL,$select,NULL,0);
+		$ro   = $this->SaleModel->get_ro_no($comp_id,$prod_id,$dist_id);
 
-		echo $this->db->last_query();
-		
 		//echo $this->db->last_query();
-		//die();
+
+		// echo $this->db->last_query();
+		// die();
 		echo json_encode($ro);
 
 }
