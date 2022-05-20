@@ -87,6 +87,7 @@
     
     </head>  
     <body id="page-top" style="background-color: #eff3f6;">
+    
         <header class="header_class">
 <ul class="header_top">
     <li><strong>Branch Name: </strong><?php if(isset($this->session->userdata['loggedin']['branch_name'])){ echo $this->session->userdata['loggedin']['branch_name'];}?></li>

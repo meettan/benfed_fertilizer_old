@@ -863,6 +863,9 @@ public function f_get_prodsale_ro_nw(){
 		   
 		// $ro   = $this->SaleModel->f_select('td_purchase a,mm_company_dtls b',$select,$where,0);
 		$ro   = $this->SaleModel->f_select(NULL,$select,NULL,0);
+
+		echo $this->db->last_query();
+		
 		//echo $this->db->last_query();
 		//die();
 		echo json_encode($ro);

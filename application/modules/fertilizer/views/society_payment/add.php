@@ -1,3 +1,42 @@
+<style>
+    #overlay {
+        background: rgba(100, 100, 100, 0.2);
+        color: #ffff;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 5000;
+        top: 0;
+        left: 0;
+        float: left;
+        text-align: center;
+        padding-top: 25%;
+        opacity: .80;
+    }
+
+
+
+    .spinner {
+        margin: 0 auto;
+        height: 64px;
+        width: 64px;
+        animation: rotate 0.8s infinite linear;
+        border: 5px solid #228ed3;
+        border-right-color: transparent;
+        border-radius: 50%;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
 <div class="wraper">      
             
 			<div class="col-md-10 container form-wraper">
@@ -287,6 +326,9 @@
         </div>
 
     </div>
+    <div id="overlay" style="display:none;">
+    <div class="spinner"></div>
+</div>
 
 </div>
 
@@ -542,6 +584,7 @@ $(document).ready(function(){
     var i = 0;
 
     $('#soc_id').change(function(){
+        $('#overlay').fadeIn().delay(2000).fadeOut();
 
         $.get( 
 
@@ -581,6 +624,8 @@ $(document).ready(function(){
     var i = 0;
 
     $('#trans_do').change(function(){
+        $('#overlay').fadeIn().delay(2000).fadeOut();
+
 
         $.get( 
 
@@ -622,6 +667,8 @@ $(document).ready(function(){
     var i = 0;
 
     $('#sale_ro').change(function(){
+        $('#overlay').fadeIn().delay(2000).fadeOut();
+
 
         $.get( 
 
