@@ -889,7 +889,7 @@
             ).done(function (data) {
 
                 var string = '<option value="">Select</option>';
-                alert(data);
+               
                 $.each(JSON.parse(data), function (index, value) {
                    
 
