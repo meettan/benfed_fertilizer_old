@@ -65,6 +65,12 @@
 		  return $sql->row();
 	
 		 }
+		 public function payTypePaidDetails($id){
+			 $this->db->select('pay_type,paid_amt,ref_no,ref_dt');
+			$this->db->where('paid_id',$id);
+			$q=$this->db->get('tdf_payment_recv');
+			return $q->result();
+		 }
 		public function get_trans_no($fin_id,$branch_id){
 
 			$sql="select ifnull(max(trans_no),0) + 1 trans_no

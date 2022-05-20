@@ -16,11 +16,11 @@
             }
 		}
 		
-	public function money_recptReport()
-{
+	public function money_recptReport(){
 	$receipt_no = $this->input->get('paid_id');
 
 	$money_recpt['data']    = $this->Society_paymentModel->f_get_receiptReport_dtls($receipt_no);
+	$money_recpt['payTypePaidDetails']    = $this->Society_paymentModel->payTypePaidDetails($receipt_no);
 	
 	$money_recpt['paid_id'] = $receipt_no;
 	 
