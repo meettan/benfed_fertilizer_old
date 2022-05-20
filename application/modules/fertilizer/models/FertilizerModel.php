@@ -111,6 +111,26 @@
 			}
 		}
 
+		public function checkhsn_select($table,$select=NULL,$where=NULL,$type){
+
+			if(isset($select)){
+				$this->db->select($select);
+			}
+
+			if(isset($where)){
+				$this->db->where($where);
+			}
+
+			$value = $this->db->get($table);
+
+			if($type==1){
+				return $value->num_rows();
+			}else{
+				return $value->result();
+			}
+		}
+
+
 
 		public function f_select_distinct($table,$select=NULL,$where=NULL,$type){	/**Select distinct data */
 

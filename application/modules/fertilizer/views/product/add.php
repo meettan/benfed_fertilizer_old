@@ -189,5 +189,18 @@
 </div>
 
 <script>
-	
+	$("#hsn_code").change(function(){
+		var hsn=$(this).val();
+		$.ajax({
+        type:"post",
+        url: "<?php echo base_url().'key/checkHsn'; ?>",
+		dataType : 'json',
+        data:{ hsn:hsn},
+        success:function(response){
+            if (response == true){
+               alert('HSN already exists');
+            }  
+        }
+    });
+});
 </script>

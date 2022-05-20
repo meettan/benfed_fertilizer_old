@@ -99,7 +99,7 @@
 				<label for="pan" class="col-sm-1 col-form-label">PAN:</label>
 				<div class="col-sm-4">
 
-					<input type="text" id=pan name="pan" class="form-control" >
+					<input type="text" id="pan" name="pan" class="form-control" required>
 
 				</div>
 			</div>
@@ -274,4 +274,5 @@ $(document).ready(function(){
 	});
 
 });
+</script>
 </script>

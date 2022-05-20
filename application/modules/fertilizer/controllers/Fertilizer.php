@@ -167,6 +167,8 @@ public function soceityAdd(){
 			}
 }
 
+
+
 //Edit Soceity
 public function editsoceity(){
 
@@ -581,6 +583,20 @@ public function productAdd(){
 
 				$this->load->view('post_login/footer');
 		}
+}
+
+public function checkHsn(){
+	$hsn=$this->input->post('hsn');
+	$hsndata=$this->FertilizerModel->checkhsn_select('mm_product',null,array('HSN_CODE'=>$hsn),1);
+	if($hsndata>0)
+      {
+		echo json_encode(true);
+      } 
+      else
+      {
+		echo json_encode(false);
+      } 
+	
 }
 
 //Edit Product

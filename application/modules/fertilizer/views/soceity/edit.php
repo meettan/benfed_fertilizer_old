@@ -84,7 +84,7 @@
                         <label for="pan" class="col-sm-2 col-form-label">PAN:</label>
 
                         <div class="col-sm-4">
-                        <input type="text" name="pan" class="form-control required"  
+                        <input type="text" name="pan" id="pan" class="form-control required"  
                                 value = "<?php echo $schdtls->pan; ?>" 
                             />
                             </div>
