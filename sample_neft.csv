@@ -1,0 +1,10 @@
+Sl.No.,Registration No.,Quantity,Amount,IFS Code,Beneficiary A/C No.
+,,,,,
+(Number),(Text),(Number),(Number),(Text),(Date in YYYY-MM-DD Format)
+,,,,,
+,,,,,
+,,,,,
+,(Please put only the Registration No. don't put the Name),,,,
+,,,,,
+,,,,,
+,,,Save the file in CSV (comma delimited *.csv)format,,

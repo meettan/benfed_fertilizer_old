@@ -1,0 +1,412 @@
+BEGIN
+	DECLARE    li_emp_catg         INTEGER;
+    DECLARE    li_dr_acc           INTEGER;
+    DECLARE		li_voucher_id	   INTEGER;	
+    
+    Declare    ld_gross_amt       decimal(10,2);
+    DECLARE    ld_gen_adv         decimal(10,2);
+    DECLARE    ld_festival_adv    decimal(10,2);
+    Declare    ld_lic_amt         decimal(10,2);
+    Declare    ld_itax_amt        decimal(10,2);
+    Declare    ld_ptax_amt        decimal(10,2);
+	DECLARE    ld_pf_amt          decimal(10,2);
+    DECLARE    ld_net_amt         decimal(10,2);
+    DECLARE	   remarks			  VARCHAR(50);
+    
+    
+    if new.approval_status = 'A' THEN
+    
+    	SET remarks = CONCAT('Salary Paid For ', OLD.sal_month, ' ', OLD.sal_year);
+   
+   		SET li_emp_catg = old.catg_cd; 
+        
+        	if li_emp_catg = 1 THEN
+            	SET li_dr_acc  = 10369;
+            ELSE  
+               	SET li_dr_acc  = 10364; 	
+            end if;
+            
+            select IFNULL(SUM(gross),0)gross_amt,
+            	   IFNULL(SUM(gen_adv),0)gen_adv,
+                   IFNULL(SUM(festival_adv),0)festival_adv,
+                   IFNULL(SUM(lic),0)lic,
+                   IFNULL(SUM(pf),0)pf,
+                   IFNULL(SUM(ptax),0)ptax,
+                   IFNULL(SUM(itax),0)itax,
+                   IFNULL(SUM(net_amount),0)net_amount
+            into   ld_gross_amt,
+            	   ld_gen_adv,
+                   ld_festival_adv,
+                   ld_lic_amt,
+                   ld_pf_amt,
+                   ld_ptax_amt,
+                   ld_itax_amt,
+                   ld_net_amt
+            FROM   td_pay_slip
+            where  trans_date = old.trans_date
+            and    emp_catg = li_emp_catg
+            and    approval_status = 'U';
+            
+            select MAX(voucher_id)+1
+            INTO   li_voucher_id
+            FROM   td_vouchers
+            where  voucher_date = old.trans_date;
+            
+            
+            
+            if ld_gross_amt > 0 THEN
+            	
+                insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                        li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        li_dr_acc,
+                                        'Dr',
+                                         ld_gross_amt,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'M',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt);      
+            end IF;
+            
+            
+            
+            if ld_gen_adv > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                       li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        10291,
+                                        'Cr',
+                                         ld_gen_adv,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+            
+            
+            
+            if ld_festival_adv > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                        li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        10093,
+                                        'Cr',
+                                         ld_festival_adv,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+            
+            
+             if ld_lic_amt > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                         li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        10141,
+                                        'Cr',
+                                         ld_lic_amt,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+            
+            
+            if ld_pf_amt > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                        li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        10044,
+                                        'Cr',
+                                         ld_pf_amt,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+            
+            
+                 
+            if ld_itax_amt > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                        li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        10150,
+                                        'Cr',
+                                         ld_itax_amt,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+            
+            
+                
+            if ld_ptax_amt > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                        li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        10297,
+                                        'Cr',
+                                         ld_ptax_amt,
+                                         NULL,
+                                         NULL, 
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+            
+            
+            if ld_net_amt > 0 THEN
+            
+            	insert INTO td_vouchers(voucher_date,
+                                       	voucher_id,
+                                        trans_no,
+                                        voucher_type,
+                                        voucher_mode,
+                                        voucher_through,
+                                        acc_code,
+                                        dr_cr_flag,
+                                        amount,
+                                        ins_no,
+                                        ins_dt,
+                                        remarks,
+                                        approval_status,
+                                        user_flag,
+                                        created_by,
+                                        created_dt,
+                                        approved_by,
+                                        approved_dt)
+                                 values(old.trans_date,
+                                        li_voucher_id,
+                                        0,
+                                        'P',
+                                        'M',
+                                        'B',
+                                        old.bank,
+                                        'Cr',
+                                         ld_net_amt,
+                                         NULL,
+                                         NULL,
+                                         remarks,
+                                         'A',
+                                         'S',
+                                         old.created_by,
+                                         old.created_dt,
+                                         new.approved_by,
+                                         new.approved_dt); 
+            
+            
+            end if;
+
+          
+          update td_pay_slip
+          set  approval_status = 'A'
+          where trans_date = old.trans_date
+          and   trans_no  = old.trans_no
+          and   approval_status = 'U';
+          
+    	
+    	
+    end if;
+END

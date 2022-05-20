@@ -1,0 +1,10 @@
+Sl.No.,Registration No.,Quantity,Amount,Cheque No.,Cheque Date
+,,,,,
+(Number),(Text),(Number),(Number),(Text),(Date in YYYY-MM-DD Format)
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,Save the file in CSV (comma delimited *.csv)format,,
