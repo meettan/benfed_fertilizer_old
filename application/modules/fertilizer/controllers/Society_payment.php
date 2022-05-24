@@ -557,28 +557,35 @@ public function f_cust_pay_forward() {
 			$pur_inv  = $data["4"];
 			$sale_qty = $data["5"];
 			$sale_inv = $data["6"];
+			$sale_invoice = $data["7"];
+			
+			// print_r($data);
+			// exit();
 			$br_cd=$this->session->userdata['loggedin']['branch_id'];
 		
 			$this->Society_paymentModel->f_upd_pay_recv($sale_inv);
 
-			$cnt = $this->Society_paymentModel->check_soc_pay($ro_no,$br_cd)->counts;
+			//$cnt = $this->Society_paymentModel->check_soc_pay($ro_no,$br_cd)->counts();
+
+
+			//$qty=$this->Society_paymentModel->getQty();
 			// echo $this->db->last_query();
 			// echo $cnt;
 			// exit;
-	if($cnt == '0'){
-			$this->Society_paymentModel->f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_inv,$sale_qty,$br_cd);
+	// if($cnt == '0'){
+			$this->Society_paymentModel->f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_inv,$br_cd,$sale_invoice);
 			// echo $this->db->last_query();
 			// echo' hello';
 			// exit;
-	}else{
-		$this->Society_paymentModel->f_forward_pay_recv_upd($ro_no,$sale_qty,$br_cd);
+	// }else{
+	// 	$this->Society_paymentModel->f_forward_pay_recv_upd($ro_no,$sale_qty,$br_cd);
 		// echo "<script>
 		// 			alert('update');
 		// 			window.location.href='society_payment';
 		// 			</script>";
 		// echo 'hi';
 		// exit;
-		}
+		// }
 			
 				echo "<script>
 					alert('Customer Payment data forwarded successfully');

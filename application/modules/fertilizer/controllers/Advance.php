@@ -786,7 +786,8 @@ public function f_get_dist_bnk_dtls(){
  }
 	//Delete
 	public function advdetailDel(){
-		
+		$rcpt= $this->input->get('rcpt');
+		//exit();
 				
 	    $where = array(
 	        
@@ -798,7 +799,7 @@ public function f_get_dist_bnk_dtls(){
 
 	    $this->AdvanceModel->f_delete('td_adv_details', $where);
 
-	    redirect("adv/advance");
+	    redirect("adv/add_advdetail?rcpt=".$rcpt);
 	}
 
 	public function get_receiptbydist(){

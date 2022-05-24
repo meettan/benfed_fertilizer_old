@@ -2328,6 +2328,42 @@ public function soc_payblepaid(){
         $this->load->view('report/society_ledger/sl_ip',$data);
         $this->load->view('post_login/footer');
     }
+
+    public function advance_report(){
+       
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+
+            $comp_id  = $_POST['company'];
+
+            $district = $this->input->post('district');
+
+            $frm_date = $this->input->post('fr_date');
+
+            $to_date  = $this->input->post('to_date');
+
+            //$fin_id   = $this->session->userdata['loggedin']['fin_id'];
+
+          $data['tableData']=$this->ReportModel->getallAdvData($comp_id,$district,$frm_date,$to_date);
+          
+          print_r($data['tableData']);
+          echo $this->db->last_query();
+          exit();
+        //   $data['']=$this->ReportModel->f_select($table,$select=NULL,$where=NULL,$type);
+          
+           $this->load->view('post_login/fertilizer_main');
+           $this->load->view('report/advance_payment/advPay.php',$data);
+           $this->load->view('post_login/footer');
+        }else{
+
+            $data['branch']     =   $this->ReportModel->f_get_district_asc();
+
+            $data['company']    =   $this->ReportModel->f_select("mm_company_dtls", NULL, NULL, 0);
+
+            $this->load->view('post_login/fertilizer_main');
+            $this->load->view('report/advance_payment/advPay_ip.php',$data);
+            $this->load->view('post_login/footer');
+        }
+    }
         
   }
  ?>

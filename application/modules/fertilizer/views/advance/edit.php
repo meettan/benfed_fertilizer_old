@@ -150,7 +150,7 @@
                  
                 </div>
                  <div class="col-sm-2">
-                 <a href="<?php echo base_url();?>index.php/adv/add_advdetail?rcpt=<?php echo $advDtls->receipt_no; ?>" data-toggle="tooltip" data-placement="bottom" title="Detailentry"><button>Detailentry</button></a> 
+                 <a href="<?php echo base_url();?>index.php/adv/add_advdetail?rcpt=<?php echo $advDtls->receipt_no; ?>" class="btn btn-success" >Detail Entry</a> 
                    
                 </div>
 

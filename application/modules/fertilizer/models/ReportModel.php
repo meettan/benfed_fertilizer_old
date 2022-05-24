@@ -127,7 +127,16 @@
 
         public function f_get_salerateho($comp_id,$district,$frm_date,$to_date,$fin_id){
 
-            $sql ="SELECT `a`.`frm_dt`, `a`.`to_dt`, `a`.`catg_id`, `a`.`sp_mt`, `a`.`sp_bag`, `a`.`sp_govt`, `b`.`cate_desc`, `c`.`PROD_DESC` FROM `mm_sale_rate` `a`, `mm_category` `b`, `mm_product` `c` WHERE `a`.`catg_id` = `b`.`sl_no` AND `a`.`prod_id` = `c`.`PROD_ID` AND `a`.`comp_id` = '$comp_id' AND `a`.`district` = '$district' AND `a`.`frm_dt` >= '$frm_date' AND `a`.`frm_dt` <= '$to_date' AND `a`.`fin_id` = '$fin_id' order by c.PROD_DESC,b.cate_desc,a.frm_dt" ;
+            $sql ="SELECT `a`.`frm_dt`, `a`.`to_dt`, `a`.`catg_id`, `a`.`sp_mt`, `a`.`sp_bag`, `a`.`sp_govt`, `b`.`cate_desc`, `c`.`PROD_DESC` 
+            FROM `mm_sale_rate` `a`, `mm_category` `b`, `mm_product` `c` 
+            WHERE `a`.`catg_id` = `b`.`sl_no` 
+            AND `a`.`prod_id` = `c`.`PROD_ID` 
+            AND `a`.`comp_id` = '$comp_id' 
+            AND `a`.`district` = '$district' 
+            AND `a`.`frm_dt` >= '$frm_date' 
+            AND `a`.`frm_dt` <= '$to_date' 
+            AND `a`.`fin_id` = '$fin_id' 
+            order by c.PROD_DESC,b.cate_desc,a.frm_dt" ;
             
             $query  = $this->db->query($sql);
 
@@ -1609,6 +1618,43 @@ public function p_ro_wise_prof_calc_all($all_data)
                 $row = 0;
             }
             return $row;
+        }
+
+
+
+        public function getallAdvData($comp_id,$district,$frm_date,$to_date){
+            $this->db->select('d.PROD_DESC,a.fo_no,a.ro_no,a.amount,c.soc_name');
+            $this->db->from('td_adv_details a');
+            $this->db->join('tdf_advance as b','b.receipt_no=a.receipt_no');
+
+            $this->db->join('mm_ferti_soc as c','c.soc_id=b.soc_id');
+
+            $this->db->join('mm_product as d','d.prod_id=a.prod_id');
+            $this->db->where('a.comp_id', $comp_id);
+            $this->db->where('c.district',$district);
+            $this->db->where('a.created_dt >=',$frm_date); 
+            $this->db->where('a.created_dt <=',$frm_date); 
+            //$this->db->where('c.district','Y');
+            $q=$this->db->get();
+
+
+
+            // $q=$this->db->query("select  *
+            // from  td_adv_details a,tdf_advance b,mm_ferti_soc c, mm_product d
+            // where a.comp_id = $comp_id
+            // AND c.district = $district
+
+            // and b.soc_id=c.soc_id
+            // and b.receipt_no=a.receipt_no
+            // and a.prod_id=d.prod_id
+
+          
+            // AND a.created_dt >= $frm_date
+            // AND a.created_dt <= $to_date"
+                
+            // );
+            
+            return $q->result();
         }
 
     }

@@ -103,13 +103,26 @@
 			$data = $this->db->query($sql);
 			return $data->row();
 		}
-		public function f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_inv,$sale_qty,$br_cd)
+		public function f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_inv,$br_cd,$sale_invoice)
 		{
-			
+			$qty=$this->getQty($sale_invoice);
+			// //print_r($sale_inv);
+			// print_r($this->session->userdata['loggedin']['user_name']);
+			// exit();
 			$sql="INSERT INTO  tdf_company_payment(pur_ro,comp_id,prod_id,purchase_rt,pur_inv_no,sale_inv_no,qty,district)
-				  values('$ro_no',$comp_id,$prod_id,$rate,'$pur_inv','$sale_inv',$sale_qty,$br_cd)";
+				  							values('$ro_no',$comp_id,$prod_id,$rate,'$pur_inv','$sale_inv','$qty->qty','$br_cd')";
 			$this->db->query($sql);
 		}
+
+		public function getQty($sale_inv){
+			$this->db->select('');
+			$this->db->from('td_sale');
+			$this->db->where('trans_do',$sale_inv);
+			$q=$this->db->get();
+			return $q->row();
+		}
+
+
 		public function f_forward_pay_recv_upd($ro_no,$sale_qty,$br_cd)
 		{
 		  $sql="UPDATE tdf_company_payment SET qty = qty+  $sale_qty 
@@ -121,7 +134,10 @@
 
 		public function f_upd_pay_recv($sale_inv)
 		{
-		  $sql="UPDATE tdf_payment_recv SET approval_status ='A'
+			
+			$user=$this->session->userdata['loggedin']['user_name'];
+			$datestr=date('Y-m-d');
+		  $sql="UPDATE tdf_payment_recv SET approval_status ='A',approval_by='$user',approval_date='$datestr'
 				WHERE paid_id = '$sale_inv'";
 			
 			$this->db->query($sql);
@@ -138,7 +154,7 @@
 				// 							and a.branch_id=$br_cd
 				// 							group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,c.rate,c.invoice_no,approval_status");
     
-			$data = $this->db->query("select distinct a.paid_id,a.sl_no,a.paid_dt paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty
+			$data = $this->db->query("select distinct a.paid_id,a.sl_no,a.paid_dt paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
 			from  tdf_payment_recv a , mm_ferti_soc b,td_purchase c,mm_product d
 			where a.soc_id=b.soc_id
 			and a.ro_no=c.ro_no
@@ -147,7 +163,7 @@
 			and a.fin_yr=$fin_id
 			group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no,approval_status
 			union
-			select a.paid_id,a.sl_no,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty
+			select a.paid_id,a.sl_no,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
 			from  tdf_payment_recv a , mm_ferti_soc b, mm_product d
 			where a.soc_id=b.soc_id	
 			and a.paid_dt is not null

@@ -85,26 +85,37 @@
             
                 
             }
-			public function f_get_comppay_ro_gb_dtls($pur_inv){
-				$data = $this->db->query("select sum(c.qty)as qty,a.sale_inv_no,a.pur_ro,round((b.tot_amt/b.qty),3) as rate ,b.ro_dt,round(sum(c.qty)* round((b.tot_amt/b.qty),3),2) as tot_amt , round(((b.net_amt/b.qty)*sum(c.qty)*.1/100),2) as tds,
-				round(((b.net_amt/b.qty)*sum(c.qty)),2) as taxable_amt, a.prod_id,d.prod_desc
-				from  tdf_company_payment a ,td_purchase b,td_sale c,mm_product d
-				where a.pur_inv_no ='$pur_inv'
-				and a.pur_ro=b.ro_no
-				and a.pur_ro=c.sale_ro
-				and a.prod_id =d.prod_id
-				group by a.sale_inv_no,a.pur_ro,a.purchase_rt ,b.ro_dt ,a.prod_id,d.prod_desc
-				union 
-				select 0 as qty,a.sale_inv_no,a.pur_ro,a.purchase_rt ,''ro_dt,0 as tot_amt ,0 ,0,a.prod_id,d.prod_desc
-				from  tdf_company_payment a ,tdf_payment_recv b,mm_product d
-				where b.ro_no ='$pur_inv'
-				and a.pur_ro=b.ro_no
-				and a.prod_id =d.prod_id
-				and pay_type='O'
-				group by a.sale_inv_no,a.pur_ro,a.purchase_rt ,a.prod_id,d.prod_desc");
+			public function f_get_comppay_ro_gb_dtls($pur_inv,$rcno){
+
+				$this->db->select('a.qty,a.rate_amt,b.PROD_DESC,a.pur_ro,c.ro_dt,round((c.tot_amt/c.qty),3)as rate')->from('tdf_company_payment a')->where('pur_inv_no',$pur_inv)->where('sale_inv_no',$rcno);
+				$this->db->join('mm_product b','a.prod_id = b.PROD_ID');
+				$this->db->join('td_purchase c','a.pur_ro = c.ro_no');
+				
+				$data=$this->db->get();
 
 
-return $data->row();
+
+				// $data = $this->db->query("select a.qty as qty,a.sale_inv_no,a.pur_ro,round((b.tot_amt/b.qty),3) as rate ,b.ro_dt,round(c.qty* round((b.tot_amt/b.qty),3),2) as tot_amt , round(((b.net_amt/b.qty)*sum(c.qty)*.1/100),2) as tds,
+				// round(((b.net_amt/a.qty)*c.qty),2) as taxable_amt, a.prod_id,d.prod_desc
+				// from  tdf_company_payment a ,td_purchase b,td_sale c,mm_product d
+				// where a.pur_inv_no ='$pur_inv'
+				// and a.sale_inv_no='$rcno'
+
+				// and a.pur_ro=b.ro_no
+				// and a.pur_ro=c.sale_ro
+				// and a.prod_id =d.prod_id
+				// group by a.sale_inv_no,a.pur_ro,a.purchase_rt ,b.ro_dt ,a.prod_id,d.prod_desc
+				// union 
+				// select 0 as qty,a.sale_inv_no,a.pur_ro,a.purchase_rt ,''ro_dt,0 as tot_amt ,0 ,0,a.prod_id,d.prod_desc
+				// from  tdf_company_payment a ,tdf_payment_recv b,mm_product d
+				// where b.ro_no ='$pur_inv'
+				// and a.pur_ro=b.ro_no
+				// and a.prod_id =d.prod_id
+				// and pay_type='O'
+				// group by a.sale_inv_no,a.pur_ro,a.purchase_rt ,a.prod_id,d.prod_desc");
+
+
+			return $data->row();
 			}
 
 			public function get_payment_code($fin){

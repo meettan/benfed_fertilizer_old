@@ -306,12 +306,12 @@ $(".filt").on("click", function() {
     var todt = $('#to_date').val();
     // $(".obutn").click(function() {
     //  $(this).closest("form").attr("action", "/benfed_fertilizer/index.php/trade/salesfilter");   
-    $(this).closest("form").attr("action", "/fertilizer/index.php/adv/advancefilter");   
+    $(this).closest("form").attr("action", "advancefilter");   
 // });
     if(frmdt=='' && todt==''){
       //  alert('raj'); 
         // $(this).closest("form").attr("action", "/benfed_fertilizer/index.php/trade/sale"); 
-        $(this).closest("form").attr("action", "/fertilizer/index.php/adv/advance"); 
+        $(this).closest("form").attr("action", "advance"); 
     }
   
   

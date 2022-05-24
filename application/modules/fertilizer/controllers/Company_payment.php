@@ -96,8 +96,8 @@ curl_setopt_array($curl, array(
 	//CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
  //CURLOPT_URL => 'http://localhost/benfed_fin/index.php/transaction/f_acc_code',
  //CURLOPT_URL => 'http://benfed.in/benfed_fin/index.php/transaction/f_acc_code',
- CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/f_acc_code',
-// CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
+ //CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/f_acc_code',
+ CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
@@ -539,7 +539,7 @@ if ($trans_type=='2'){
 public function f_get_comppay_ro()
 {
 	
-    $select = array("pur_inv_no " );
+    $select = array("pur_inv_no","sale_inv_no");
        		
 			$where      =   array(
 			"comp_id"    =>  $this->input->get('comp_id'),
@@ -568,9 +568,12 @@ public function f_get_bank_dtls()
 			public function f_get_comppay_ro_dtls(){
 				 // echo 'hi';
 				// die();
-				$pur_inv = $this->input->get('pur_inv');
+				$getdata = $this->input->get('pur_inv');
+				$data=explode(',',$getdata);
+				$pur_inv=$data[0];
+				$rcno=$data[1];
 			
-						$pur_inv_ro_dtl   = $this->Company_paymentModel->f_get_comppay_ro_gb_dtls($pur_inv);
+						$pur_inv_ro_dtl   = $this->Company_paymentModel->f_get_comppay_ro_gb_dtls($pur_inv,$rcno);
 						// echo $this->db->last_query();
 						// die();
 						echo json_encode($pur_inv_ro_dtl);
