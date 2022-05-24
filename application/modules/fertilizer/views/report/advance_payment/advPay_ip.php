@@ -35,7 +35,7 @@ tr:hover {background-color: #f5f5f5;}
                 
                 </div>
 
-                <div class="form-group row">
+                <!-- <div class="form-group row">
 
                     <label for="company" class="col-sm-2 col-form-label">District:</label>
 
@@ -58,7 +58,7 @@ tr:hover {background-color: #f5f5f5;}
 
                     </div>
 
-                </div>
+                </div> -->
 
                 <div class="form-group row">
 
@@ -73,7 +73,7 @@ tr:hover {background-color: #f5f5f5;}
                                     foreach($company as $row){
                                 ?>
 
-                                    <option value="<?php echo $row->COMP_ID;?>"><?php echo $row->COMP_NAME;?></option>
+                                    <option value="<?php echo $row->COMP_ID.',',$row->COMP_NAME ;?>"><?php echo $row->COMP_NAME;?></option>
                                 <?php
                                     }
                                 ?>

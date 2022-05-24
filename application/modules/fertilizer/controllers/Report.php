@@ -2333,22 +2333,16 @@ public function soc_payblepaid(){
        
         if($_SERVER['REQUEST_METHOD'] == "POST") {
 
-            $comp_id  = $_POST['company'];
+            $comp_idd  = $_POST['company'];
 
-            $district = $this->input->post('district');
-
+            $com=explode(',', $comp_idd);
+            $comp_id=$com[0];
+            $data['companyName']=$com[1];
             $frm_date = $this->input->post('fr_date');
-
             $to_date  = $this->input->post('to_date');
-
-            //$fin_id   = $this->session->userdata['loggedin']['fin_id'];
-
-          $data['tableData']=$this->ReportModel->getallAdvData($comp_id,$district,$frm_date,$to_date);
-          
-          print_r($data['tableData']);
-          echo $this->db->last_query();
-          exit();
-        //   $data['']=$this->ReportModel->f_select($table,$select=NULL,$where=NULL,$type);
+          $data['tableData']=$this->ReportModel->getallAdvData($comp_id,$frm_date,$to_date);
+          $data['fDate']= $frm_date;
+          $data['tDate']=$to_date;
           
            $this->load->view('post_login/fertilizer_main');
            $this->load->view('report/advance_payment/advPay.php',$data);

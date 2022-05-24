@@ -1622,37 +1622,34 @@ public function p_ro_wise_prof_calc_all($all_data)
 
 
 
-        public function getallAdvData($comp_id,$district,$frm_date,$to_date){
-            $this->db->select('d.PROD_DESC,a.fo_no,a.ro_no,a.amount,c.soc_name');
-            $this->db->from('td_adv_details a');
-            $this->db->join('tdf_advance as b','b.receipt_no=a.receipt_no');
+        public function getallAdvData($comp_id,$frm_date,$to_date){
+            // $this->db->select('d.PROD_DESC,a.fo_no,a.ro_no,a.amount,c.soc_name');
+            // $this->db->from('td_adv_details a');
+            // $this->db->join('tdf_advance as b','b.receipt_no=a.receipt_no');
 
-            $this->db->join('mm_ferti_soc as c','c.soc_id=b.soc_id');
+            // $this->db->join('mm_ferti_soc as c','c.soc_id=b.soc_id');
 
-            $this->db->join('mm_product as d','d.prod_id=a.prod_id');
-            $this->db->where('a.comp_id', $comp_id);
-            $this->db->where('c.district',$district);
-            $this->db->where('a.created_dt >=',$frm_date); 
-            $this->db->where('a.created_dt <=',$frm_date); 
-            //$this->db->where('c.district','Y');
-            $q=$this->db->get();
+            // $this->db->join('mm_product as d','d.prod_id=a.prod_id');
+            // $this->db->where('a.comp_id', $comp_id);
+            // $this->db->where('c.district',$district);
+            // $this->db->where('a.created_dt >=',$frm_date); 
+            // $this->db->where('a.created_dt <=',$frm_date); 
+            // //$this->db->where('c.district','Y');
+            // $q=$this->db->get();
 
 
 
-            // $q=$this->db->query("select  *
-            // from  td_adv_details a,tdf_advance b,mm_ferti_soc c, mm_product d
-            // where a.comp_id = $comp_id
-            // AND c.district = $district
-
-            // and b.soc_id=c.soc_id
-            // and b.receipt_no=a.receipt_no
-            // and a.prod_id=d.prod_id
-
-          
-            // AND a.created_dt >= $frm_date
-            // AND a.created_dt <= $to_date"
+            $q=$this->db->query("select a.trans_dt,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
+            from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d
+            where c.branch_id = b.id
+            and   a.adv_dtl_id = c.receipt_no
+            and   a.adv_receive_no = c.detail_receipt_no
+            and   c.prod_id = d.PROD_ID
+            and   a.trans_dt between '$frm_date' and '$to_date'
+            and   a.comp_id = '$comp_id'
+            and   c.comp_pay_flag = 'Y';"
                 
-            // );
+            );
             
             return $q->result();
         }
