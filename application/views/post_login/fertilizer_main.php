@@ -278,8 +278,10 @@
 										<a href="<?php echo site_url("fert/rep/salerepbr");?>">Branch Wise Sale</a>
 									</div>
                                 </div>
-								<a href="<?php echo site_url("fert/rep/soc_wse_cr_dmd");?>"> Society wise Credit Note Demand.</a> 
+								<a href="<?php echo site_url("fert/rep/soc_wse_cr_dmd");?>"> Society wise Credit Note Demand.</a>
+                                <?php if( $this->session->userdata['loggedin']['ho_flag']=="Y"){?> 
 								<a href="<?php echo site_url("fert/rep/advance_report");?>"> Company Advance</a> 
+                                <?php } ?>
 								<a href="<?php echo site_url("fert/rep/soc_payblepaid");?>">Received From Society</a>
 								<a href="<?php echo site_url("fert/rep/ps_pl_all");?>">All Sale Purchase </a>
 								<a href="<?php echo site_url("fert/rep/ps_soc");?>">District wise Distribution </a>
