@@ -804,10 +804,12 @@ public function f_get_dist_bnk_dtls(){
 
 	public function get_receiptbydist(){
 		$finYr          = $this->session->userdata['loggedin']['fin_id'];
+		
 
-		$where  = array('fin_yr' => $finYr,'branch_id' => $this->input->get('dist'));
+		$dist_id= $this->input->get('dist');
+		$c_id= $this->input->get('c_id');
 
-	    $data   = $this->AdvanceModel->f_select('tdf_advance',NULL,$where,0);
+	    $data   = $this->AdvanceModel->get_recep_no($c_id,$dist_id);
 
 	    echo json_encode($data);
 	}

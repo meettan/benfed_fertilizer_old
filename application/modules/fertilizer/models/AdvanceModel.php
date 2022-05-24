@@ -224,6 +224,16 @@ return $result;
 				return $value->result();
 			}
 		}
+
+		public function get_recep_no($c_id,$dist_id){
+			$q=$this->db->query("SELECT distinct a.receipt_no,a.comp_id,b.branch_id 
+			FROM td_adv_details a,tdf_advance b
+			where a.receipt_no = b.receipt_no
+			and a.comp_id = $c_id
+			and b.branch_id = $dist_id
+			and a.comp_pay_flag = 'N';");
+			return $q->result();
+		}
  
 	}
 ?>

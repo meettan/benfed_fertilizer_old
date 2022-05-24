@@ -38,7 +38,7 @@
 
                         <th>Transaction Type</th>
 
-                        <th>Delete</th>
+                        <!-- <th>Delete</th> -->
                        
                     </tr>
 
@@ -78,13 +78,14 @@
                                     </a> 
                                 </td>
 
-                                <td><button type="button" class="delete" id="<?php echo $value->receipt_no;?>"    
+                                <!-- <td>
+                                    <button type="button" class="delete" id="<?php echo $value->receipt_no;?>"    
                                        
                                         data-toggle="tooltip" data-placement="bottom" title="Delete">
 
                                         <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                     </button> 
-                                </td>
+                                </td> -->
 
                             </tr>
 
@@ -119,7 +120,7 @@
 
                         <th>Transaction Type</th>
 
-                        <th>Delete</th>
+                        <!-- <th>Delete</th> -->
 
                     </tr>
                 

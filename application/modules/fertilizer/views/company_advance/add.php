@@ -12,7 +12,7 @@
 				<label for="company" class="col-sm-2 col-form-label">Company:</label>
 				<div class="col-sm-4">
 
-					<select name="company" class="form-control required" id="company" required>
+					<select name="company" class="form-control sch_cd required" id="company" required>
 
 						<option value="">Select Company</option>
                         <?php
@@ -37,7 +37,7 @@
 				<label for="dist" class="col-sm-2 col-form-label">District:</label>
 				<div class="col-sm-4">
 
-					<select name="dist" class="form-control required" id="dist" required>
+					<select name="dist" class="form-control sch_cd required" id="dist" required>
 
 						<option value="">Select District</option>
                         <?php
@@ -53,7 +53,7 @@
 				<label for="bank" class="col-sm-2 col-form-label">Bank:</label>
 				<div class="col-sm-4">
 
-					<select name="bank" class="form-control required" id="bank" required>
+					<select name="bank" class="form-control sch_cd required" id="bank" required>
 						<option value="">Select Bank</option>
                         <?php
                             foreach($bankDtls as $bank){
@@ -66,19 +66,26 @@
                 </div>
 		</div>
 
+
             <div class="form-group row">
             <label for="Receipt No" class="col-sm-2 col-form-label">Receipt No:</label>
-                <div class="col-sm-4">
-                  <input type="text" id=receipt_no name="receipt_no" class="form-control" value=""  />
-                  
+            
+                
+                  <!-- <input type="text" id=receipt_no name="receipt_no" class="form-control" value=""  /> -->
+                  <div class="col-sm-4">
+
+					<select name="receipt_no" class="form-control sch_cd" id="receipt_no" required>
+						<option value="">Select Receipt No</option>
+                        
+                    </select>
                 </div>
-                <label class="col-sm-2 col-form-label">Total Advance</label>
+                <!-- <label class="col-sm-2 col-form-label">Total Advance</label>
                 <label class="col-sm-2 col-form-label">Amount Already paid</label>
                 <label class="col-sm-2 col-form-label">Amount to be paid</label>
                 
                 <label  class="col-sm-2 col-form-label" id='tot_adv' ></label>
                 <label class="col-sm-2 col-form-label" id='adv_paid' ></label>
-                <label class="col-sm-2 col-form-label" id='adv_topaid' style="color:red;"></label>
+                <label class="col-sm-2 col-form-label" id='adv_topaid' style="color:red;"></label> -->
                 
 
             </div>
@@ -94,7 +101,7 @@
                 <label for="bank" class="col-sm-2 col-form-label">Debit Account Head:</label>
 				<div class="col-sm-4">
 
-					<select name="cr_head" class="form-control sch_cd" id="cr_head" >
+					<select name="cr_head" class="form-control sch_cd" id="cr_head" required>
 						<option value="">Select Account head</option>
                         <?php
                             foreach($acc_head as $key){
@@ -161,7 +168,7 @@ $( document ).ajaxComplete(function() {
                 list += '<tr><td>'+ ++i +'</td><td><input type="hidden" class="form-control" value="'+value.detail_receipt_no+'" name="adv_receive_no[]" readonly>'+value.detail_receipt_no+'</td><td>'+value.COMP_NAME+'</td><td>'+value.PROD_DESC+'</td><td>'+value.amount+'</td><td><input type="checkbox" id="ckamt" name="ckamt['+ j++ +'][list]"  value ='+value.detail_receipt_no+' class="ckamt"></td></tr>';
                 tot_amt += parseFloat(value.adv_amt);
             });  
-            list += '<tr style="font-weight: bold;"><td colspan="3">Total</td><td>'+tot_amt+'</td><td id="approve_tot">0.00</td></tr>';
+            list += '<tr style="font-weight: bold;"><td colspan="3">Total</td><td></td><td id="approve_tot">0.00</td></tr>';
         $("#list").html(list);
 				$.ajax({
         type:'POST',
@@ -199,7 +206,7 @@ $( document ).ajaxComplete(function() {
             var approve_tot = parseFloat($('#approve_tot').html());
             var amt = 0.00; 
             $('.ckamt:checked').each(function() {
-                amt += parseFloat($(this).parents('tr').find("td").eq(3).html()); 
+                amt += parseFloat($(this).parents('tr').find("td").eq(4).html()); 
             });
             $('#approve_tot').html(amt);
 			 $('#p_tot').val(amt);
@@ -211,7 +218,7 @@ $( document ).ajaxComplete(function() {
             
             if(parseFloat(approve_tot) < parseFloat(100.00) ){
 
-                alert("Please check a advance");
+                alert("Please select a row");
                 event.preventDefault();
             }
             else{
@@ -229,7 +236,7 @@ $( document ).ajaxComplete(function() {
         var dist = $(this).val();
         
         $.get('<?php echo site_url("adv/get_receiptbydist");?>',
-              { dist: $(this).val()}
+              { dist: $(this).val(),c_id:$('#company').val()}
              ).done(function(data){
 
             var string = '<option value="">Select</option>';
@@ -239,11 +246,27 @@ $( document ).ajaxComplete(function() {
                 string += '<option value="' + value.receipt_no + '">' + value.receipt_no + '</option>'
             });
 
-           // $("#receipt_no").html(string);
+            $("#receipt_no").html(string);
             
           });
 
     });
 
 });
+</script>
+<script>
+    // $('#dist').change(function(){
+    //     var bank=$(this).val();
+    //     var comp=$('#company').val();
+
+    //     $.ajax({
+    //             url: "adv/company_advAdd",
+    //             type: "post",
+    //             data: {bank:bank,comp:comp},
+    //             dataType: "json",
+    //             success: function(data) {
+    //                 alert(data);
+    //             }
+    //         });
+    // })
 </script>
