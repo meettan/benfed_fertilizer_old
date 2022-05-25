@@ -349,19 +349,50 @@ public function advancefilter(){
         "fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
 		"a.trans_type='I'"   => NULL,
 		"a.trans_dt between '$frmdt ' and '$todt'"=> NULL,
+
+
+
     );
 
 	$adv['data']    = $this->AdvanceModel->f_select("tdf_advance a,mm_ferti_soc b",$select,$where,0);
+
+	$this->load->view("post_login/fertilizer_main");
+
+	$this->load->view("advance/dashboard",$adv);
+
+	$this->load->view('search/search');
+
+	$this->load->view('post_login/footer');
+	}else{
+
+		$select	=	array("a.trans_dt","a.receipt_no","a.soc_id","a.trans_type","b.soc_name","a.adv_amt","a.forward_flag forward_flag");
+
+	$where  =	array(
+        "a.soc_id=b.soc_id"   => NULL,
+
+        "district"            => $this->session->userdata['loggedin']['branch_id'],
+
+        "fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
+		"a.trans_type='I'"   => NULL,
+		"a.trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=> NULL,
+
+
+
+    );
+
+		$adv['data']    = $this->AdvanceModel->f_select("tdf_advance a,mm_ferti_soc b",$select,$where,0);
+
+		$this->load->view("post_login/fertilizer_main");
+
+		$this->load->view("advance/dashboard",$adv);
+
+		$this->load->view('search/search');
+
+		$this->load->view('post_login/footer');
 	}
 // echo $this->db->last_query();
 // exit();
-$this->load->view("post_login/fertilizer_main");
 
-$this->load->view("advance/dashboard",$adv);
-
-$this->load->view('search/search');
-
-$this->load->view('post_login/footer');
 }
 
 public function f_adv_forward() {

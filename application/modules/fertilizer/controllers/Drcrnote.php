@@ -271,7 +271,7 @@ public function drnoteReport()
 
 //Dashboard
 		public function dr_note(){
-		 
+			if($_SERVER['REQUEST_METHOD'] != "POST") {
 			$select	=	array("a.recpt_no","(select  nwirn from td_sale_cancel where trans_do=a.invoice_no) as irn",
 				"a.trans_dt","a.trans_no","a.soc_id","a.comp_id","sum(a.tot_amt)tot_amt","a.trans_flag","a.invoice_no","a.fwd_flag",
 				"b.soc_name","c.COMP_NAME","(select count(paid_id) from tdf_payment_recv where sale_invoice_no=a.invoice_no and pay_type=6) as pay_cnt"
@@ -289,6 +289,7 @@ public function drnoteReport()
 				"a.note_type"			=>	'D',
 
 				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
+				"a.trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=>null,
 
 				"a.fin_yr				=	'".$this->session->userdata['loggedin']['fin_id']."'
 				 group by  a.invoice_no
@@ -306,6 +307,47 @@ public function drnoteReport()
 		    $this->load->view('search/search');
 	   
 		    $this->load->view('post_login/footer');
+		}else{
+			$from_date=$this->input->post('from_date');
+			$to_date=$this->input->post('to_date');
+			$select	=	array("a.recpt_no","(select  nwirn from td_sale_cancel where trans_do=a.invoice_no) as irn",
+				"a.trans_dt","a.trans_no","a.soc_id","a.comp_id","sum(a.tot_amt)tot_amt","a.trans_flag","a.invoice_no","a.fwd_flag",
+				"b.soc_name","c.COMP_NAME","(select count(paid_id) from tdf_payment_recv where sale_invoice_no=a.invoice_no and pay_type=6) as pay_cnt"
+			
+			);
+
+			$where	=	array(
+
+				"a.soc_id = b.soc_id"	=>	NULL,
+
+				"a.comp_id = c.COMP_ID"	=>	NULL,
+
+				"a.trans_flag"			=>	'R',
+
+				"a.note_type"			=>	'D',
+
+				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
+				"a.trans_dt between '$from_date ' and '$to_date'"=>null,
+
+				"a.fin_yr				=	'".$this->session->userdata['loggedin']['fin_id']."'
+				 group by  a.invoice_no
+				ORDER BY a.trans_dt"  => NULL
+				
+				
+
+			);
+		    
+		   	$data['dr_notes']    = $this->DrcrnoteModel->f_select("tdf_dr_cr_note a,mm_ferti_soc b,mm_company_dtls c ",$select,$where,0);
+		    // echo $this->db->last_query();
+			// exit();
+			$this->load->view("post_login/fertilizer_main");
+	   
+		    $this->load->view("dr_note/dashboard",$data);
+	   
+		    $this->load->view('search/search');
+	   
+		    $this->load->view('post_login/footer');
+		}
 	    }
 
 		// public function dr_note_cron_job(){
