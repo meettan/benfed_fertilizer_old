@@ -234,6 +234,28 @@ return $result;
 			and a.comp_pay_flag = 'N';");
 			return $q->result();
 		}
+
+		public function getBranchId($rcpt){
+			$q=$this->db->query("select a.trans_dt,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt,e.COMP_ID,e.COMP_NAME
+            from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d, mm_company_dtls e
+            where c.branch_id = b.id
+            and   a.adv_dtl_id = c.receipt_no
+            and   a.adv_receive_no = c.detail_receipt_no
+			
+            and   c.prod_id = d.PROD_ID
+            and   c.comp_pay_flag = 'Y'
+			and	  a.receipt_no='$rcpt'
+			and   c.comp_id = e.COMP_ID
+			;"
+			
+			
+                
+            );
+            
+            return $q->row();
+
+								
+		}
  
 	}
 ?>

@@ -65,11 +65,53 @@ public function company_advAddlist(){
 	}
 }
 
+
+public function company_advAddlistedit(){
+	$rcno=$this->AdvanceModel->f_select('tdf_company_advance' ,array('adv_dtl_id'),array('receipt_no'=>$this->input->post('receipt_no')),1);
+	// print_r($rcno->adv_dtl_id);
+	// exit();
+	$dist= $this->AdvanceModel->f_select('tdf_advance' ,array('branch_id'),array('receipt_no'=>$rcno->adv_dtl_id),1);
+	$dis=$dist->branch_id;
+	
+	 if($dis==$this->input->post('branch_id')){
+		 $select = array('a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
+		 $where = array(
+					 'a.comp_id = b.COMP_ID' =>NULL, 
+					 'a.prod_id = C.prod_id' =>NULL, 
+					 'a.receipt_no'    => $rcno->adv_dtl_id,
+					 'a.comp_pay_flag' => 'Y',
+					 'a.comp_id'=>$this->input->post('comp_id')
+					 );
+		 $list  = $this->AdvanceModel->f_select("td_adv_details a,mm_company_dtls b,mm_product c",$select,$where,0);
+		//  echo $this->db->last_query();
+		//  exit();
+		 echo json_encode($list);
+	 }else{
+		  echo 0;
+	 }
+ }
+
 public function company_advdetail(){
 
 	$where = array('receipt_no' => $this->input->post('receipt_no'),'comp_pay_flag' => 'Y');
 	$paidamt  = $this->AdvanceModel->f_select("td_adv_details",array('ifnull(sum(amount),0) amount'),$where,1);
 	$totadv  = $this->AdvanceModel->f_select("tdf_advance",array('adv_amt'),array('receipt_no'=> $this->input->post('receipt_no')),1);
+
+	$data['totadv'] = $totadv->adv_amt;
+	$data['totpaid'] = $paidamt->amount;
+
+    echo json_encode($data);
+
+}
+
+
+public function company_advdetailedite(){
+	$rcno=$this->AdvanceModel->f_select('tdf_company_advance' ,array('adv_dtl_id'),array('receipt_no'=>$this->input->post('receipt_no')),1);
+
+	
+	$where = array('receipt_no' => $rcno->adv_dtl_id,'comp_pay_flag' => 'Y');
+	$paidamt  = $this->AdvanceModel->f_select("td_adv_details",array('ifnull(sum(amount),0) amount'),$where,1);
+	$totadv  = $this->AdvanceModel->f_select("tdf_advance",array('adv_amt'),array('receipt_no'=> $rcno->adv_dtl_id),1);
 
 	$data['totadv'] = $totadv->adv_amt;
 	$data['totpaid'] = $paidamt->amount;
@@ -233,36 +275,41 @@ public function company_editadv(){
 		redirect('adv/company_advance');
 
 	}else{
-			$select = array(
-						"trans_dt",
+			// $select = array(
+			// 			"trans_dt",
 
-						"receipt_no",
+			// 			"receipt_no",
 
-						"comp_id",
+			// 			"comp_id",
 					
-						"trans_type",
+			// 			"trans_type",
 					
-						"adv_amt",
+			// 			"adv_amt",
 					
-						"remarks"                          
-				);
+			// 			"remarks"                          
+			// 	);
 
-			$where = array(
+			// $where = array(
 
-				"receipt_no" => $this->input->get('rcpt')
+			// 	"receipt_no" => $this->input->get('rcpt')
 				
-                );
+            //     );
                 
-            $select1          		= array("comp_id","comp_name");
+            // $select1          		= array("comp_id","comp_name");
             
-            // $where1                 = array(
-            //     "district"  =>  $this->session->userdata['loggedin']['branch_id']
-            // );       
+            // // $where1                 = array(
+            // //     "district"  =>  $this->session->userdata['loggedin']['branch_id']
+            // // );       
 
-            $data['advDtls']        = $this->AdvanceModel->f_select("tdf_company_advance",$select,$where,1);
+            // $data['advDtls']        = $this->AdvanceModel->f_select("tdf_company_advance",$select,$where,1);
 
-            $data['societyDtls']    = $this->AdvanceModel->f_select("mm_company_dtls",$select1,NULL,0);
-                                                                         
+            // $data['societyDtls']    = $this->AdvanceModel->f_select("mm_company_dtls",$select1,NULL,0);
+
+			
+			$rcpt=$this->input->get('rcpt');
+			
+			$data['pageData']=$this->AdvanceModel->getBranchId($rcpt);
+			$data['rcpt']=$rcpt;                                                        
             $this->load->view('post_login/fertilizer_main');
 
             $this->load->view("company_advance/edit",$data);

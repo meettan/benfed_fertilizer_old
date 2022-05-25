@@ -1623,21 +1623,6 @@ public function p_ro_wise_prof_calc_all($all_data)
 
 
         public function getallAdvData($comp_id,$frm_date,$to_date){
-            // $this->db->select('d.PROD_DESC,a.fo_no,a.ro_no,a.amount,c.soc_name');
-            // $this->db->from('td_adv_details a');
-            // $this->db->join('tdf_advance as b','b.receipt_no=a.receipt_no');
-
-            // $this->db->join('mm_ferti_soc as c','c.soc_id=b.soc_id');
-
-            // $this->db->join('mm_product as d','d.prod_id=a.prod_id');
-            // $this->db->where('a.comp_id', $comp_id);
-            // $this->db->where('c.district',$district);
-            // $this->db->where('a.created_dt >=',$frm_date); 
-            // $this->db->where('a.created_dt <=',$frm_date); 
-            // //$this->db->where('c.district','Y');
-            // $q=$this->db->get();
-
-
 
             $q=$this->db->query("select a.trans_dt,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
             from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d
