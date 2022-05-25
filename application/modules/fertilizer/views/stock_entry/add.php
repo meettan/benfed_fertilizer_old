@@ -17,6 +17,7 @@
     				<div class="col-sm-4">
 
     					<input type="hidden" id=prod_Id name="prod_Id" class="form-control" />
+						
 
     				</div>
 
