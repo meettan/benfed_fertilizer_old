@@ -5,7 +5,7 @@
         <form method="POST" id="form" action="<?php echo site_url("adv/company_advAdd") ?>">
 
             <div class="form-header">
-                <h4>Add Company Advance</h4>
+                <h4>Company Advance</h4>
             </div>
 
             <div class="form-group row">
