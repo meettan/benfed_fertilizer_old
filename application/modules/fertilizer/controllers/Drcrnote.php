@@ -289,7 +289,7 @@ public function drnoteReport()
 				"a.note_type"			=>	'D',
 
 				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
-				"a.trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=>null,
+				"a.trans_dt between '".date("Y-m-d")."' AND '".date("Y-m-d")."'"=>NULL,
 
 				"a.fin_yr				=	'".$this->session->userdata['loggedin']['fin_id']."'
 				 group by  a.invoice_no
@@ -298,8 +298,9 @@ public function drnoteReport()
 			);
 		    
 		   	$data['dr_notes']    = $this->DrcrnoteModel->f_select("tdf_dr_cr_note a,mm_ferti_soc b,mm_company_dtls c ",$select,$where,0);
-		    // echo $this->db->last_query();
-			// exit();
+		    //echo $this->db->last_query();
+			//print_r($data['dr_notes']);
+			//exit();
 			$this->load->view("post_login/fertilizer_main");
 	   
 		    $this->load->view("dr_note/dashboard",$data);

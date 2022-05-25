@@ -381,6 +381,9 @@ public function advancefilter(){
     );
 
 		$adv['data']    = $this->AdvanceModel->f_select("tdf_advance a,mm_ferti_soc b",$select,$where,0);
+		// print_r($adv['data']);
+		//  echo $this->db->last_query();
+		//  exit();
 
 		$this->load->view("post_login/fertilizer_main");
 

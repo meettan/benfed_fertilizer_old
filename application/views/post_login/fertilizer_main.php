@@ -175,7 +175,7 @@
                             <div class="sub-dropdown">
                               <a href="<?php echo site_url("stock/stock_entry");?>">Purchase</a>
                               <a href="<?php echo site_url("trade/sale");?>">Sale</a>
-                              <a href="<?php echo site_url("adv/advance");?>">Advance</a>
+                              <a href="<?php echo site_url("adv/advancefilter");?>">Advance</a>
                               <a href="<?php echo site_url("drcrnote/dr_note");?>">Credit Note</a>
                               <a href="<?php echo site_url("socpay/society_payment");?>">Receive Payment</a>
                               <!-- <a href="<?php echo site_url("virtualpnt/virtual_stk_point");?>">Secondary Stock Point</a> -->
