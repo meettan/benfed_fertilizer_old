@@ -292,10 +292,7 @@ public function drnoteReport()
 				
 				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
 				
-				"a.trans_dt BETWEEN '".$from_date."' AND '".$to_date."'"			=>	NULL,
-
-				" group by  a.invoice_no ORDER BY a.trans_dt"  => NULL
-
+				"a.trans_dt BETWEEN '".$from_date."' AND '".$to_date."' group by  a.invoice_no ORDER BY a.trans_dt"			=>	NULL
 			);
 			//a.fin_yr='".$this->session->userdata['loggedin']['fin_id']."'
 		    
@@ -329,10 +326,8 @@ public function drnoteReport()
 				"a.note_type"			=>	'D',
 
 				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
-				"a.trans_dt BETWEEN '".date('Y-m-d')."' AND '".date('Y-m-d')."'"			=>	NULL,
-				"
-				 group by  a.invoice_no
-				ORDER BY a.trans_dt"  => NULL
+				"a.trans_dt BETWEEN '".date('Y-m-d')."' AND '".date('Y-m-d')."' group by  a.invoice_no ORDER BY a.trans_dt"			=>	NULL,
+				
 				
 				
 
