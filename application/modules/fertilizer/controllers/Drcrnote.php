@@ -290,7 +290,7 @@ public function drnoteReport()
 
 				"a.note_type"			=>	'D',
 				
-				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
+				//"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
 				
 				"a.trans_dt BETWEEN '".$from_date."' AND '".$to_date."'"			=>	NULL,
 
@@ -327,7 +327,8 @@ public function drnoteReport()
 
 				"a.note_type"			=>	'D',
 
-				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
+				//"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
+
 				"a.trans_dt BETWEEN '".date('Y-m-d')."' AND '".date('Y-m-d')."'"			=>	NULL,
 				"
 				a.fin_yr				=	'".$this->session->userdata['loggedin']['fin_id']."'

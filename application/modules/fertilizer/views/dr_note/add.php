@@ -329,7 +329,7 @@
     $('.table tbody').on('keyup', '.amt', function () {
 
         var sum = 0;
-       // let row = $(this).closest('tr');
+        // let row = $(this).closest('tr');
 
         $("input[class *= 'amt']").each(function () {
             sum += parseFloat($(this).val());
@@ -340,22 +340,22 @@
     })
 
     $('.table tbody').on('change', '.cat_id', function () {
-        var selval=$(this).val();
-        var c=0;
+        var selval = $(this).val();
+        var c = 0;
         $('.cat_id').each(function () {
             var select_val = $(this).val();
-            if(selval==select_val){
-                c=c+1;
+            if (selval == select_val) {
+                c = c + 1;
             }
         });
-        var tstval=$(this).find('option:selected').text();//$('#cat_id option:selected').text();
-        if(c>1){
+        var tstval = $(this).find('option:selected').text(); //$('#cat_id option:selected').text();
+        if (c > 1) {
             $("#submit").prop('disabled', true);
-            alert(tstval+" Already selected");
-        }else{
+            alert(tstval + " Already selected");
+        } else {
             $("#submit").prop('disabled', false);
         }
-        
+
 
         // if($.inArray(selval, v) >= 0){ 
         //          alert('your alert'); 
