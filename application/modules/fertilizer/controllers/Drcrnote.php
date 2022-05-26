@@ -290,13 +290,14 @@ public function drnoteReport()
 
 				"a.note_type"			=>	'D',
 				
-				//"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
+				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
 				
 				"a.trans_dt BETWEEN '".$from_date."' AND '".$to_date."'"			=>	NULL,
 
-				"a.fin_yr='".$this->session->userdata['loggedin']['fin_id']."' group by  a.invoice_no ORDER BY a.trans_dt"  => NULL
+				" group by  a.invoice_no ORDER BY a.trans_dt"  => NULL
 
 			);
+			//a.fin_yr='".$this->session->userdata['loggedin']['fin_id']."'
 		    
 		   	$data['dr_notes']    = $this->DrcrnoteModel->f_select("tdf_dr_cr_note a,mm_ferti_soc b,mm_company_dtls c ",$select,$where,0);
 		    //echo $this->db->last_query();
@@ -327,11 +328,9 @@ public function drnoteReport()
 
 				"a.note_type"			=>	'D',
 
-				//"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
-
+				"a.branch_id"			=>	$this->session->userdata['loggedin']['branch_id'],
 				"a.trans_dt BETWEEN '".date('Y-m-d')."' AND '".date('Y-m-d')."'"			=>	NULL,
 				"
-				a.fin_yr				=	'".$this->session->userdata['loggedin']['fin_id']."'
 				 group by  a.invoice_no
 				ORDER BY a.trans_dt"  => NULL
 				
