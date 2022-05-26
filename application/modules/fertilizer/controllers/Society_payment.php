@@ -262,7 +262,7 @@ $tot_bnk = ( $tot_csh  + $tot_drft +  $tot_nft + $tot_payord + $tot_chq);
 
                         $select_adv         = array( "adv_acc");
 			
-					    $where_adv          = array("district"     =>  $br_cd);
+					    $where_adv          = array("district"     =>  $br_cd,"soc_id"=>$soc_id);
 			
 					    $adv_acc= $this->Society_paymentModel->f_select("mm_ferti_soc",$select_adv,$where_adv,1);
 
