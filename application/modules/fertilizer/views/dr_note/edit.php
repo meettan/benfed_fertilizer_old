@@ -207,7 +207,7 @@ value = "<?php echo $sl->cr_cnt; ?>"
 
                     <div class="col-sm-10">
 
-                        <input type="submit" id= "submit" class="btn btn-info" value="Save" />
+                        <!-- <input type="submit" id= "submit" class="btn btn-info" value="Save" /> -->
 
                     </div>
 
@@ -234,11 +234,11 @@ $(document).ready(function(){
 	$('#submit').attr('type', 'buttom');
 return false;
 
-	}elseif(cr_cnt>0 && fwd_flag=='Y'){
+	}else if(cr_cnt>0 && fwd_flag=='Y'){
         $('#msg').html("This Invoice cannot be edited.Since some items has been adjusted,and forwarded to H.O").css("font-size","20px","color","#0d7d8ef5");
 	$('#submit').attr('type', 'buttom');
 return false;
-}elseif( fwd_flag=='Y'){
+}else if( fwd_flag=='Y'){
     $('#msg').html("This Invoice cannot be edited.Since Cr Note forwarded to H.O").css("font-size","20px","color","#0d7d8ef5");
 	$('#submit').attr('type', 'buttom');
 return false;

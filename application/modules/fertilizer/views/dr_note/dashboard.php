@@ -1,70 +1,72 @@
-<div class="wraper">      
-        
-        <div class="row">
-            
-            <div class="col-lg-9 col-sm-12">
+<div class="wraper">
 
-                <h1><strong>Credit Note</strong><h1>
+    <div class="row">
 
-            </div>
+        <div class="col-lg-9 col-sm-12">
+
+            <h1><strong>Credit Note</strong>
+                <h1>
 
         </div>
 
-        <div class="col-lg-12 container contant-wraper">    
+    </div>
 
-            <h3>
-		        <small><a href="<?php echo site_url("drcrnote/drnoteAdd");?>" class="btn btn-primary" style="width: 100px;">Add</a></small>
-                    <span class="confirm-div" style="float:right; color:green;"></span>
-                <!-- <div class="input-group" style="margin-left:75%;">
+    <div class="col-lg-12 container contant-wraper">
+
+        <h3>
+            <small><a href="<?php echo site_url("drcrnote/drnoteAdd");?>" class="btn btn-primary"
+                    style="width: 100px;">Add</a></small>
+            <span class="confirm-div" style="float:right; color:green;"></span>
+            <!-- <div class="input-group" style="margin-left:75%;">
                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     <input type="text" class="form-control" placeholder="Search..." id="search" style="z-index: 0;">
                 </div> -->
-            </h3>
+        </h3>
 
 
-            <div class="form-group row">
-              <form method="POST" action="">
+        <div class="form-group row">
+            <form method="POST" action="">
 
-                        <div class="col-sm-3">
-	                    <input type="date" style="width:300px" id="from_date" name="from_date" class="form-control">
-                        </div>
+                <div class="col-sm-3">
+                    <input type="date" style="width:300px" id="from_date" name="from_date" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                </div>
 
-                        <div class="col-sm-3">
-                        <input type="date" style="width:250px" id="to_date" name="to_date" class="form-control">
-	                    </div>
+                <div class="col-sm-3">
+                    <input type="date" style="width:250px" id="to_date" name="to_date" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                </div>
 
-                        <div class="col-sm-3">
-                        <input type="submit" id="submit" class="filt" value="Filter">
-                        </div>
+                <div class="col-sm-3">
+                    <input type="submit" id="submit" class="filt" value="Filter">
+                </div>
 
-               
+
             </form>
-            </div>
+        </div>
 
-            <table class="table table-bordered table-hover" id="example">
+        <table class="table table-bordered table-hover" id="example">
 
-                <thead>
+            <thead>
 
-                    <tr>
-                    	<th>Sl No.</th>
-                        <th>Receipt No</th>
-                        <th>Invoice</th>
-                        <th>Date</th>
-                        <th>Company</th>
-                        <th>Customer</th>
-                         <th>Amount</th>
-                        <th>Edit</th>
-                        <th>Print</th>
-                        <th>Download</th>
-                        <th>Delete</th>
-                        
-                    </tr>
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Receipt No</th>
+                    <th>Invoice</th>
+                    <th>Date</th>
+                    <!-- <th>Company</th> -->
+                    <!-- <th>Customer</th> -->
+                    <th>Amount</th>
+                    <th>Edit</th>
+                    <th>Print</th>
+                    <th>Download</th>
+                    <!-- <th>Delete</th> -->
 
-                </thead>
+                </tr>
 
-                <tbody> 
+            </thead>
 
-                    <?php
+            <tbody>
+
+                <?php
                         $i=0;
                         if($dr_notes) {
                                 foreach($dr_notes as $dr) {
@@ -75,13 +77,13 @@
                                     $enable_btn = $dr->irn ? '' : 'hidden';
 		            ?>
 
-                            <tr>   
-                                <td><?php echo ++$i; ?></td>
-                                <td><?php echo $dr->recpt_no;?></td>
-                                <td><?php echo $dr->invoice_no;?></td>
-                                <td><?php echo date("d/m/Y",strtotime($dr->trans_dt)); ?></td>
+                <tr>
+                    <td><?php echo ++$i; ?></td>
+                    <td><?php echo $dr->recpt_no;?></td>
+                    <td><?php echo $dr->invoice_no;?></td>
+                    <td><?php echo date("d/m/Y",strtotime($dr->trans_dt)); ?></td>
 
-                                <!--<td><?php /*if($dr->trans_flag=='R'){
+                    <!--<td><?php /*if($dr->trans_flag=='R'){
                                                 echo "Raised";
                                             }else{
                                                 echo "Adjusted";
@@ -89,44 +91,47 @@
                                     ?>
                                 </td>-->
 
-                                <td><?php echo $dr->COMP_NAME; ?></td>
+                    <!-- <td><?php echo $dr->COMP_NAME; ?></td> -->
 
-				                <td><?php echo $dr->soc_name; ?></td>
-                                <td><?php echo $dr->tot_amt; ?></td>
-			 	                <td>
-                                 <button type="button" name="Edit<?= $i ?>" class="Edit_" id="Edit"  
-                                data-toggle="tooltip" data-placement="bottom" title="Edit_" <?= $disable_btn; ?>>
+                    <!-- <td><?php echo $dr->soc_name; ?></td> -->
+                    <td><?php echo $dr->tot_amt; ?></td>
+                    <td>
+                        <button type="button" name="Edit<?= $i ?>" class="Edit_" id="Edit" data-toggle="tooltip"
+                            data-placement="bottom" title="Edit_" <?= $disable_btn; ?>>
 
-                                     <!-- <a href="drnote_edit?trans_dt=<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>&soc_id=<?=$dr->soc_id;?>" 
+                            <!-- <a href="drnote_edit?trans_dt=<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>&soc_id=<?=$dr->soc_id;?>" 
                                         data-toggle="tooltip" data-placement="bottom" id="edit_<?= $i ?>">
                                         <i class="fa fa-edit fa-2x" style="color: #007bff"></i> -->
 
-                                        <a href="drnote_edit?invoice_no=<?=$dr->invoice_no;?>" 
-                                        data-toggle="tooltip" data-placement="bottom" id="edit_<?= $i ?>">
-                                        <i class="fa fa-edit fa-2x" style="color: #007bff"></i>
-                                        <!-- <a href="<?php echo site_url('drnote_edit?trans_dt='.$dr->trans_dt.''); ?>" id="edit_<?= $i ?>" title="Edit"><i class="fa fa-edit fa-2x" style="color:blue;"></i></a> -->
-                                    </a> 
-                                </td>
-                                <td>
-                                <button type="button" name="Print<?= $i ?>" class="Print_" id="Print"  
-                                data-toggle="tooltip" data-placement="bottom" title="Print_" <?= $disable_btn; ?>>
+                            <a href="drnote_edit?invoice_no=<?=$dr->invoice_no;?>" data-toggle="tooltip"
+                                data-placement="bottom" id="edit_<?= $i ?>">
+                                <i class="fa fa-edit fa-2x" style="color: #007bff"></i>
+                                <!-- <a href="<?php echo site_url('drnote_edit?trans_dt='.$dr->trans_dt.''); ?>" id="edit_<?= $i ?>" title="Edit"><i class="fa fa-edit fa-2x" style="color:blue;"></i></a> -->
+                            </a>
+                    </td>
+                    <td>
+                        <button type="button" name="Print<?= $i ?>" class="Print_" id="Print" data-toggle="tooltip"
+                            data-placement="bottom" title="Print_" <?= $disable_btn; ?>>
 
-                                    <a href="<?php echo site_url('drcrnote/drnoteReport?invoice_no='.$dr->invoice_no.''); ?>" title="Print">
+                            <a href="<?php echo site_url('drcrnote/drnoteReport?invoice_no='.$dr->invoice_no.''); ?>"
+                                title="Print">
 
-                                    <i class="fa fa-print fa-2x" style="color:green;"></i>  
-                             
-                                    </a>
-                                </td>
-                                <td>
-                                <button type="button" name="download_<?= $i ?>" class="download_" id="download"  
-                                data-toggle="tooltip" data-placement="bottom" title="download_" <?= $enable_btn; ?>>
-                               
-                                    <a href="<?php echo site_url('api/print_irn?irn='.$dr->irn.''); ?>" id="down_clk_td_<?= $i ?>" title="Download"><i class="fa fa-download fa-2x" style="color:green;"></i></a>
-                                </td>
-                                <!-- </a> -->
-                                </td>
-                                <!-- <td> -->
-                                <!-- <button type="button" name="delete" class="delete_" id="delete"  
+                                <i class="fa fa-print fa-2x" style="color:green;"></i>
+
+                            </a>
+                    </td>
+                    <td>
+                        <button type="button" name="download_<?= $i ?>" class="download_" id="download"
+                            data-toggle="tooltip" data-placement="bottom" title="download_" <?= $enable_btn; ?>>
+
+                            <a href="<?php echo site_url('api/print_irn?irn='.$dr->irn.''); ?>"
+                                id="down_clk_td_<?= $i ?>" title="Download"><i class="fa fa-download fa-2x"
+                                    style="color:green;"></i></a>
+                    </td>
+                    <!-- </a> -->
+                    </td>
+                    <!-- <td> -->
+                    <!-- <button type="button" name="delete" class="delete_" id="delete"  
                                 data-toggle="tooltip" data-placement="bottom" title="delete_" <?= $disable_btn; ?>>
 
                                 <a  
@@ -134,26 +139,26 @@
                                         <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                       
                                     </a>  -->
-                                
-                                    <td><button type="button" name="delete_<?= $i ?>" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
+
+                    <!-- <td><button type="button" name="delete_<?= $i ?>" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
                                        
                                        data-toggle="tooltip" data-placement="bottom" title="Delete" <?= $disable_del_btn; ?>>
 
                                        <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                    </button> 
-                               </td>
+                               </td> -->
 
-                                    
-                                    <!-- <button type="button" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
+
+                    <!-- <button type="button" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
                                        
                                         data-toggle="tooltip" data-placement="bottom" title="Delete">
 
                                         <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                     </button>  -->
-                                </td>
-                            </tr>
+                    <!-- </tds> -->
+                </tr>
 
-                    <?php
+                <?php
                             
                             }
 
@@ -165,64 +170,62 @@
 
                         }
                     ?>
-                
-                </tbody>
 
-                <tfoot>
+            </tbody>
 
-                    <tr>
-                        <th>Sl No.</th>
-                        <th>Receipt No</th>
-                        <th>Date</th>
-                        <!--<th>Type</th>-->
-                        <th>Company</th>
-                        <th>Customer</th>
-                        <th>Amount</th>
-                        <th>Edit</th>
-                        <th>Print</th>
-                        <th>Download</th>
-                        <th>Delete</th>
-                    </tr>
-                
-                </tfoot>
+            <tfoot>
 
-            </table>
-            
-        </div>
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Receipt No</th>
+                    <th>Invoice</th>
+                    <th>Date</th>
+                    <!-- <th>Company</th>
+                    <th>Customer</th> -->
+                    <th>Amount</th>
+                    <th>Edit</th>
+                    <th>Print</th>
+                    <th>Download</th>
+                    <!-- <th>Delete</th> -->
+                </tr>
+
+            </tfoot>
+
+        </table>
 
     </div>
 
-<script>
+</div>
 
-    $(document).ready( function (){
+<script>
+    $(document).ready(function () {
 
         $('.delete').click(function () {
-            
+
             var id = $(this).attr('id');
             // window.alert("<?php echo $this->session->flashdata('msg'); ?>");
             var result = confirm("Do you really want to delete this record?");
-           
-            if(result) {
 
-                window.location = "<?php echo site_url('drcrnote/deletedr_note?trans_dt="+id+"');?>";
+            if (result) {
+
+                window.location = "<?php echo site_url('drcrnote/deletedr_note?trans_dt=" + id +
+                "');?>";
 
             }
-            
+
         });
 
     });
-
 </script>
 
 <script>
+    $(document).ready(function () {
 
-    $(document).ready(function() {
+            <?php if ($this->session->flashdata('msg')) { ?>
+                window.alert("<?php echo $this->session->flashdata('msg'); ?>");
+            });
 
-    <?php if($this->session->flashdata('msg')){ ?>
-	window.alert("<?php echo $this->session->flashdata('msg'); ?>");
-    });
-
-    <?php } ?>
+        <?php } ?>
 </script>
 
 
@@ -231,9 +234,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#example').DataTable( {
-        "pagingType": "full_numbers"
-    } );
-} );
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "pagingType": "full_numbers"
+        });
+    });
 </script>
