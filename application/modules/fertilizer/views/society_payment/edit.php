@@ -80,7 +80,7 @@
                 <label for="do_dt" class="col-sm-2 col-form-label">Paid Date:</label>
                 <div class="col-sm-3">
 
-                    <input type="text" id=do_dt name="do_dt" class="form-control" value="<?=$pay->paid_dt?>"
+                    <input type="text" id=do_dt name="do_dt" class="form-control" value="<?=date("d-m-Y", strtotime($pay->paid_dt))?>"
                         readonly />
                 </div>
             </div>
@@ -97,7 +97,7 @@
                 <label for="do_dt" class="col-sm-2 col-form-label">Invoice Date:</label>
                 <div class="col-sm-3">
 
-                    <input type="text" id=do_dt name="do_dt" class="form-control" value="<?=$pay->sale_invoice_dt?>"
+                    <input type="text" id=do_dt name="do_dt" class="form-control" value="<?=date("d-m-Y", strtotime($pay->sale_invoice_dt))?>"
                         readonly />
                 </div>
             </div>
@@ -211,8 +211,9 @@
 
                                 <td>
                                     <input type='hidden' value="<?php echo $pay->pay_type; ?>" name="pay_status[]" />
-                                    <select class="col-sm-3" name="pay_type[]" id="pay_type"
-                                        style="width:200px;height:40px">
+                                    <input type="hidden" name="pay_type[]" value="<?php echo $pay->pay_type; ?>">
+                                    <select class="col-sm-3" id="pay_type"
+                                        style="width:200px;height:40px" disabled>
 
                                         <option value="">Select</option>
                                         <option value="1" <?php echo ($pay->pay_type == 1)? 'selected' : '';?>>Cash

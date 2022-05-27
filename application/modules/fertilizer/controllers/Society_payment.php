@@ -50,7 +50,7 @@ public function society_payEdit(){
 								   'sl_no'         => $this->input->post('sl_no'),
 
 								   'remarks'       => $this->input->post('remarks'),
-
+								   
                                    'pay_type'      => $_POST['pay_type'][$i],
 
                                     'ref_dt'       => $_POST['ref_dt'][$i],
