@@ -226,35 +226,35 @@ public function society_payEdit(){
 											
 										    'approval_status'    =>'U');
         
-$this->Society_paymentModel->f_insert('tdf_payment_recv', $data);
+						$this->Society_paymentModel->f_insert('tdf_payment_recv', $data);
 
-if($trans_type==2 ){
+						if($trans_type==2 ){
 
-$tot_adv += $_POST['paid_amt'][$i];
+						$tot_adv += $_POST['paid_amt'][$i];
 
-}elseif($trans_type==1){
-	$tot_csh += $_POST['paid_amt'][$i];
-    
-}elseif($trans_type==3){
-	$tot_chq += $_POST['paid_amt'][$i];
+						}elseif($trans_type==1){
+							$tot_csh += $_POST['paid_amt'][$i];
+							
+						}elseif($trans_type==3){
+							$tot_chq += $_POST['paid_amt'][$i];
 
-}elseif($trans_type==4){
-	$tot_drft += $_POST['paid_amt'][$i];
+						}elseif($trans_type==4){
+							$tot_drft += $_POST['paid_amt'][$i];
 
-}elseif($trans_type==5){
-	$tot_payord += $_POST['paid_amt'][$i];
+						}elseif($trans_type==5){
+							$tot_payord += $_POST['paid_amt'][$i];
 
-}elseif($trans_type==6){
+						}elseif($trans_type==6){
 
-	$tot_sundry += $_POST['paid_amt'][$i];
-}elseif($trans_type==7){
+							$tot_sundry += $_POST['paid_amt'][$i];
+						}elseif($trans_type==7){
 
-	$tot_nft += $_POST['paid_amt'][$i];
-}
-$tot_soc = ( $tot_csh  + $tot_drft +  $tot_nft + $tot_payord + $tot_chq + $tot_adv);
-$tot_bnk = ( $tot_csh  + $tot_drft +  $tot_nft + $tot_payord + $tot_chq);
+							$tot_nft += $_POST['paid_amt'][$i];
+						}
+						$tot_soc = ( $tot_csh  + $tot_drft +  $tot_nft + $tot_payord + $tot_chq + $tot_adv);
+						$tot_bnk = ( $tot_csh  + $tot_drft +  $tot_nft + $tot_payord + $tot_chq);
 
- if ($trans_type=='2'){
+					if ($trans_type=='2'){
 	
 						$total = $_POST['paid_amt'][$i];
 
@@ -287,6 +287,7 @@ $tot_bnk = ( $tot_csh  + $tot_drft +  $tot_nft + $tot_payord + $tot_chq);
 												   'ro_no'         => $this->input->post('sale_ro'),
 	   
 												   'remarks'       => 'ADV ADJ',
+												   'paid_id'	   =>	$cust_pay_recipt,
 	   
 												   'created_by'    => $this->session->userdata['loggedin']['user_name'],
 	   
@@ -985,6 +986,8 @@ public function deletecustpay() {
 				 "paid_id"    =>  $this->input->get('paid_id')
 				);
 $this->Society_paymentModel->f_delete('tdf_payment_recv', $where);
+$this->Society_paymentModel->f_delete('tdf_advance', $where);
+
 
 
 $this->session->set_flashdata('msg', 'Successfully Deleted!');
