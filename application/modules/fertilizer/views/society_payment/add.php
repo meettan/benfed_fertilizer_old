@@ -211,7 +211,7 @@
                         <?php
                        foreach($bnk_dtls as $bnk){
                             ?>
-                        <option value="<?php echo $bnk->sl_no;?>"><?php echo $bnk->bank_name;?></option>
+                        <option value="<?php echo $bnk->sl_no.','.$bnk->acc_code;?>"><?php echo $bnk->bank_name;?></option>
                         <?php    }    ?>
                     </select>
                 </div>

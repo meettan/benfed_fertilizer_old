@@ -304,7 +304,7 @@
    }
 		public function f_getbnk_dtl($br_cd){
 	
-			$data = $this->db->query("select sl_no, bank_name,ifsc,ac_no
+			$data = $this->db->query("select sl_no,acc_code, bank_name,ifsc,ac_no
 										from mm_feri_bank 
 									where dist_cd = '$br_cd'");
 								   
@@ -330,11 +330,13 @@
 
 		function f_recvjnl($data){
 			//  echo '<pre>';var_dump($data);
+			//  exit();
 			$curl = curl_init();
 
 			curl_setopt_array($curl, array(
-			//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
-			  CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher',
+			   //CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
+			  //CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher',
+			  CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/recv_voucher',
 			  CURLOPT_RETURNTRANSFER => true,
 			  CURLOPT_ENCODING => '',
 			  CURLOPT_MAXREDIRS => 10,
@@ -361,12 +363,13 @@
 		}
 
 		function f_recvjnl_soc($data){
-			// echo '<pre>';var_dump($data);
+			 //echo '<pre>';var_dump($data);
 			$curl = curl_init();
 
 			curl_setopt_array($curl, array(
 			//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
-			CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher_soc',
+			//CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher_soc',
+			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/recv_voucher_soc',
 			  CURLOPT_RETURNTRANSFER => true,
 			  CURLOPT_ENCODING => '',
 			  CURLOPT_MAXREDIRS => 10,
@@ -394,12 +397,14 @@
 
 
 		function f_recvjnl_dr($data){
-			// echo '<pre>';var_dump($data);
+			//  echo '<pre>';var_dump($data);
+			//  exit();
 			$curl = curl_init();
 
 			curl_setopt_array($curl, array(
 			//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
-			CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher_dr',
+			// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher_dr',
+			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/recv_voucher_dr',
 			  CURLOPT_RETURNTRANSFER => true,
 			  CURLOPT_ENCODING => '',
 			  CURLOPT_MAXREDIRS => 10,
@@ -423,6 +428,37 @@
 			echo $response;
 			// exit;
 			
+		}
+		public function delete_recvjnl($paid_id){
+
+			$curl = curl_init();
+
+			curl_setopt_array($curl, array(
+			//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
+			// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/recv_voucher_dr',
+			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/delete_voucher_dr',
+			  CURLOPT_RETURNTRANSFER => true,
+			  CURLOPT_ENCODING => '',
+			  CURLOPT_MAXREDIRS => 10,
+			  CURLOPT_TIMEOUT => 0,
+			  CURLOPT_FOLLOWLOCATION => true,
+			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			  CURLOPT_CUSTOMREQUEST => 'POST',
+			  CURLOPT_POSTFIELDS =>'{
+				"data": '.json_encode($paid_id).'
+			}',
+			
+			  CURLOPT_HTTPHEADER => array(
+				'Content-Type: application/json',
+				'Cookie: ci_session=eieqmu6gupm05pkg5o78jqbq97jqb22g'
+			  ),
+			));
+			
+			$response = curl_exec($curl);
+			
+			curl_close($curl);
+			echo $response;
+
 		}
 
 		public function get_soc_pay_code($branch,$fin){

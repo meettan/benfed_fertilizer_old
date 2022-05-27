@@ -525,8 +525,8 @@ function f_purchasejnl($data){
 
 	curl_setopt_array($curl, array(
 	
-	// CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/purchase_voucher',
-	CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/purchase_voucher',
+	CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/purchase_voucher',
+	// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/purchase_voucher',
 	 CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => '',
 	  CURLOPT_MAXREDIRS => 10,

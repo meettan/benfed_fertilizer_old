@@ -116,8 +116,7 @@ public function society_payEdit(){
 			$fin_id       = $this->session->userdata['loggedin']['fin_id'];
 			$fin_year     = $this->session->userdata['loggedin']['fin_yr'];
 			$transCd 	  = $this->Society_paymentModel->get_soc_pay_code($br_cd,$fin_id);
-			$soc_id       = $this->input->post('soc_id');	
-			$bnk_id       = $this->input->post('bnk_id');
+		
 			$month        = date('m');
 			
 			$select_dist         = array("dist_sort_code" );
@@ -130,8 +129,8 @@ public function society_payEdit(){
 			$where_comp          = array("b.sale_ro" => $ro,"a.comp_id=b.comp_id"=>NULL );
 
 			$select_bnkacc       = array("acc_code");
-			$where_bnkacc        = array("sl_no"     => $this->input->post('bnk_id'));
-			$bnk_acc             = $this->Society_paymentModel->f_select("mm_feri_bank",$select_bnkacc,$where_bnkacc,1);
+			// $where_bnkacc        = array("sl_no"     => $bnk_id);
+			// $bnk_acc             = $this->Society_paymentModel->f_select("mm_feri_bank",$select_bnkacc,$where_bnkacc,1);
 
 			$select_socacc       = array("acc_cd");
 			$where_socacc        = array("soc_id"     => $this->input->post('soc_id'));
@@ -145,6 +144,10 @@ public function society_payEdit(){
 		    $cnt                 = $this->Society_paymentModel->check_soc_paytype($ro ,$br_cd);
 				
             if($_SERVER['REQUEST_METHOD'] == "POST") {
+				$soc_id       = $this->input->post('soc_id');
+				$bnk_idd=explode(',',$this->input->post('bnk_id'));
+			   $bnk_id=$bnk_idd[0];
+			   $bnk_acc_id=$bnk_idd[1];
 
 				$ro          = $this->input->post('sale_ro');
 				$select_comp = array("short_name" );
@@ -204,7 +207,7 @@ public function society_payEdit(){
 											
 											'remarks'           => $this->input->post('remarks'),
 
-											'bnk_id'            => $this->input->post('bnk_id'),
+											'bnk_id'            => $bnk_id,
 
 											'cshbnk_flag'       => $this->input->post('cshbank'),
 											
@@ -328,7 +331,7 @@ public function society_payEdit(){
 					
 					'remarks'           => $this->input->post('remarks'),
 
-					'bnk_id'            => $this->input->post('bnk_id'),
+					'bnk_id'            => $bnk_id,
 					
 					'paid_amt'           =>$total,
 					
@@ -385,7 +388,7 @@ public function society_payEdit(){
 						
 						'remarks'           => $this->input->post('remarks'),
 	
-						'bnk_id'            => $this->input->post('bnk_id'),
+						'bnk_id'            => $bnk_id,
 						
 						// 'paid_amt'           => $tot_paid_amt,
 						'paid_amt'           => $tot_bnk,
@@ -397,6 +400,9 @@ public function society_payEdit(){
 						'branch_id'          => $br_cd,
 	
 						'fin_yr'             => $fin_id,
+						'cshbank'			 => $this->input->post('cshbank'),
+
+						'abk_acc_code'		 => $bnk_acc_id,
 						
 						'approval_status'    =>'U');
 	
@@ -408,6 +414,8 @@ public function society_payEdit(){
 						/***********For Cash or Bank head */
 						$this->Society_paymentModel->f_recvjnl($data_array_fin);
 						// }
+
+
 						$tot_paid_amt += $_POST['paid_amt'][$i];
 						$data3     = array(   
                                             
@@ -439,7 +447,7 @@ public function society_payEdit(){
 							
 							'remarks'           => $this->input->post('remarks'),
 		
-							'bnk_id'            => $this->input->post('bnk_id'),
+							'bnk_id'            => $bnk_id,
 							
 							'paid_amt'          => $tot_soc,
 								
@@ -450,6 +458,7 @@ public function society_payEdit(){
 							'branch_id'          => $br_cd,
 		
 							'fin_yr'             => $fin_id,
+							
 							
 							'approval_status'    =>'U');
 							
@@ -985,6 +994,7 @@ public function deletecustpay() {
 	$where = array(
 				 "paid_id"    =>  $this->input->get('paid_id')
 				);
+$this->Society_paymentModel->delete_recvjnl($where);
 $this->Society_paymentModel->f_delete('tdf_payment_recv', $where);
 $this->Society_paymentModel->f_delete('tdf_advance', $where);
 
