@@ -249,7 +249,8 @@ return $result;
 			where a.receipt_no = b.receipt_no
 			and a.comp_id = $c_id
 			and b.branch_id = $dist_id
-			and a.comp_pay_flag = 'N';");
+			and a.comp_pay_flag = 'N'
+			and b.forward_flag = 'Y';");
 			return $q->result();
 		}
 
