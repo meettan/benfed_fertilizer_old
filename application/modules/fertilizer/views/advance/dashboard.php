@@ -83,7 +83,7 @@
 
                         <th>Print</th>
                       
-                        <th>Delete</th>
+                        <!-- <th>Delete</th> -->
                        
                     </tr>
 
@@ -134,7 +134,7 @@
                               </a>
                             </td>
                            
-                            <td>
+                            <!-- <td>
                             <?php if($value->forward_flag == 'N') { ?>
                                 <button type="button" class="delete" id="<?php echo $value->receipt_no;?>"    
                                        
@@ -143,7 +143,7 @@
                                        <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                    </button> 
                                    <?php } ?> 
-                               </td>
+                               </td> -->
 
                             </tr>
 
@@ -182,7 +182,7 @@
 
                         <th>Print</th>
 
-                        <th>Delete</th>
+                        <!-- <th>Delete</th> -->
                     </tr>
                 
                 </tfoot>

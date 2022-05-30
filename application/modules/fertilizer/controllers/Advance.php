@@ -551,6 +551,12 @@ public function advAdd(){
 		$adv_acc= $this->AdvanceModel->f_select("mm_ferti_soc",$select_adv,$where_adv,1);
 
 // $data_bnkacc=array("acc_code"=> $bnk_acc);
+$bbranch=$this->input->post('bank_id');
+if(empty($bbranch)){
+$branchid=0;
+}else{
+	$branchid=$bbranch;
+}
 			$data_array = array (
                   
 
@@ -572,7 +578,7 @@ public function advAdd(){
 
 					"adv_amt"			=> $this->input->post('adv_amt'),
 
-					"bank"              => $this->input->post('bank_id'),
+					"bank"              => $branchid,
 
 					"remarks" 			=> $this->input->post('remarks'),
 
@@ -584,6 +590,8 @@ public function advAdd(){
 				//echo '<pre>';
 				
 				$this->AdvanceModel->f_insert('tdf_advance', $data_array);
+				// echo $this->db->last_query();
+				// exit();
 				$data_array_fin=$data_array;
 				$data_array_fin['acc_code'] = $bnk_acc->acc_code; 
 				$data_array_fin['adv_acc'] = $adv_acc->adv_acc; 
@@ -592,7 +600,7 @@ public function advAdd(){
 		        $where_soc           = array("soc_id"     => $soc_id);
 	            $soc_name = $this->AdvanceModel->f_select("mm_ferti_soc",$select_soc,$where_soc,1);
 				
-				$data_array_fin['rem'] ="Advance Received From ".$soc_name->soc_name;
+				$data_array_fin['rem'] ="Advance Received From ".$soc_name->soc_name.','.$this->input->post('remarks');
 				$select_br    = array("dist_sort_code");
 				$where_br     = array("district_code"=> $branch );
 								
@@ -603,7 +611,7 @@ public function advAdd(){
 				
 				$this->session->set_flashdata('msg', 'Successfully Added');
 
-			  redirect('adv/advance');
+			  redirect('adv/advancefilter');
 
 			}else {
 
@@ -632,17 +640,17 @@ public function editadv(){
 
 		$data_array = array(
 
-				"trans_dt"              => $this->input->post('trans_dt'),
+				// "trans_dt"              => $this->input->post('trans_dt'),
 
-				"soc_id"   			    => $this->input->post('society'),
+				// "soc_id"   			    => $this->input->post('society'),
 
 				//"cshbnk_flag"        => $this->input->post('cshbank'),
 
-				"trans_type"    		=>  $this->input->post('trans_type'),
+				// "trans_type"    		=>  $this->input->post('trans_type'),
 
-				"adv_amt"				=> $this->input->post('adv_amt'),
+				// "adv_amt"				=> $this->input->post('adv_amt'),
 
-				"bank"                  => $this->input->post('bank'),
+				// "bank"                  => $this->input->post('bank'),
 
 				"remarks" 				=> $this->input->post('remarks'),
 				
@@ -660,7 +668,7 @@ public function editadv(){
 
 		$this->session->set_flashdata('msg', 'Successfully Updated');
 
-		redirect('adv/advance');
+		redirect('adv/advancefilter');
 
 	}else{
 			$select = array(
@@ -697,6 +705,9 @@ public function editadv(){
             );       
 
 			// $data['advDtls']        = $this->AdvanceModel->f_select("tdf_advance",$select,$where,1);
+			// if($this->AdvanceModel->get_advance($this->input->get('rcpt'))){
+				
+			// }
 			$data['advDtls']        = $this->AdvanceModel->f_get_adv_dtls($this->input->get('rcpt'));
 
 			$data['societyDtls']    = $this->AdvanceModel->f_select("mm_ferti_soc",$select1,$where1,0);

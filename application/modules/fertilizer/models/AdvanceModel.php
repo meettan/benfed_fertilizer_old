@@ -91,8 +91,8 @@ return $result;
 		
 			curl_setopt_array($curl, array(
 			
-			// CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/compadv_voucher',
-			CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/compadv_voucher',
+			 CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/compadv_voucher',
+			//CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/compadv_voucher',
 							
 			  CURLOPT_RETURNTRANSFER => true,
 			  CURLOPT_ENCODING => '',
@@ -121,11 +121,16 @@ return $result;
 		/************************************************ */
 
 		function f_advjnl($data){
+			// echo '<pre>';
+			// print_r($data);
+			// echo '</pre>';
+			// exit();
 			$curl = curl_init();
 		
 			curl_setopt_array($curl, array(
 			//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
-			CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/adv_voucher',
+			//CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/adv_voucher',
+			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/adv_voucher',
 			  CURLOPT_RETURNTRANSFER => true,
 			  CURLOPT_ENCODING => '',
 			  CURLOPT_MAXREDIRS => 10,
