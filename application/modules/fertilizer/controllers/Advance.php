@@ -195,7 +195,7 @@ public function company_advAdd(){
 		        $where_bank          		= array("sl_no" => $this->input->post('bank'));
 	            $bank_dtls 					= $this->AdvanceModel->f_select("mm_feri_bank",$select_bank,$where_bank,1);
 				
-				$data_array_comp['rem'] 	= "Advance Paid To ".$comp_dtls->COMP_NAME;
+				$data_array_comp['rem'] 	= "Advance Paid To ".$comp_dtls->COMP_NAME.",".$this->input->post('remarks');
 				$select_br    				= array("dist_sort_code");
 				$where_br     				= array("district_code"=> $branch );
 
