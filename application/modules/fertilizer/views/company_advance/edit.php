@@ -2,7 +2,7 @@
 
     <div class="col-md-11 container form-wraper">
 
-        <form method="POST" id="form" action="<?php echo site_url("adv/company_advAdd") ?>">
+        <form method="POST" id="form" action="<?php //echo site_url("adv/company_advAdd") ?>">
 
             <div class="form-header">
                 <h4>Company Advance</h4>
@@ -12,7 +12,7 @@
                 <label for="company" class="col-sm-2 col-form-label">Company:</label>
                 <div class="col-sm-4">
 
-                    <select name="company" class="form-control" id="company" required>
+                    <select name="company" class="form-control" id="company" required disabled>
 
                         <option value="<?php echo $pageData->COMP_ID; ?>"><?php echo $pageData->COMP_NAME; ?></option>
                        
@@ -32,7 +32,7 @@
                 <label for="dist" class="col-sm-2 col-form-label">District:</label>
                 <div class="col-sm-4">
 
-                    <select name="dist" class="form-control" id="dist" required>
+                    <select name="dist" class="form-control" id="dist" required disabled>
 
                         <option value="<?php echo $pageData->branch_id; ?>"><?php echo $pageData->branch_name; ?></option>
                         
@@ -42,12 +42,12 @@
                 <label for="bank" class="col-sm-2 col-form-label">Bank:</label>
                 <div class="col-sm-4">
 
-                    <select name="bank" class="form-control sch_cd required" id="bank" required>
+                    <select name="bank" class="form-control sch_cd required" id="bank" disabled required>
                         <option value="">Select Bank</option>
                         <?php
                             foreach($bankDtls as $bank){
                         ?>
-                        <option value="<?php echo $bank->sl_no;?>"><?php echo $bank->bank_name;?></option>
+                        <option value="<?php echo $bank->sl_no;?>" <?php if($bank->sl_no==$pageData->bank){echo'selected' ;}?> ><?php echo $bank->bank_name;?></option>
                         <?php
                             }
                         ?>
@@ -63,7 +63,7 @@
                 <!-- <input type="text" id=receipt_no name="receipt_no" class="form-control" value=""  /> -->
                 <div class="col-sm-4">
 
-                    <select name="receipt_no" class="form-control sch_cd" id="receipt_no" required>
+                    <select name="receipt_no" class="form-control sch_cd" id="receipt_no" disabled required>
                         <option value="<?php echo $rcpt; ?>"><?php echo $rcpt; ?></option>
 
                     </select>
@@ -88,26 +88,26 @@
                     <input type="hidden" id="p_tot" name="p_tot" class="form-control" value="" />
                 </div>
 
-                <label for="bank" class="col-sm-2 col-form-label">Debit Account Head:</label>
+                <!-- <label for="bank" class="col-sm-2 col-form-label">Debit Account Head:</label>
                 <div class="col-sm-4">
 
-                    <select name="cr_head" class="form-control sch_cd" id="cr_head" required>
+                    <select name="cr_head" class="form-control sch_cd" id="cr_head" disabled required>
                         <option value="">Select Account head</option>
                         <?php
-                            foreach($acc_head as $key){
+                           /// foreach($acc_head as $key){
                         ?>
-                        <option value="<?php echo $key->sl_no;?>"><?php echo $key->ac_name;?></option>
+                        <option value="<?php // echo $key->sl_no;?>" <?php //if($key->sl_no==$pageData->dr_head){echo'selected' ;}?> ><?php // echo $key->ac_name;?></option>
                         <?php
-                            }
+                          //  }
                         ?>
                     </select>
-                </div>
+                </div> -->
             </div>
 
             <div class="form-group row">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks:</label>
                 <div class="col-sm-10">
-                    <textarea id=remarks name="remarks" class="form-control" required></textarea>
+                    <textarea id=remarks name="remarks" class="form-control" required disabled><?php echo $pageData->remarks;  ?></textarea>
                 </div>
             </div>
             <div class="form-group row">

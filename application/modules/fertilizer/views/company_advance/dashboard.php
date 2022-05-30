@@ -34,9 +34,9 @@
 
                         <th>Company Name</th>
 
-                        <th>Transaction Type</th>
+                        <th>Amount</th>
 
-                        <th>Transaction Type</th>
+                        <th>Edit</th>
 
                         <!-- <th>Delete</th> -->
                        
@@ -47,6 +47,8 @@
                 <tbody> 
 
                     <?php 
+                    //print_r($data);
+
                         $i=0;
                         if($data) {
                                 foreach($data as $value) {
@@ -59,16 +61,9 @@
 
                                 <td><?php echo $value->receipt_no; ?></td>
 
-                                <td><?php echo $value->comp_name; ?></td>
+                                <td><?php echo $value->COMP_NAME; ?></td>
 
-                                <td><?php if($value->trans_type == 'I'){
-
-                                                echo "Deposit";
-                                            }else{
-                                                 
-                                                echo "Adjustment";
-                                            } 
-                                    ?>
+                                <td><?php  echo $value->amt; ?>
                                 </td>
 
 			 	                <td><a href="company_editadv?rcpt=<?php echo $value->receipt_no;?>" 
@@ -116,9 +111,9 @@
 
                         <th>Company Name</th>
 
-                        <th>Transaction Type</th>
+                        <th>Amount</th>
 
-                        <th>Transaction Type</th>
+                        <th>Edit</th>
 
                         <!-- <th>Delete</th> -->
 

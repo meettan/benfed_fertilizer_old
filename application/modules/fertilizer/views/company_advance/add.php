@@ -96,6 +96,7 @@
                 <input type="hidden" id="trans_type" name="trans_type" class="form-control" value="I" />
                 <input type="text" id="view_type" name="view_type" class="form-control" value="Advance Deposit to company" readonly />  
 				<input type="hidden" id="p_tot" name="p_tot" class="form-control" value="" />
+                
 			</div>
 
                 <label for="bank" class="col-sm-2 col-form-label">Debit Account Head:</label>
@@ -165,7 +166,7 @@ $( document ).ajaxComplete(function() {
             var i  = 0; var j = 0;
             var list = '<tr><th>Sl No</th><th style="width:33%">Advance No</th><th style="width:33%">Company Name</th><th style="width:33%">Product</th><th style="width:33%">Amount</th><th>Option</th></tr>';
             $.each(JSON.parse(data), function(index, value) {
-                list += '<tr><td>'+ ++i +'</td><td><input type="hidden" class="form-control" value="'+value.detail_receipt_no+'" name="adv_receive_no[]" readonly>'+value.detail_receipt_no+'</td><td>'+value.COMP_NAME+'</td><td>'+value.PROD_DESC+'</td><td>'+value.amount+'</td><td><input type="checkbox" id="ckamt" name="ckamt['+ j++ +'][list]"  value ='+value.detail_receipt_no+' class="ckamt"></td></tr>';
+                list += '<tr><td>'+ ++i +'</td><td><input type="hidden" class="form-control" value="'+value.detail_receipt_no+'" name="adv_receive_no[]" readonly>'+value.detail_receipt_no+'</td><td>'+value.COMP_NAME+'</td><td>'+value.PROD_DESC+'</td><td>'+value.amount+'</td><td><input type="checkbox" id="ckamt" name="ckamt['+ j++ +'][list]"  value ='+value.detail_receipt_no+' class="ckamt"><input type="hidden" name="amt[]" value="'+value.amount+'"></td></tr>';
                 tot_amt += parseFloat(value.adv_amt);
             });  
             list += '<tr style="font-weight: bold;"><td colspan="3">Total</td><td></td><td id="approve_tot">0.00</td></tr>';

@@ -24,17 +24,8 @@
 /****************************************************Advance Dashboard************************************ */
 //Company Advance dashoard
 public function company_advance(){
-
-    $select	=	array("a.trans_dt","a.receipt_no","a.comp_id","a.trans_type","b.comp_name");
-
-	$where  =	array(
-        "a.comp_id=b.comp_id"   => NULL,
-
-        "fin_yr"              => $this->session->userdata['loggedin']['fin_id']
-    );
-
-	$adv['data']    = $this->AdvanceModel->f_select("tdf_company_advance  a,mm_company_dtls b",$select,$where,0);
-
+	$adv['data']    = $this->AdvanceModel->advtocompList();
+//echo $this->db->last_query();
 	$this->load->view("post_login/fertilizer_main");
 
 	$this->load->view("company_advance/dashboard",$adv);
@@ -155,14 +146,15 @@ public function company_advAdd(){
             $receipt        = 'CompAdv/'.$brn->dist_sort_code.'/'.$fin_year.'/'.$transCd->sl_no;
 			$adv_receive_no = $this->input->post('adv_receive_no');
             //for($i = 0; $i < count($adv_receive_no);$i++){
+				$i=0;
 			foreach ( $_POST['ckamt'] as $key )
 			{
-					
+				$amt  = $this->input->post('amt');	
 			$data_array = array (
 
                     "trans_dt" 			=> $this->input->post('trans_dt'),
 
-                    "sl_no" 			=> $transCd->sl_no,
+                    // "sl_no" 			=> $transCd->sl_no,
                     
                     "receipt_no"        => $receipt,
 
@@ -182,7 +174,7 @@ public function company_advAdd(){
 
 					"trans_type"   		=> $this->input->post('trans_type'),
 
-					"adv_amt"			=> $this->input->post('p_tot'),
+					"adv_amt"			=> $amt[$i],
 					'cr_head'           => $this->input->post('cr_head'),
 
 					"remarks" 			=> $this->input->post('remarks'),
@@ -215,6 +207,7 @@ public function company_advAdd(){
 				$this->AdvanceModel->f_compadvjnl($data_array_comp);
 
 				$this->AdvanceModel->f_edit('td_adv_details', array('comp_pay_flag'=>'Y'),array('detail_receipt_no'=>$key['list'] ) );
+				$i++;
 				
 			}
 				$this->session->set_flashdata('msg', 'Successfully Added');
@@ -309,6 +302,14 @@ public function company_editadv(){
 			$rcpt=$this->input->get('rcpt');
 			
 			$data['pageData']=$this->AdvanceModel->getBranchId($rcpt);
+			//$data['pageInfo']=$this->AdvanceModel->getpInfo($rcpt);
+
+			$select_bank           = array("sl_no","bank_name");	
+			$where_bank            = array("dist_cd"     => '342');
+			$data['bankDtls']      = $this->AdvanceModel->f_select('mm_feri_bank',$select_bank,$where_bank,0);
+		
+			//print_r($society['bankDtls']);
+			//exit();
 			$data['rcpt']=$rcpt;                                                        
             $this->load->view('post_login/fertilizer_main');
 
@@ -414,13 +415,13 @@ public function f_adv_forward() {
 	
 		echo "<script>
 			alert('Customer Advance data forwarded successfully');
-			window.location.href='advance';
+			window.location.href='advancefilter';
 			</script>";
 
 }
 
 //Socity Advace Dashboard
-public function advance(){
+/*public function advance(){
 $date = date("d-m-Y");
      $select	=	array("a.trans_dt","a.receipt_no","a.soc_id","a.trans_type","b.soc_name","a.adv_amt","a.forward_flag forward_flag");
 
@@ -434,8 +435,7 @@ $date = date("d-m-Y");
     );
 
 	$adv['data']    = $this->AdvanceModel->f_select("tdf_advance a,mm_ferti_soc b",$select,$where,0);
-// echo $this->db->last_query();
-// die();
+
 	$this->load->view("post_login/fertilizer_main");
 
 	$this->load->view("advance/dashboard",$adv);
@@ -443,7 +443,7 @@ $date = date("d-m-Y");
 	$this->load->view('search/search');
 
 	$this->load->view('post_login/footer');
-}
+}*/
 
 public function advance_radio(){
 	$id=$this->input->get('id');
@@ -472,14 +472,6 @@ public function advance_radio(){
 
 	$data    = $this->AdvanceModel->f_select("tdf_advance a,mm_ferti_soc b",$select,$where,0);
 	echo  json_encode($data);
- //echo $this->db->last_query();
-	// $this->load->view("post_login/fertilizer_main");
-
-	// $this->load->view("advance/dashboard",$data);
-
-	// $this->load->view('search/search');
-
-	// $this->load->view('post_login/footer');
 
 }
 public function socadvReport()
