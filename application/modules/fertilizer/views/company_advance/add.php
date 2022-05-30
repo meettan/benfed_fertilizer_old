@@ -200,6 +200,7 @@ $( document ).ajaxComplete(function() {
    
 
 }) 
+$("#submit").hide();
 
     $(document).ajaxComplete(function() {
 
@@ -211,7 +212,14 @@ $( document ).ajaxComplete(function() {
             });
             $('#approve_tot').html(amt);
 			 $('#p_tot').val(amt);
+            if(amt!=0.00){
+                $("#submit").show();
+            }else{
+                $("#submit").hide();
+            }
         });
+        //alert('hello')
+       
    });
    $(document).ajaxComplete(function() {
     $('#form').submit(function(event){
