@@ -418,6 +418,7 @@ public function drnoteReport()
                 $brn           = $this->DrcrnoteModel->f_select("md_district",$select,$where,1); 
 
 			 $transNo         = $this->DrcrnoteModel->get_trans_no($this->session->userdata['loggedin']['fin_id']);
+
 			 $receipt         = 'Crnote/'.$brn->dist_sort_code.'/'.$fin_year.'/'.$transNo->trans_no;
 			 
                 
@@ -431,13 +432,13 @@ public function drnoteReport()
 				
 			 for($i = 0; $i < count($tot_amt); $i++){
 
-			     echo count($tot_amt);
+			     //echo count($tot_amt);
                 
 				//  die();
 			    //  $tot_amt  = $_POST['tot_amt'][$i];
 				//  $cat_id   = $_POST['cat_id'][$i];
 
-				 print_r($tot_amt);
+				// print_r($tot_amt);
 				//  print_r($cat_id);
 
 	              $data  = array (
@@ -491,7 +492,7 @@ public function drnoteReport()
 		            $where_soc           = array("soc_id"     => $soc_id);
 	                $soc_name = $this->DrcrnoteModel->f_select("mm_ferti_soc",$select_soc,$where_soc,1);
 						$data_array_crt['soc_acc']= $soc_name->acc_cd;
-					$data_array_cr['rem'] ="Credit Note raised for ".$soc_name->soc_name." aginst Invoice No. ". $this->input->post('inv_no');
+					$data_array_cr['rem'] ="Credit Note raised for ".$soc_name->soc_name." aginst Invoice No. ". $this->input->post('inv_no').",".$this->input->post('remarks');
 
 					$select_br    = array("dist_sort_code");
 					$where_br     = array("district_code"=> $branch );
@@ -502,7 +503,7 @@ public function drnoteReport()
 					
 					$this->DrcrnoteModel->f_insert('tdf_dr_cr_note', $data);
 					
-					$this->DrcrnoteModel->f_crnjnl( $data_array_cr);
+					$this->DrcrnoteModel->f_crnjnl($data_array_cr);
 		}
 		$data_cr  = array (
 			'recpt_no' => $receipt ,
@@ -535,11 +536,22 @@ public function drnoteReport()
 
 			'created_dt'  =>  date('Y-m-d h:i:s'));
 
-		$data_array_crt=$data_cr;
+		$data_array_crt       =$data_cr;
+
+		$select_soc           = array("acc_cd");
+		$where_soc            = array("soc_id"     => $soc_id);
+		$soc_acc_cd             = $this->DrcrnoteModel->f_select("mm_ferti_soc",$select_soc,$where_soc,1);
+
+		$data_array_crt['acc_cd'] = $soc_acc_cd->acc_cd;
+
+		unset($select_soc);   
+		unset($where_soc);      
+
 		$select_soc           = array("soc_name");
 		$where_soc            = array("soc_id"     => $soc_id);
 		$soc_name             = $this->DrcrnoteModel->f_select("mm_ferti_soc",$select_soc,$where_soc,1);
-		$data_array_crt['rem'] = "Credit Note raised for ".$soc_name->soc_name." aginst Invoice No. ". $this->input->post('inv_no');
+
+		$data_array_crt['rem'] = "Credit Note raised for ".$soc_name->soc_name." aginst Invoice No. ". $this->input->post('inv_no').",".$this->input->post('remarks');
 
 					$select_br    = array("dist_sort_code");
 					$where_br     = array("district_code"=> $branch );
@@ -548,8 +560,9 @@ public function drnoteReport()
 					$data_array_crt['fin_fulyr']=$fin_year;
 					$data_array_crt['br_nm']= $brn->dist_sort_code;
 					$this->DrcrnoteModel->f_totcrnjnl( $data_array_crt);
+					
 					$this->session->set_flashdata('msg', 'Successfully Added');
-		
+	
 				    redirect('drcrnote/dr_note');
 				
 				   

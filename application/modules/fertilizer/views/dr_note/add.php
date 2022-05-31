@@ -1,4 +1,42 @@
-<div class="wraper">
+<style>
+        #overlay {
+            background: rgba(100, 100, 100, 0.2);
+            color: #ffff;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            z-index: 5000;
+            top: 0;
+            left: 0;
+            float: left;
+            text-align: center;
+            padding-top: 25%;
+            opacity: .80;
+        }
+    
+    
+    
+        .spinner {
+            margin: 0 auto;
+            height: 64px;
+            width: 64px;
+            animation: rotate 0.8s infinite linear;
+            border: 5px solid #228ed3;
+            border-right-color: transparent;
+            border-radius: 50%;
+        }
+    
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+    
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <div class="wraper">
     <div class="col-md-2 container"></div>
     <div class="col-md-8 container form-wraper">
 
@@ -48,7 +86,7 @@
                 <label for="inv_no" class="col-sm-2 col-form-label">Invoice No.:</label>
                 <div class="col-sm-4">
 
-                    <select name="inv_no" id="inv_no" class="form-control inv_no" required>
+                    <select name="inv_no" id="inv_no" class="form-control inv_no sch_cd select2-hidden-accessible" required>
                         <option value="">Select Invoice</option>
                         <?php
       foreach($saleinv as $inv)
@@ -137,7 +175,7 @@
                 <label for="dr_amt" class="col-sm-2 col-form-label">Remarks:</label>
 
                 <div class="col-sm-10">
-                    <textarea id="remarks" name="remarks" class="form-control"></textarea>
+                    <textarea id="remarks" name="remarks" class="form-control" required></textarea>
 
                 </div>
 
@@ -189,8 +227,7 @@
 
 
                                 <td>
-                                    <input type="text" name="tot_amt[]" id="tot_amt" style="width:130px;"
-                                        class="form-control amt" value="" id="tot_amt">
+                                    <input type="text" name="tot_amt[]" id="tot_amt" style="width:130px;" class="form-control amt" value="" id="tot_amt" required>
                                 </td>
 
 
@@ -233,16 +270,16 @@
     </div>
 
 </div>
-
+<div id="overlay" style="display:none;">
+        <div class="spinner"></div>
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
-
         var i = 0;
-
         $('#comp_id').change(function () {
-
+            $('#overlay').fadeIn().delay(3000).fadeOut();
             $.get(
 
                 '<?php echo site_url("drcrnote/f_get_sale_inv");?>',
@@ -283,6 +320,7 @@
         var i = 0;
 
         $('#inv_no').change(function () {
+            $('#overlay').fadeIn().delay(1000).fadeOut();
 
             $.get(
 
@@ -410,7 +448,7 @@
                     '</select> ' +
                     '</td>' +
                     '<td>' +
-                    '<input type="text" name="tot_amt[]" style="width:130px;" class="form-control amt" value= "" id="paid_amt" >' +
+                    '<input type="text" name="tot_amt[]" style="width:130px;" class="form-control amt" value= "" id="paid_amt" required>' +
                     '</td>' +
                     '<td>' +
                     '<button class="btn btn-danger" type= "button" data-toggle="tooltip" data-original-title="Remove Row" data-placement="bottom" id="removeRow"><i class="fa fa-remove" aria-hidden="true"></i></button>' +
@@ -492,7 +530,19 @@
             total += parseFloat($(this).val()) ? parseFloat($(this).val()) : 0.00;
         })
         $("#total").html(total.toFixed(2));
+
+
+
+        if ($(this).val() <= 0) {
+            alert('Amount should not be less than or equal to Zero !');
+            $("#submit").prop('disabled', true);
+            return false;
+        } else {
+            $("#submit").prop('disabled', false);
+        }
     });
+
+
 </script>
 <script>
     $(document).ready(function () {
@@ -505,4 +555,5 @@
 
 
     });
+    $(".sch_cd").select2();
 </script>
