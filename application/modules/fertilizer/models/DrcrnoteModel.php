@@ -25,6 +25,13 @@
 			return;
 
 		}
+		public function get_sel_inv($sosid,$cmpid){
+			$value=$this->db->query('SELECT trans_do,sale_ro FROM td_sale
+			where soc_id = '.$sosid.'
+			and comp_id = '.$cmpid.' 
+			and trans_do not in (select sale_invoice_no from tdf_payment_recv where comp_id = '.$cmpid.')');
+			return $value->result();
+		}
 		
 		public function f_get_particulars($table_name, $select=NULL, $where=NULL, $flag) {
         

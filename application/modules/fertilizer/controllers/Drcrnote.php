@@ -364,15 +364,8 @@ public function drnoteReport()
 
 		public function f_get_sale_inv(){
 
-			$select          = array("trans_do","sale_ro");
-			
-		   $where=array(
-			   "soc_id" =>$this->input->get("soc_id"),
-			   "comp_id" =>$this->input->get("comp_id")
-
-			   ) ;
-		
-			$inv    = $this->DrcrnoteModel->f_select(' td_sale',$select,$where,0);
+			   
+			$inv    = $this->DrcrnoteModel->get_sel_inv($this->input->get("soc_id"),$this->input->get("comp_id"));
 		
 			echo json_encode($inv);
 		
