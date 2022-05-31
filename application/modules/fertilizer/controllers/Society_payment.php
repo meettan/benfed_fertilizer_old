@@ -350,10 +350,13 @@ public function society_payEdit(){
 					$data_cr_fin['rem'] ="Amount Received From ".$soc_name->soc_name." vide sale invoice no: " .$this->input->post('trans_do');
 					
 					if ($trans_type=='2'){
-						// echo  $trans_type;
+						//echo  $total;
 						// die();
+						
 						$data_cr_fin['adv_acc'] = $adv_acc->adv_acc;
+						
 						$this->Society_paymentModel->f_recvjnl_dr($data_cr_fin);
+						
 					}
 				
 	}		
@@ -412,11 +415,13 @@ public function society_payEdit(){
 						$data_array_fin['acc_code'] = $soc_acc->acc_code;
 						$data_array_fin['rem'] ="Amount Received From ".$soc_name->soc_name." vide sale invoice no: " .$this->input->post('trans_do');
 						/***********For Cash or Bank head */
+						if($tot_bnk > 0 ||$tot_bnk != '' || $tot_bnk !=null){
 						$this->Society_paymentModel->f_recvjnl($data_array_fin);
+						}
 						// }
 
 
-						$tot_paid_amt += $_POST['paid_amt'][$i];
+						$tot_paid_amt =$tot_paid_amt + $_POST['paid_amt'][$i];
 						$data3     = array(   
                                             
 							'paid_id'        	=> $cust_pay_recipt,
@@ -514,7 +519,7 @@ public function society_payEdit(){
 		
 					 }
 				
-
+// exit();
                     $this->session->set_flashdata('msg', 'Successfully Added');
         
                      redirect('socpay/society_payment');
