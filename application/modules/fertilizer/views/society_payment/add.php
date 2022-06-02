@@ -1143,7 +1143,7 @@
 
         if (abc == 6) {
             var crAmount = parseFloat($('#tot_dr_amt').val()).toFixed(2);
-            if (amt > crAmount) {
+            if (parseFloat(amt) < parseFloat(crAmount)) {
                 alert('Amount must be less than credit note amount');
                 $("#submit").prop('disabled', false);
             }
@@ -1153,7 +1153,9 @@
            
             var adv_amt = parseFloat($('#adv_amt').val()).toFixed(2);
                 
-            if (amt < adv_amt){
+            if (parseFloat(amt) > parseFloat(adv_amt)){
+                alert(amt);
+                alert(adv_amt);
                 alert('Amount must be less than advance amount');
                 $("#submit").prop('disabled', false);
             }
