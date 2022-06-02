@@ -178,7 +178,7 @@ tr:hover {background-color: #f5f5f5;}
                 
                 <div id="divToPrint">
 
-                    <div style="text-a  lign:center;">
+                    <div style="text-align:center;">
 
                         <h2>THE WEST BENGAL STATE CO.OP.MARKETING FEDERATION LTD.</h2>
                         <h4>HEAD OFFICE: SOUTHEND CONCLAVE, 3RD FLOOR, 1582 RAJDANGA MAIN ROAD, KOLKATA-700107.</h4>

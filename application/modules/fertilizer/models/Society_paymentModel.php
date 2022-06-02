@@ -144,7 +144,7 @@
 		}
         
         
-        public function f_get_soc_payment_dtls($br_cd,$fin_id){
+        public function f_get_soc_payment_dtls($br_cd,$fin_id,$todate,$fDate){
 
 				// $data = $this->db->query("select a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,c.rate,c.invoice_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,sum(d.QTY)sale_qty
 				// 							from  tdf_payment_recv a , mm_ferti_soc b,td_purchase c,td_sale d
@@ -161,15 +161,16 @@
 			and c.prod_id = d.prod_id
 			and a.branch_id=$br_cd
 			and a.fin_yr=$fin_id
+			and a.paid_dt between '".$fDate."' And '".$todate."'
 			group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no,approval_status
 			union
 			select a.paid_id,a.sl_no,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
 			from  tdf_payment_recv a , mm_ferti_soc b, mm_product d
 			where a.soc_id=b.soc_id	
-			and a.paid_dt is not null
 			and a.prod_id = d.prod_id
 			and a.branch_id=$br_cd
 			and a.fin_yr=$fin_id
+			and a.paid_dt between '".$fDate."' And '".$todate."'
 			group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.approval_status
 			order by paid_dt");
 

@@ -550,16 +550,38 @@ public function society_payEdit(){
 			$br_cd          = $this->session->userdata['loggedin']['branch_id'];
 			$fin_id         = $this->session->userdata['loggedin']['fin_id'];
 			$this->sysdate  = $_SESSION['sys_date'];
+			$to_date=$this->input->post('to_date');
+			$from_date=$this->input->post('from_date');
 
-		   $data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id);
+			if($this->input->post()){
+				$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$to_date,$from_date);
+				// echo $this->db->last_query();
+				// exit();
 
-		   $this->load->view("post_login/fertilizer_main");
-	   
-		   $this->load->view("society_payment/dashboard",$data);
-	   
-		   $this->load->view('search/search');
-	   
-		   $this->load->view('post_login/footer');
+				$this->load->view("post_login/fertilizer_main");
+			
+				$this->load->view("society_payment/dashboard",$data);
+			
+				$this->load->view('search/search');
+			
+				$this->load->view('post_login/footer');
+
+			}else{
+				$today=date('Y-m-d');
+				$fDate=$today;
+				$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$today,$fDate);
+
+				$this->load->view("post_login/fertilizer_main");
+			
+				$this->load->view("society_payment/dashboard",$data);
+			
+				$this->load->view('search/search');
+			
+				$this->load->view('post_login/footer');
+			}
+			//paid_dt
+
+		  
        }
        
 public function f_cust_pay_forward() {
