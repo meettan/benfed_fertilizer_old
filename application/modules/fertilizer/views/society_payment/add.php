@@ -349,7 +349,7 @@
     </div>
 
 </div>
-<div id="overlay" style="display:none;">cshbank
+<div id="overlay" style="display:none;">
     <div class="spinner"></div>
 </div>
 
@@ -562,7 +562,7 @@
 
         $('#trans_do').change(function () {
             $trans_val = $(this).val();
-            console.log($trans_val);
+            //console.log($trans_val);
 
             $.get(
 
@@ -1116,7 +1116,7 @@
         var tstval = $(this).find('option:selected').text();
         if (c > 1) {
             $("#submit").prop('disabled', true);
-            alert(tstval + " Already selected");
+            alert(tstval + " Already Selected");
         } else {
             $("#submit").prop('disabled', false);
         }
@@ -1137,12 +1137,12 @@
     $('#intro').on("change", ".paid_amt", function () {
         //$('.pur_ro').eq($('.pur_inv').index(this)).val("");
         let row = $(this).closest('tr');
-        var amt = $(this).val();
+        var amt = parseFloat($(this).val()).toFixed(2);
 
         var abc = row.find('td:eq(0) .pay').val();
 
         if (abc == 6) {
-            var crAmount = $('#tot_dr_amt').val();
+            var crAmount = parseFloat($('#tot_dr_amt').val()).toFixed(2);
             if (amt > crAmount) {
                 alert('Amount must be less than credit note amount');
                 $("#submit").prop('disabled', false);
@@ -1150,11 +1150,10 @@
         }
 
         if (abc == 2) {
-            var adv_amt = $('#adv_amt').val();
-            // console.log(amt);
-            // console.log(adv_amt);
-
-            if (amt > adv_amt) {
+           
+            var adv_amt = parseFloat($('#adv_amt').val()).toFixed(2);
+                
+            if (amt < adv_amt){
                 alert('Amount must be less than advance amount');
                 $("#submit").prop('disabled', false);
             }
