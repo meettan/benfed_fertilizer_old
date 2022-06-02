@@ -101,7 +101,7 @@
                                 <th style="text-align: center;width:100px">Rate</th>
                                 <th style="text-align: center;width:100px">Taxable Amt</th>
                                 <th style="text-align: center;width:100px">TDS(0.1%)</th>
-                                <th style="text-align: center;width:100px">Gross Amount</th>
+                                <!-- <th style="text-align: center;width:100px">Gross Amount</th> -->
                                 <th style="text-align: center;width:100px">NET Amount</th>
                                 <th style="text-align: center;width:100px">Virtual No.</th>
                                 <th>
@@ -138,11 +138,11 @@
                                     </td>
                                     <td>
                                         <input type="text" name="pur_ro[]" style="width:120px;"
-                                            class="form-control pur_ro" value="" id="pur_ro">
+                                            class="form-control pur_ro" value="" id="pur_ro" readonly>
                                     </td>
                                     <td>
                                         <input type="date" name="pur_ro_dt[]" style="width:150px;"
-                                            class="form-control pur_ro_dt" value="" id="pur_ro_dt">
+                                            class="form-control pur_ro_dt" value="" id="pur_ro_dt" readonly>
                                     </td>
                                     <td>
                                         <input type="text" name="qty[]" style="width:90px;" class="form-control qty"
@@ -161,10 +161,10 @@
                                             value="" id="tds">
                                     </td>
 
-                                    <td>
+                                    <!-- <td>
                                         <input type="text" name="paid_amt[]" style="width:130px;"
                                             class="form-control paid_amt" value="" id="paid_amt" readonly>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <input type="text" name="net_amt[]" style="width:130px;"
                                             class="form-control net_amt" value="" id="net_amt" readonly>
@@ -191,10 +191,10 @@
                                         <input name="tds_total" style="width:150px;" id="tds_total"
                                             class="form-control tds_total" placeholder="TDS Total" readonly>
                                     </td>
-                                    <td colspan="">
+                                    <!-- <td colspan="">
                                         <input name="total" style="width:150px;" id="total" class="form-control total"
                                             placeholder="Total" readonly>
-                                    </td>
+                                    </td> -->
                                     <td colspan="">
                                         <input name="net_total" style="width:150px;" id="net_total"
                                             class="form-control net_total" placeholder="NET Total" readonly>
@@ -350,10 +350,10 @@
                     '<input type="text" name="prod_desc[]" style="width:140px" class="form-control required prod_desc" value= "" id="prod_desc" readonly>' +
                     '</td>' +
                     '<td>' +
-                    '<input type="text" name="pur_ro[]" style="width:120px;" class="form-control pur_ro" value= "" id="pur_ro" >' +
+                    '<input type="text" name="pur_ro[]" style="width:120px;" class="form-control pur_ro" value= "" id="pur_ro" readonly>' +
                     '</td>' +
                     '<td>' +
-                    '<input type="date" name="pur_ro_dt[]" style="width:150px;" class="form-control pur_ro_dt" value= "" id="pur_ro_dt"  >' +
+                    '<input type="date" name="pur_ro_dt[]" style="width:150px;" class="form-control pur_ro_dt" value= "" id="pur_ro_dt"  readonly>' +
                     '</td>' +
                     '<td>' +
                     '<input type="text" name="qty[]" style="width:90px;" class="form-control qty" value= "" id="qty" readonly >' +
@@ -367,9 +367,7 @@
                     '<td>' +
                     '<input type="text" name="tds[]" style="width:100px;" class="form-control tds" value= "" id="tds">' +
                     '</td>' +
-                    '<td>' +
-                    '<input type="text" name="paid_amt[]" style="width:130px;" class="form-control paid_amt" value= "" id="paid_amt" readonly>' +
-                    '</td>' +
+                    
                     '<td>' +
                     '<input type="text" name="net_amt[]" style="width:130px;" class="form-control net_amt" value= "" id="net_amt" readonly>' +
                     '</td>' +
@@ -387,6 +385,12 @@
 
             });
         });
+
+        // '<td>' +
+        //             '<input type="text" name="paid_amt[]" style="width:130px;" class="form-control paid_amt" value= "" id="paid_amt" readonly>' +
+        //             '</td>' +
+
+
         // $("#intro").on("click","#removeRow", function(){
         //     $(this).parents('tr').remove();
         //     var sum =0;        
@@ -536,7 +540,7 @@
 
         var tot_amt = parseFloat((qty * rate) - tds).toFixed('2');
 
-        row.find('td:eq(9) .net_amt').val(tot_amt);
+        row.find('td:eq(8) .net_amt').val(tot_amt);
 
 
 
@@ -548,6 +552,16 @@
 
         $("#net_total").val("0");
         $("#net_total").val(parseFloat(sum).toFixed('2'));
+
+
+
+
+        var totTds = 0;
+            $('.tds').each(function () {
+
+                totTds += +$(this).val();
+            })
+            $("#tds_total").val(totTds);
 
     })
 
@@ -650,12 +664,33 @@
             console.log('ok');
 
             $(this).parent().parent().remove();
-            var total = 0;
-            $('.paid_amt').each(function () {
+            // var total = 0;
+            // $('.paid_amt').each(function () {
 
-                total += +$(this).val();
+            //     total += +$(this).val();
+            // })
+            // $("#total").val(total);
+            
+            var taxableAmt = 0;
+            $('.taxable_amt').each(function () {
+                taxableAmt =taxableAmt +$(this).val();
             })
-            $("#total").val(total);
+            $("#taxable_total").val(taxableAmt);
+
+
+            var tDS = 0;
+            $('.tds').each(function () {
+
+                tDS += +$(this).val();
+            })
+            $("#tds_total").val(tDS);
+
+            var net_total = 0;
+            $('.net_amt').each(function () {
+
+                net_total += +$(this).val();
+            })
+            $("#net_total").val(net_total);
         })
     });
 </script>
@@ -849,6 +884,33 @@
         $('#intro').on("change", ".pur_inv", function () {
             $('.pur_ro').eq($('.pur_inv').index(this)).val("");
             let row = $(this).closest('tr');
+
+
+
+
+
+        var selval = $(this).val();
+
+        var c = 0;
+        $('.pur_inv').each(function () {
+            var select_val = $(this).val();
+            if (selval == select_val) {
+                c = c + 1;
+            }
+        });
+        var tstval = $(this).find('option:selected').text();
+        if (c > 1) {
+            $("#addrow").hide();
+            $("#submit").prop('disabled', true);
+            alert(tstval + " Already Selected");
+        } else {
+            $("#addrow").show();
+            $("#submit").prop('disabled', false);
+        }
+
+
+
+
             
 
 
@@ -872,13 +934,13 @@
                     row.find('td:eq(6) .taxable_amt').val(((qty)*(rate)).toFixed(2));
                     row.find('td:eq(7) .tds').val(((qty*rate)*.001).toFixed(2)); 
                    row.find('td:eq(8) .paid_amt').val(((qty)*(rate)).toFixed(2));
-                   row.find('td:eq(9) .net_amt').val(((qty*rate)-((qty*rate)*.001)).toFixed(2));
+                   row.find('td:eq(8) .net_amt').val(((qty*rate)-((qty*rate)*.001)).toFixed(2));
                     var total = 0;
                     $('.paid_amt').each(function () {
 
                         total += +$(this).val();
                     })
-                    $("#total").val(total);
+                    $("#total").val( parseFloat(total).toFixed(2));
 
 
 
@@ -887,7 +949,7 @@
 
                         taxable_total += +$(this).val();
                     })
-                    $("#taxable_total").val(taxable_total);
+                    $("#taxable_total").val(parseFloat(taxable_total).toFixed(2));
 
 
 
@@ -898,7 +960,7 @@
 
                         net_total += +$(this).val();
                     })
-                    $("#net_total").val(net_total);
+                    $("#net_total").val( parseFloat(net_total).toFixed(2));
 
 
 
@@ -908,7 +970,7 @@
 
                         tds_total += +$(this).val();
                     })
-                    $("#tds_total").val(tds_total);
+                    $("#tds_total").val(parseFloat(tds_total).toFixed(2));
 
                 });
 
