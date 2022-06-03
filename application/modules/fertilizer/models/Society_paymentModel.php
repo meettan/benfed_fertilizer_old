@@ -178,6 +178,11 @@
             
                 
             }
+
+			public function checkForward($roNo, $invNo){
+				return $this->db->query("SELECT count(*)count_row  FROM tdf_company_payment where sale_inv_no = '".$invNo."' and pur_ro = '".$roNo."'")->row();
+				
+			}
 		public function f_get_drnote_dtls(){
 
 		$data = $this->db->query("select a.comp_id,a.ro_no,a.ro_dt,a.invoice_no, sum(a.soc_amt) as tot_amt,b.COMP_NAME COMP_NAME

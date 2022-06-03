@@ -583,8 +583,18 @@ public function society_payEdit(){
 
 		  
        }
+		public function check_data(){
+			$invNo=$this->input->post('invNo');
+			$roNo=$this->input->post('roNo');
+			$data=$this->Society_paymentModel->checkForward($roNo, $invNo);
+			if($data->count_row > 0){
+				echo json_encode(false);
+			}else{
+				echo json_encode(true);
+			}
+		}
        
-public function f_cust_pay_forward() {
+		public function f_cust_pay_forward() {
 
 			$data=explode (",", $this->input->get('ro_no'));
 			$ro_no    = $data["0"];
