@@ -593,14 +593,15 @@ public function f_cust_pay_forward() {
 			$rate     = $data["3"];
 			$pur_inv  = $data["4"];
 			$sale_qty = $data["5"];
-			$sale_inv = $data["6"];
+			$paid_id = $data["6"];
 			$sale_invoice = $data["7"];
+			// $paidis=$data['8'];
 			
 			// print_r($data);
 			// exit();
 			$br_cd=$this->session->userdata['loggedin']['branch_id'];
 		
-			$this->Society_paymentModel->f_upd_pay_recv($sale_inv);
+			$this->Society_paymentModel->f_upd_pay_recv($paid_id);
 
 			//$cnt = $this->Society_paymentModel->check_soc_pay($ro_no,$br_cd)->counts();
 
@@ -610,7 +611,7 @@ public function f_cust_pay_forward() {
 			// echo $cnt;
 			// exit;
 	// if($cnt == '0'){
-			$this->Society_paymentModel->f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_inv,$br_cd,$sale_invoice);
+			$this->Society_paymentModel->f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_invoice,$paid_id,$br_cd);
 			// echo $this->db->last_query();
 			// echo' hello';
 			// exit;

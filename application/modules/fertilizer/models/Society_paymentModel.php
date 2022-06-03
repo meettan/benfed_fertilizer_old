@@ -103,14 +103,14 @@
 			$data = $this->db->query($sql);
 			return $data->row();
 		}
-		public function f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_inv,$br_cd,$sale_invoice)
+		public function f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_invoice,$paid_id,$br_cd)
 		{
 			$qty=$this->getQty($sale_invoice);
 			// //print_r($sale_inv);
 			// print_r($this->session->userdata['loggedin']['user_name']);
 			// exit();
-			$sql="INSERT INTO  tdf_company_payment(pur_ro,comp_id,prod_id,purchase_rt,pur_inv_no,sale_inv_no,qty,district)
-				  							values('$ro_no',$comp_id,$prod_id,$rate,'$pur_inv','$sale_inv','$qty->qty','$br_cd')";
+			$sql="INSERT INTO  tdf_company_payment(pur_ro,comp_id,prod_id,purchase_rt,pur_inv_no,sale_inv_no,paid_id,qty,district)
+				  							values('$ro_no',$comp_id,$prod_id,$rate,'$pur_inv','$sale_invoice','$paid_id','$qty->qty','$br_cd')";
 			$this->db->query($sql);
 		}
 

@@ -78,7 +78,7 @@
                              
                                 <td>  
                                 <?php if($pay->approval_status == 'U') { ?>
-                                <a href="<?php echo site_url("socpay/f_cust_pay_forward");?>?ro_no=<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no  ?>"><button class="btn btn-primary" id="">Forward</button></a>
+                                <a href="<?php echo site_url("socpay/f_cust_pay_forward");?>?ro_no=<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no;?>"><button class="btn btn-primary" id="">Forward</button></a>
                                 <?php } ?> 
                                 </td>
                             
