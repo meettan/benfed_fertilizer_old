@@ -299,10 +299,36 @@
 		a.adj_dr_note_amt,
 		a.adj_adv_amt,
 		a.net_recvble_amt,
+		a.cshbnk_flag,
 		a.paid_amt,b.bank_name,b.ifsc,b.ac_no,a.remarks as remarks
 		from tdf_payment_recv a,mm_feri_bank b
 		where a.bnk_id=b.sl_no
-		and paid_id = '$bnk_id'");
+		and paid_id = '$bnk_id'
+		UNION
+		select  sl_no,
+		paid_id as paid_id,
+		paid_dt,
+		soc_id,
+		sale_invoice_no,
+		sale_invoice_dt,
+		ro_no,
+		pay_type,
+		ref_no,
+		ref_dt,
+		bnk_id,
+		tot_recvble_amt,
+		adj_dr_note_amt,
+		adj_adv_amt,
+		net_recvble_amt,
+		cshbnk_flag,
+		paid_amt,
+		''bank_name,
+		''ifsc,
+		''ac_no,
+		remarks as remarks
+		from tdf_payment_recv 
+		where  paid_id = '$bnk_id'
+		");
 							   
 		$result = $data->result();  
  		return $result;

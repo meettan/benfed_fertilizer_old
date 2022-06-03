@@ -49,6 +49,8 @@
 
             </div>
             <?php
+            
+            
                         foreach($paydtls as $pay);{
                         ?>
 
@@ -149,9 +151,22 @@
             <div class="form-group row">
                 <label for="rndnet_amt" class="col-sm-2 col-form-label">Net Amount(Rounded)<br>(Total Amount - Paid
                     Amount):</label>
-                <div class="col-sm-3">
-                    <input type="text" style="width:180px" id="rndnet_amt" name="rndnet_amt"
+                <div class="col-sm-4">
+                    <input type="text"  id="rndnet_amt" name="rndnet_amt"
                         value="<?=round($pay->net_recvble_amt) ?>" class="form-control" readonly />
+                </div>
+
+
+
+                <div class="col-sm-2">
+                    <input id="cshbank" name="cshbank" type="radio" class="radio-label cshbankk" value="0" <?php if($pay->cshbnk_flag==0){echo'checked';} ?> disabled>
+
+                    <label for="cshbank" class="radio-label cshbankk">Cash</label>
+                </div>
+                <div class="col-sm-2">
+                    <input id="cshbank" name="cshbank" type="radio" class="radio-label cshbank" value="1" <?php if($pay->cshbnk_flag==1){echo'checked';} ?>  disabled>
+
+                    <label for="cshbank" class="radio-label cshbank">Bank</label>
                 </div>
             </div>
 
@@ -286,9 +301,9 @@
             <div class="form-group row">
 
                 <div class="col-sm-10">
-
+<?php if(!empty($paydtls)){ ?>
                     <input type="submit" id="submit" class="btn btn-info" value="Save" />
-
+<?php } ?>
                 </div>
 
             </div>
