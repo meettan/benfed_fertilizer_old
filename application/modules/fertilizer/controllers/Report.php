@@ -675,8 +675,8 @@ public function ps_pl_all(){
         // $data['branch']      =   $this->ReportModel->f_select("md_district", NULL, $where1,1);
        
         $data['all_data']    =   $this->ReportModel->p_ro_wise_prof_calc_all($from_dt,$to_dt,$comp);
-    //  echo $this->db->last_query();
-    //  die();
+     echo $this->db->last_query();
+     die();
         $this->load->view('post_login/fertilizer_main');
         $this->load->view('report/sp_pl_all/stk_stmt',$data);
         $this->load->view('post_login/footer');
