@@ -220,7 +220,7 @@
                                     //   echo $prodtls->sale_qty; 
                                     if($prodtls->unit==1){
 
-                                        echo "<font color='brown'><b>$prodtls->sale_qty</font></b>"; 
+                                        echo $prodtls->sale_qty; 
                                         
                                         //$sale_qty=$sale_qty+$prodtls->sale_qty;
                                        }elseif($prodtls->unit==2){
