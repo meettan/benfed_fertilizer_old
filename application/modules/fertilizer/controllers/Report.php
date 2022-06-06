@@ -634,6 +634,8 @@ public function ps_pl_all(){
 
         $to_dt      =   $_POST['to_date'];
 
+        $comp=$_POST['comp_id'];
+
         // $branch     =   $this->session->userdata['loggedin']['branch_id'];
 
         $mth        =  date('n',strtotime($from_dt));
@@ -669,7 +671,7 @@ public function ps_pl_all(){
 
         // $data['branch']      =   $this->ReportModel->f_select("md_district", NULL, $where1,1);
        
-        $data['all_data']    =   $this->ReportModel->p_ro_wise_prof_calc_all($all_data);
+        $data['all_data']    =   $this->ReportModel->p_ro_wise_prof_calc_all($from_dt,$to_dt,$comp);
     //  echo $this->db->last_query();
     //  die();
         $this->load->view('post_login/fertilizer_main');
@@ -677,9 +679,9 @@ public function ps_pl_all(){
         $this->load->view('post_login/footer');
 
     }else{
-
+        $data['company']    =   $this->ReportModel->f_select("mm_company_dtls", NULL, NULL, 0);
         $this->load->view('post_login/fertilizer_main');
-        $this->load->view('report/sp_pl_all/stk_stmt_ip');
+        $this->load->view('report/sp_pl_all/stk_stmt_ip',$data);
         $this->load->view('post_login/footer');
     }
 

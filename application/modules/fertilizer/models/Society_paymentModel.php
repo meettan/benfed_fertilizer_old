@@ -304,6 +304,7 @@
 		from tdf_payment_recv a,mm_feri_bank b
 		where a.bnk_id=b.sl_no
 		and paid_id = '$bnk_id'
+		and  cshbnk_flag = '1'
 		UNION
 		select  sl_no,
 		paid_id as paid_id,
@@ -328,6 +329,7 @@
 		remarks as remarks
 		from tdf_payment_recv 
 		where  paid_id = '$bnk_id'
+		and    cshbnk_flag = '0'
 		");
 							   
 		$result = $data->result();  
