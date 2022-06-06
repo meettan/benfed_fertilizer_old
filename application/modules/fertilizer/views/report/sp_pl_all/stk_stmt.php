@@ -85,7 +85,7 @@
 
                         <th>Sl No.</th>
 
-                        <th>Company</th>
+                        <!-- <th>Company</th> -->
 
                         <th>Product</th>
 
@@ -149,7 +149,7 @@
 
                     <tr class="rep">
                         <td class="report"><?php echo $i++; ?></td>   <!-- SL.No.--->
-                        <td class="report"><?php echo $prodtls->comp_name; ?></td>  <!-- Company Name --->
+                        <!-- <td class="report"><?php echo $prodtls->comp_name; ?></td>  Company Name - -->
                         <td class="report"><?php echo $prodtls->prod_desc; ?></td>  <!-- Product Name--->
 
                         <td class="report"><?php     ///Unit convertion all solid in MT & Liquid in Ltr
@@ -374,16 +374,15 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
                         <td>Total</td>
-                        <td style="font-size:12px !important;"><?=$par_rate?></td>
+                        <td style="font-size:12px !important;"></td>
                         <td style="font-size:12px !important;"><?=round($par_amt,2)?></td>
                         <td style="font-size:12px !important;"></td>
                         <td style="font-size:12px !important;"><?=round($sale_rate,2)?></td>
                         <td style="font-size:12px !important;"><?=round($sale_R_With_GST,2)?></td>
                         <td style="font-size:12px !important;"><?=round($sale_amt,2)?></td>
                         <td style="font-size:12px !important;"></td>
-                        <td style="font-size:12px !important;"></td>
+                        <td style="font-size:12px !important;"><?=$sale_par_rate_qty?></td>
                         <td style="font-size:12px !important;"><?=round($unsold,2)?></td>
 
 
