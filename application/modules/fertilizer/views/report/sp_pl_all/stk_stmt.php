@@ -95,7 +95,7 @@
 
                         <th>RO Date</th>
 
-                        <th>Purcahse Rate</th>
+                        <th>Purcahse Rate With GST</th>
 
                         <th>Purchase Amount</th>
 

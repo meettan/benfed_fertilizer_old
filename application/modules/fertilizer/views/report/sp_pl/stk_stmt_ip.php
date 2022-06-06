@@ -23,7 +23,8 @@ tr:hover {background-color: #f5f5f5;}
 
 
     
-    <div class="wraper">      
+    <div class="wraper">  
+            
 
         <div class="col-md-6 container form-wraper">
     
@@ -66,7 +67,29 @@ tr:hover {background-color: #f5f5f5;}
                     </div>
 
                 </div>  
+<div class="form-group row">
 
+                    <label for="company" class="col-sm-2 col-form-label">Company:</label>
+
+                    <div class="col-sm-6">
+
+                            <select name="comp_id" id="company" class="form-control" required>
+
+                                    <option value="">Select Company</option>
+                                <?php
+                                    foreach($company as $row){
+                                ?>
+
+                                    <option value="<?php echo $row->COMP_ID;?>,<?php echo $row->COMP_NAME;?>"><?php echo $row->COMP_NAME;?></option>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                       
+
+                </div>
+
+                </div> 
 
                 <div class="form-group row">
 

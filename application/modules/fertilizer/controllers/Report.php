@@ -570,6 +570,9 @@ public function ps_pl(){
         $from_dt    =   $_POST['from_date'];
 
         $to_dt      =   $_POST['to_date'];
+        $compditels      =   $_POST['comp_id'];
+        $comp=explode(',',$compditels );
+        $data['compName']=$comp[1];
 
         // $br      =   $_POST['br'];
 
@@ -610,7 +613,7 @@ public function ps_pl(){
 
         // $data['br']      = $br;
        
-        $data['all_data']    =   $this->ReportModel->p_ro_wise_prof_calc($all_data);
+        $data['all_data']    =   $this->ReportModel->p_ro_wise_prof_calc($from_dt,$to_dt,$comp[0],$branch);
     //  echo $this->db->last_query();
     //  die();
         $this->load->view('post_login/fertilizer_main');
@@ -618,9 +621,9 @@ public function ps_pl(){
         $this->load->view('post_login/footer');
 
     }else{
-
+        $data['company']    =   $this->ReportModel->f_select("mm_company_dtls", NULL, NULL, 0);
         $this->load->view('post_login/fertilizer_main');
-        $this->load->view('report/sp_pl/stk_stmt_ip');
+        $this->load->view('report/sp_pl/stk_stmt_ip',$data);
         $this->load->view('post_login/footer');
     }
 

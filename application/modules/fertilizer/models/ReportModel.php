@@ -1261,26 +1261,82 @@ public function p_ro_wise_soc_stk($all_data)
 /********************************** */
 
 
-public function p_ro_wise_prof_calc($all_data)
+public function p_ro_wise_prof_calc($fdate,$tdate,$comp,$branchId)
 {
     
-    try {
-        $this->db->reconnect();
+//     try {
+//         $this->db->reconnect();
         
-        $sql = "CALL `p_ro_wise_prof_calc`(?,?,?)";
+//         $sql = "CALL `p_ro_wise_prof_calc`(?,?,?)";
      
-        $data_w = $this->db->query($sql,$all_data); 
-// echo $this->db->last_query();
-// die();
-//              
-        $this->db->close();
+//         $data_w = $this->db->query($sql,$all_data); 
+// // echo $this->db->last_query();
+// // die();
+// //              
+//         $this->db->close();
 
 
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
+//     } catch (Exception $e) {
+//         echo $e->getMessage();
+//     }
+
+$q= $this->db->query('SELECT c.short_name comp_name,
+d.prod_desc,
+a.ro_no,
+a.ro_dt,
+round(a.tot_amt /a.qty,3) as rate,
+a.tot_amt as pur_net_amt,
+a.qty qty,
+sum(b.qty)as sale_qty,
+d.unit,
+d.qty_per_bag qty_per_bag,
+b.sale_rt,
+sum(b.round_tot_amt)sale_amt,
+sum(b.round_tot_amt) - a.tot_amt as profit,
+round((round(sum(b.round_tot_amt)/sum(b.qty),2)- round(a.tot_amt /a.qty,3))*sum(b.qty),2) pro,
+round(sum(b.round_tot_amt)/sum(b.qty),2)rt_gst,
+(a.qty- sum(b.qty))*round(a.tot_amt /a.qty,3) as unsold
+FROM td_purchase a ,td_sale b,mm_company_dtls c,mm_product d
+WHERE a.ro_no=b.sale_ro
+and a.comp_id=b.comp_id
+and a.prod_id=b.prod_id
+and a.comp_id=c.comp_id
+and a.prod_id=d.prod_id
+and a.ro_dt between "'.$fdate.'" and "'.$tdate.'"
+and a.comp_id = '.$comp.'
+and a.br='.$branchId.'
+group by c.comp_name,d.prod_desc,a.ro_no,a.ro_dt,round(a.tot_amt /a.qty,3),a.tot_amt,a.qty,d.unit,d.qty_per_bag,b.sale_rt
+UNION
+SELECT c.short_name comp_name,
+d.prod_desc,
+a.ro_no,
+a.ro_dt,
+round(a.tot_amt /a.qty,3)  as rate,
+a.tot_amt as pur_net_amt,
+a.qty qty,
+0 sale_qty,
+d.unit,
+d.qty_per_bag qty_per_bag,
+0 sale_rt,
+0 sale_amt,
+0 as profit,
+0 pro,
+0 rt_gst,
+a.tot_amt as unsold
+FROM td_purchase a, mm_company_dtls c,mm_product d
+WHERE a.comp_id=c.COMP_ID
+and a.prod_id=d.PROD_ID
+and a.ro_dt between "'.$fdate.'" and "'.$tdate.'"
+and a.comp_id = '.$comp.'
+and a.br='.$branchId.'
+and a.ro_no not in (select sale_ro from td_sale 
+             where do_dt between "'.$fdate.'" and "'.$tdate.'"
+             and   comp_id = '.$comp.')');
+
+return $q->result();
+
    
-    return $data_w->result();
+   //;
    
 
 }
