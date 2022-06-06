@@ -378,12 +378,12 @@
                         <td>Total</td>
                         <td style="font-size:12px !important;"><?=$par_rate?></td>
                         <td style="font-size:12px !important;"><?=round($par_amt,2)?></td>
-                        <td style="font-size:12px !important;"><?=round($par_qty,2)?></td>
+                        <td style="font-size:12px !important;"></td>
                         <td style="font-size:12px !important;"><?=round($sale_rate,2)?></td>
                         <td style="font-size:12px !important;"><?=round($sale_R_With_GST,2)?></td>
                         <td style="font-size:12px !important;"><?=round($sale_amt,2)?></td>
-                        <td style="font-size:12px !important;"><?=round($sale_qty,2)?></td>
-                        <td style="font-size:12px !important;"><?=round($sale_par_rate_qty,2)?></td>
+                        <td style="font-size:12px !important;"></td>
+                        <td style="font-size:12px !important;"></td>
                         <td style="font-size:12px !important;"><?=round($unsold,2)?></td>
 
 
