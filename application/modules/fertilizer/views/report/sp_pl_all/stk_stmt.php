@@ -71,11 +71,11 @@
 
                 <h2>THE WEST BENGAL STATE CO.OP.MARKETING FEDERATION LTD.</h2>
                 <h4>HEAD OFFICE: SOUTHEND CONCLAVE, 3RD FLOOR, 1582 RAJDANGA MAIN ROAD, KOLKATA-700107.</h4>
-                <h4>Purchase & Sale Statement Between: <?php echo $_SESSION['date']; ?></h4>
-                <!-- <h5 style="text-align:left"><label>District: </label> <?php echo $branch->district_name; ?></h5> -->
+                <h4>Purchase & Sale Statement Between: <?php echo $_SESSION['date']; ?></h4> <br>
+                <h5 style="text-align:left"><label>Company: </label><?php echo $compName ?></h5>
 
             </div>
-            <br>
+           
 
             <table style="width: 100%;" id="example">
 
@@ -280,16 +280,16 @@
                                     if($prodtls->unit==1){
 
                                         // echo $purdtls->qty; 
-                                        $salqty1=$prodtls->qty;
+                                        $salqty1=$prodtls->sale_qty;
                                        }elseif($prodtls->unit==2){
                                         //    echo ($prodtls->qty)/1000; 
-                                        $salqty1=($prodtls->qty)/1000; 
+                                        $salqty1=($prodtls->sale_qty)/1000; 
                                        }elseif($prodtls->unit==4){
                                         //    echo ($prodtls->qty)/10;
-                                        $salqty1=($prodtls->qty)/10;
+                                        $salqty1=($prodtls->sale_qty)/10;
                                        }elseif($prodtls->unit==6){
                                         //    echo ($prodtls->qty)/1000000;
-                                           $purqty1=($prodtls->qty)/1000000;
+                                           $purqty1=($prodtls->sale_qty)/1000000;
                                        }elseif($prodtls->unit==3){
                                         //    echo $prodtls->sale_qty;
                                            $salqty1=$prodtls->sale_qty;
@@ -312,21 +312,21 @@
                   if($prodtls->unit==1){
                    
                    $purqty=$prodtls->qty;
-                   $salqty1=$prodtls->qty;
+                   $salqty1=$prodtls->sale_qty;
                    }elseif($prodtls->unit==2){
                     //    echo ($prodtls->qty)/1000; 
                        $purqty=($prodtls->qty)/1000; 
-                       $salqty1=($prodtls->qty)/1000; 
+                       $salqty1=($prodtls->sale_qty)/1000; 
 
                    }elseif($prodtls->unit==4){
                     //    echo ($prodtls->qty)/10;
                        $purqty=($prodtls->qty)/10;
-                       $salqty1=($prodtls->qty)/10;
+                       $salqty1=($prodtls->sale_qty)/10;
 
                    }elseif($prodtls->unit==6){
                     //    echo ($prodtls->qty)/1000000;
                        $purqty=($prodtls->qty)/1000000;
-                       $salqty1=($prodtls->qty)/1000000;
+                       $salqty1=($prodtls->sale_qty)/1000000;
 
                    }elseif($prodtls->unit==3){
                     //    echo $prodtls->sale_qty;
@@ -341,8 +341,8 @@
                    }
                   
                 //   echo round(($prodtls->qty - $prodtls->sale_qty)*$prodtls->rate,2);
-                  
-                echo round(($purqty - $salqty1)*$prodtls->rate,2);
+             //   echo''.$purqty.'<br>'.$salqty1.'<br>'.$prodtls->rate.'<br>';
+               echo round(($purqty - $salqty1)*$prodtls->rate,2);
                 $unsold=($unsold+round(($purqty - $salqty1)*$prodtls->rate,2));
 
                 // $purqty =0.00;

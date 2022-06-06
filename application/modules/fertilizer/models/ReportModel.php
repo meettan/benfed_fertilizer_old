@@ -1334,7 +1334,7 @@ SELECT c.short_name comp_name,
     d.prod_desc,
     a.ro_no,
     a.ro_dt,
-    0 as rate,
+    round(a.tot_amt /a.qty,3)  as rate,
     a.tot_amt as pur_net_amt,
     a.qty qty,
     0 sale_qty,
@@ -1363,8 +1363,7 @@ and a.ro_no not in (select sale_ro from td_sale
 
 
 /************************************************ */
-        public function p_sale_purchase($all_data)
-        {
+        public function p_sale_purchase($all_data){
             
             try {
                 $this->db->reconnect();

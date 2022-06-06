@@ -634,7 +634,10 @@ public function ps_pl_all(){
 
         $to_dt      =   $_POST['to_date'];
 
-        $comp=$_POST['comp_id'];
+        $compname=$_POST['comp_id'];
+        $arid=explode(',',$compname);
+        $comp=$arid[0];
+        $data['compName']=$arid[1];
 
         // $branch     =   $this->session->userdata['loggedin']['branch_id'];
 

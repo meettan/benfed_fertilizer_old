@@ -76,7 +76,7 @@
                                     foreach($company as $row){
                                 ?>
 
-                                    <option value="<?php echo $row->COMP_ID;?>"><?php echo $row->COMP_NAME;?></option>
+                                    <option value="<?php echo $row->COMP_ID;?>,<?php echo $row->COMP_NAME;?>"><?php echo $row->COMP_NAME;?></option>
                                 <?php
                                     }
                                 ?>
