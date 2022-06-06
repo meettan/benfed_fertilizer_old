@@ -1328,7 +1328,7 @@ and a.comp_id=c.comp_id
 and a.prod_id=d.prod_id
 and a.ro_dt between "'.$fdate.'" and "'.$tdate.'"
 and a.comp_id = '.$comp.'
-group by c.comp_name,d.prod_desc,a.ro_no,a.ro_dt,a.rate,a.tot_amt,a.qty,a.net_amt,d.unit
+group by c.comp_name,d.prod_desc,a.ro_no,a.ro_dt,round(a.tot_amt /a.qty,3),a.tot_amt,a.qty,d.unit,d.qty_per_bag,b.sale_rt
 UNION
 SELECT c.short_name comp_name,
     d.prod_desc,
