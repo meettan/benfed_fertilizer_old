@@ -1,6 +1,6 @@
 <div class="wraper">
 
-    <div class="col-md-11 container form-wraper">
+    <div class="col-md-12 container form-wraper">
 
         <form method="POST" id="adv" action="<?php echo site_url("adv/add_advdetail") ?>">
 
@@ -45,17 +45,23 @@
                 <div class="col-sm-12" id="detail">
                     <table class="table table-striped table-bordered">
                         <thead>
+                            <th style="text-align: center">receipt no</th>
                             <th style="text-align: center">Company</th>
                             <th style="text-align: center">Product</th>
-                            <th style="text-align: center">FO Number</th>
+                            <th style="text-align: center">FO</th>
                             <th style="text-align: center">RO Number</th>
+                            <th style="text-align: center">Qty</th>
+                            <th style="text-align: center">Rate</th>
                             <th style="text-align: center">Purchase Amount</th>
                             <th style="text-align: center">Detail</th>
                         </thead>
                         <?php $total_amount=0; foreach($allocate as $alloc) { $total_amount=($alloc->amount+$total_amount);  //print_r($key);?>
                         <tr>
                             <td>
-                                <select name="ecomp_id[]" style="width:250px" class="form-control comp_id" id=""
+                                <input type="text" name="ero_no[]" class="form-control ro_no" value="<?php echo $alloc->detail_receipt_no; ?>" id="" style="font-size: 12px;width:150px;" readonly>
+                            </td>
+                            <td>
+                                <select name="ecomp_id[]"  style="width:150px;font-size: 12px;" class="form-control comp_id" id=""
                                     disabled>
                                     <option value="">Select</option>
 
@@ -75,16 +81,34 @@
                             </td>
 
                             <td>
-                                <input type="text" name="efo_no[]" class="form-control fo_no"
-                                    value="<?php echo $alloc->fo_no; ?>" id="">
+                                <!-- <input type="text" name="efo_no[]" class="form-control fo_no" -->
+                                    <!-- value="<?php //echo $alloc->fo_no; ?>" id=""> -->
+
+                                    <select name="efo_no[]" style="width:100px" class="form-control fo_no" id=""
+                                    required disabled>
+                                    <option value="">Select</option>
+
+                                    <?php  foreach($folis as $folist){  ?>
+                                    <option style="font-size:12px ;" value="<?php echo $folist->fi_id;?>" <?php if($alloc->fo_no==$folist->fi_id){echo 'selected';} ?>><?php echo $folist->fo_name.', '.$folist->fo_number;?></option>
+                                    <?php  }  ?>
+
+                                </select>
                             </td>
                             <td>
                                 <input type="text" name="ero_no[]" class="form-control ro_no"
-                                    value="<?php echo $alloc->ro_no; ?>" id="">
+                                    value="<?php echo $alloc->ro_no; ?>" id="" readonly>
+                            </td>
+                            <td>
+                                <input type="text" name="" class="form-control ro_no"
+                                    value="<?php echo $alloc->qty; ?>" id="" readonly>
+                            </td>
+                            <td>
+                                <input type="text" name="" class="form-control ro_no"
+                                    value="<?php echo $alloc->rate; ?>" id="" readonly>
                             </td>
                             <td>
                                 <input type="text" name="eamount[]" class="form-control amount"
-                                    value="<?php  echo $alloc->amount; ?>" id="">
+                                    value="<?php  echo $alloc->amount; ?>" id="" readonly>
                             </td>
                             <td><button type="button" class="delete" id="<?php echo $alloc->detail_receipt_no;?>"
                                     data-toggle="tooltip" data-placement="bottom" title="Delete">
@@ -115,8 +139,10 @@
 
                         <th style="text-align: center">Company</th>
                         <th style="text-align: center">Product</th>
-                        <th style="text-align: center">FO Number</th>
+                        <th style="text-align: center">FO</th>
                         <th style="text-align: center">RO Number</th>
+                        <th style="text-align: center">Qty</th>
+                        <th style="text-align: center">Rate</th>
                         <th style="text-align: center">Amount</th>
                         <th>
                             <button class="btn btn-success" type="button" id="addrow" style="border-left: 10px"
@@ -147,13 +173,28 @@
                             </td>
 
                             <td>
-                                <input type="text" name="fo_no[]" class="form-control fo_no" value="" id="">
+                                <!-- <input type="text" name="fo_no[]" class="form-control fo_no" value="" id=""> -->
+                                <select name="fo_no[]"  class="form-control fo_no" id=""
+                                    required>
+                                    <option value="">Select</option>
+
+                                    <?php  foreach($folis as $folist){  ?>
+                                    <option value="<?php echo $folist->fi_id;?>"><?php echo $folist->fo_name.', '.$folist->fo_number;?></option>
+                                    <?php  }  ?>
+
+                                </select>
                             </td>
                             <td>
                                 <input type="text" name="ro_no[]" class="form-control ro_no" value="" id="">
                             </td>
                             <td>
-                                <input type="text" name="amount[]" class="form-control amount" value="" id="">
+                                <input type="text" name="qty[]" class="form-control qty" value="" id="qty">
+                            </td>
+                            <td>
+                                <input type="text" name="rate[]" class="form-control rate" value="" id="rate">
+                            </td>
+                            <td>
+                                <input type="text" name="amount[]" readonly class="form-control amount" value="" id="">
                             </td>
                             <td>
                                 <button class="btn btn-danger" type="button" data-toggle="tooltip"
@@ -199,17 +240,17 @@
     $(".sch_cd").select2();
 
 
-    $("#submit").click(function(){
-       
-    var adv_amt=parseFloat($('#totamt').val());
-    var tot_amt=parseFloat($('#total_input_amount').val());
+    $("#submit").click(function () {
 
-    if(tot_amt > adv_amt){
-        alert('Total amount must be less than advance amount');
-        //return false;
-        event.preventDefault();
-    }
-});
+        var adv_amt = parseFloat($('#totamt').val());
+        var tot_amt = parseFloat($('#total_input_amount').val());
+
+        if (tot_amt > adv_amt) {
+            alert('Total amount must be less than advance amount');
+            //return false;
+            event.preventDefault();
+        }
+    });
 </script>
 
 <script>
@@ -334,12 +375,18 @@
         $("#addrow").click(function () {
 
             var string = '';
+            var string2 = '';
 
             '<?php  foreach($compdtls as $key){  ?>';
 
             string +=
                 '<option value="<?php echo $key->comp_id;?>"><?php echo $key->comp_name;?></option>';
 
+            '<?php  }  ?>';
+
+           ' <?php  foreach($folis as $folist){  ?>';
+                string2 +=
+                       '<option value="<?php echo $folist->fi_id;?>"><?php echo $folist->fo_name.', '. $folist->fo_number;?></option>';
             '<?php  }  ?>';
 
 
@@ -354,13 +401,22 @@
                 '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" name="fo_no[]" class="form-control fo_no" id="" required>' +
+                
+                '<select name="fo_no[]" class="form-control fo_no" id="" required><option value="">Select</option>'+
+                string2+
+                '</select>'+
                 '</td>' +
                 '<td>' +
                 '<input type="text" name="ro_no[]" class="form-control ro_no" id="" required>' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" name="amount[]" class="form-control amount"  required>' +
+                '<input type="text" name="qty[]" class="form-control qty" value="" id="qty" >' +
+                '</td>' +
+                '<td>' +
+                '<input type="text" name="rate[]" class="form-control rate" value="" id="rate">' +
+                '</td>' +
+                '<td>' +
+                '<input type="text" name="amount[]" readonly class="form-control amount"  required>' +
                 '</td>' +
                 '<td>' +
                 '<button class="btn btn-danger" type= "button" data-toggle="tooltip" data-original-title="Remove Row" data-placement="bottom" id="removeRow"><i class="fa fa-remove" aria-hidden="true"></i></button>' +
@@ -388,10 +444,11 @@
             alert('Please select a valid advance');
             e.preventDefault();
         }
-        // else if(allocte_amt > totalamt){
-        //   alert('Please Correct Amount');
-        //  e.preventDefault();
-        // }
+        // else 
+        if (allocte_amt > totalamt) {
+            alert('Please Correct Amount');
+            e.preventDefault();
+        }
     });
     $(document).ready(function () {
 
@@ -400,7 +457,7 @@
             var tot_amt = 0.00;
             $('.amount').each(function () {
                 tot_amt += parseFloat($(this).val()) ? parseFloat($(this).val()) :
-                0.00; // Or this.innerHTML, 
+                    0.00; // Or this.innerHTML, 
             });
             $('#tot_amt').html(tot_amt);
             $('#total_input_amount').val(tot_amt);
@@ -413,13 +470,14 @@
 
             var id = $(this).attr('id');
             console.log(id);
-            var rcpt=$('#receipt_no').val();
+            var rcpt = $('#receipt_no').val();
 
             var result = confirm("Do you really want to delete this record?");
 
             if (result) {
 
-                window.location = "<?php echo site_url('adv/advdetailDel?rcpt=" + rcpt + "&receipt_no=" + id + "');?>";
+                window.location = "<?php echo site_url('adv/advdetailDel?rcpt=" + rcpt +
+                    "&receipt_no=" + id + "');?>";
 
             }
 
@@ -430,18 +488,43 @@
 
 <script>
     // var total_mount=<?php  //$total_amount ?>;
-   
-    
+
+
     // $('.amount').change(function(){
-        
+
     //     var totalSum = 0;
     //     $('.amount').each(function () {
     //         totalSum += parseFloat(this.value);
     //     });
     //     alert(totalSum);
     //     if(total_amt!=totalSum){
-            
+
     //     }
     // });
-    
+</script>
+<script>
+    // $('.qty').change(function(){
+    //     $(this).val();
+    // });
+
+
+    $('.table tbody').on('change', '.qty', function () {
+        var qty = $(this).val();
+       
+        let row = $(this).closest('tr');
+
+        var rate = parseFloat(row.find('td:eq(5) .rate').val());
+        var totalAmt = (qty * rate);
+        row.find('td:eq(6) .amount').val(parseFloat(totalAmt).toFixed(2));
+    });
+
+    $('.table tbody').on('change', '.rate', function () {
+        var rate = $(this).val();
+       
+        let row = $(this).closest('tr');
+
+        var qty = parseFloat(row.find('td:eq(4) .qty').val());
+        var totalAmt = (qty * rate);
+        row.find('td:eq(6) .amount').val(parseFloat(totalAmt).toFixed(2));
+    });
 </script>

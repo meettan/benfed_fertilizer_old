@@ -79,6 +79,11 @@
                         
                     </select>
                 </div>
+                <label for="Receipt No" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4 poenbtn">
+                <button class="btn btn-success poenbtn" id="poenbtn">Open Advance</button>
+                <input type="hidden" value="" id="rep_id">
+                </div>
                 <!-- <label class="col-sm-2 col-form-label">Total Advance</label>
                 <label class="col-sm-2 col-form-label">Amount Already paid</label>
                 <label class="col-sm-2 col-form-label">Amount to be paid</label>
@@ -147,6 +152,7 @@
 $( document ).ajaxComplete(function() {
     $("#receipt_no").change(function(){
         var receipt_no = $(this).val();
+        $('#rep_id').val(receipt_no);
 		 var comp_id = $('#company').val();
 		  var dist    = $('#dist').val();
         $("#list").html('');
@@ -256,6 +262,9 @@ $("#submit").hide();
             });
 
             $("#receipt_no").html(string);
+            if(string!=null || string!=''){
+                $('.poenbtn').show();
+            }
             
           });
 
@@ -278,4 +287,15 @@ $("#submit").hide();
     //             }
     //         });
     // })
+
+    $('.poenbtn').hide();
+
+    $('#poenbtn').click(function(){
+        var recno=$('#rep_id').val();
+        alert(recno);
+        if(recno!=null){
+            window.location.href = "<?=site_url('adv/editadv?rcpt=')?>"+recno;
+        }
+       
+    });
 </script>

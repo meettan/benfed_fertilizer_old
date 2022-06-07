@@ -732,6 +732,8 @@ public function add_advdetail(){
 			$fo_no    = $this->input->post('fo_no');
 			$ro_no    = $this->input->post('ro_no');
 			$amount   = $this->input->post('amount');
+			$qyt   = $this->input->post('qty');
+			$rate   = $this->input->post('rate');
             $tot_amt =array_sum($amount);
             for($i=0;$i < count($amount);$i++){
                 $maxid = $this->AdvanceModel->f_select('td_adv_details',array("ifnull(max(id),0)+1 as id"),array("fin_yr"=>$finYr),1);
@@ -746,6 +748,8 @@ public function add_advdetail(){
             		'prod_id'=> $prod_id[$i],
             		'fo_no'=> $fo_no[$i],
             		'ro_no'=> $ro_no[$i],
+					'qty'=>$qyt[$i],
+					'rate'=>$rate[$i],
             		'amount'=> $amount[$i],
             		'branch_id' => $branch,
             		'fin_yr'    => $finYr,
@@ -799,11 +803,14 @@ public function add_advdetail(){
 		                      );
 
 	    $data['advdtl'] = $this->AdvanceModel->f_select('tdf_advance a,mm_ferti_soc b',$selectavd,$whereadv,1);
-	    $selectall   = array('a.detail_receipt_no','a.comp_id','a.prod_id','a.fo_no','a.ro_no','a.amount','b.PROD_DESC');
+	    $selectall   = array('a.detail_receipt_no','a.qty','a.rate','a.detail_receipt_no','a.comp_id','a.prod_id','a.fo_no','a.ro_no','a.amount','b.PROD_DESC');
         $whereall    = array('a.prod_id =b.PROD_ID' => NULL,'a.receipt_no'    =>  $receipt_no,
     				         'a.fin_yr'        =>  $finYr);
 
 	    $data['allocate'] = $this->AdvanceModel->f_select('td_adv_details a,mm_product b',$selectall,$whereall,0);
+		$where3  =	array("dist_id" => $this->session->userdata['loggedin']['branch_id']);
+	
+		$data['folis']    = $this->AdvanceModel->f_select('mm_fo_master',$select=NULL,$where3,0);
 
 		$this->load->view('post_login/fertilizer_main');
 		$this->load->view("advance/addadv_detail",$data);

@@ -97,9 +97,6 @@ public function f_get_pan_cnt(){
 // Add Soceity
 
 public function soceityAdd(){
-	
-	
-	
 	if($_SERVER['REQUEST_METHOD'] == "POST") {
 
 		$soc= $this->FertilizerModel->f_get_acc();
@@ -1593,6 +1590,99 @@ public function deletesalerate(){
 			$this->load->view("bank/edit",$sch);
 
 			$this->load->view("post_login/footer");
+		}
+	}
+	public function fomasteradd(){
+		if($this->input->post()){
+
+			$fono=$this->input->post('fono');
+			$foname=$this->input->post('foname');
+			$virtualno=$this->input->post('virtualno');
+			if(!empty($this->input->post('branchId'))){
+				$data=array(
+					'fo_number'=>$fono,
+					'fo_name '=>$foname,
+					'fo_virtual_no'=>$virtualno,
+					'dist_id'=>$this->input->post('branchId'),
+					'create_by'=>$this->session->userdata('loggedin')['user_name'],
+					'ctrate_dt'=>date('Y-m-d H:i:s')
+				);
+			}else{
+				$data=array(
+					'fo_number'=>$fono,
+					'fo_name '=>$foname,
+					'fo_virtual_no'=>$virtualno,
+					'dist_id'=>$this->session->userdata('loggedin')['branch_id'],
+					'create_by'=>$this->session->userdata('loggedin')['user_name'],
+					'ctrate_dt'=>date('Y-m-d H:i:s')
+				);
+			}
+			$this->FertilizerModel->f_insert('mm_fo_master', $data);
+			redirect('fomaster');
+		}else{
+			$select_dist           = array("district_code","district_name");	
+				$society['distDtls']   = $this->FertilizerModel->f_select('md_district',$select_dist,NULL,0);
+				$this->load->view('post_login/fertilizer_main');
+				$this->load->view("soceity/fomaster/add",$society);
+				$this->load->view('post_login/footer');
+		}
+	}
+	public function fomaster(){
+
+		if($this->session->userdata('loggedin')['branch_id']!=342){
+			redirect(site_url('Fertilizer_Login/main'));
+	
+		$where  =	array("dist_id" => $this->session->userdata['loggedin']['branch_id']);
+		$fomaster['data']    = $this->FertilizerModel->f_select('mm_fo_master',$select=NULL,$where,0);
+		redirect(site_url('Fertilizer_Login/main'));
+		}else{
+			$where=array(
+				'a.dist_id=b.district_code'=>null
+			);
+			$fomaster['data']    = $this->FertilizerModel->f_select('mm_fo_master a ,md_district b',$select=NULL,$where,0);
+		}
+	
+		
+	
+		$this->load->view("post_login/fertilizer_main");
+	
+		$this->load->view("soceity/fomaster/dashboard",$fomaster);
+	
+		$this->load->view('search/search');
+	
+		$this->load->view('post_login/footer');
+	}
+	public function fomasteredit($id){
+		if($this->input->post()){
+			
+			$foname=$this->input->post('foname');
+			
+				$data=array(
+					'fo_name '=>$foname,
+					'create_by'=>$this->session->userdata('loggedin')['user_name'],
+					'ctrate_dt'=>date('Y-m-d H:i:s')
+				);
+			
+			$where = array( "fi_id" => $id );
+		
+
+		$this->FertilizerModel->f_edit('mm_fo_master', $data, $where);
+			redirect('fomaster');
+		}else{
+			if($this->session->userdata('loggedin')['branch_id']!=342){
+				redirect(site_url('Fertilizer_Login/main'));
+			
+						}else{
+							$where  =	array('fi_id' =>$id);
+						}
+
+							$select_dist           = array("district_code","district_name");	
+				$fomaster['distDtls']   = $this->FertilizerModel->f_select('md_district',$select_dist,NULL,0);
+	
+			$fomaster['data']    = $this->FertilizerModel->f_select('mm_fo_master',$select=NULL,$where,1);
+				$this->load->view('post_login/fertilizer_main');
+				$this->load->view("soceity/fomaster/add_edit",$fomaster);
+				$this->load->view('post_login/footer');
 		}
 	}
 
