@@ -116,7 +116,9 @@
                                     <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                 </button> </td>
                         </tr>
+                        
                         <?php } ?>
+                        
                     </table>
                 </div>
             </div>
@@ -446,13 +448,13 @@
         }
         // else 
         if (allocte_amt > totalamt) {
-            alert('Please Correct Amount');
+            alert('Total amount must be less than amount');
             e.preventDefault();
         }
     });
     $(document).ready(function () {
 
-        $("#intro").on("change", ".amount", function () {
+        $("#intro").on("change", ".rate", function () {
 
             var tot_amt = 0.00;
             $('.amount').each(function () {
@@ -462,7 +464,18 @@
             $('#tot_amt').html(tot_amt);
             $('#total_input_amount').val(tot_amt);
 
-        })
+        });
+        $("#intro").on("change", ".rate", function () {
+
+var tot_amt = 0.00;
+$('.amount').each(function () {
+    tot_amt += parseFloat($(this).val()) ? parseFloat($(this).val()) :
+        0.00; // Or this.innerHTML, 
+});
+$('#tot_amt').html(tot_amt);
+$('#total_input_amount').val(tot_amt);
+
+})
     })
     $(document).ready(function () {
 
