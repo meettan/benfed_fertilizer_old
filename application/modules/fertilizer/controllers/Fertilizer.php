@@ -1623,7 +1623,7 @@ public function deletesalerate(){
 			$select_dist           = array("district_code","district_name");	
 				$society['distDtls']   = $this->FertilizerModel->f_select('md_district',$select_dist,NULL,0);
 				$this->load->view('post_login/fertilizer_main');
-				$this->load->view("soceity/fomaster/add",$society);
+				$this->load->view("fomaster/add",$society);
 				$this->load->view('post_login/footer');
 		}
 	}
@@ -1646,7 +1646,7 @@ public function deletesalerate(){
 	
 		$this->load->view("post_login/fertilizer_main");
 	
-		$this->load->view("soceity/fomaster/dashboard",$fomaster);
+		$this->load->view("fomaster/dashboard",$fomaster);
 	
 		$this->load->view('search/search');
 	
@@ -1681,7 +1681,7 @@ public function deletesalerate(){
 	
 			$fomaster['data']    = $this->FertilizerModel->f_select('mm_fo_master',$select=NULL,$where,1);
 				$this->load->view('post_login/fertilizer_main');
-				$this->load->view("soceity/fomaster/add_edit",$fomaster);
+				$this->load->view("fomaster/add_edit",$fomaster);
 				$this->load->view('post_login/footer');
 		}
 	}
