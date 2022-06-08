@@ -88,7 +88,7 @@
 
 				<div class="col-sm-4">
 
-					<input type="date" id=trans_dt name="trans_dt" class="form-control" required />
+					<input type="date" min="" id=trans_dt name="trans_dt" class="form-control mindate" required />
 
 				</div>
 				<div class="col-sm-2">
@@ -212,4 +212,6 @@
 			$(".acno").hide();
 		}
 	});
+
+	$('.mindate').attr( 'min','<?=$date->end_yr ?>-<?=sprintf("%02d", $date->end_mnth)?>-01');
 </script>

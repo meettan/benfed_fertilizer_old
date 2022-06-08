@@ -586,6 +586,12 @@ public function drnoteReport()
 						) ;
 					$product['saleinv']   = $this->DrcrnoteModel->f_select('td_sale',$select,$whereinv,0);
 					$product['mntend']= $this->PurchaseModel->f_get_mnthend($branch );
+
+					$wherBranch=array('branch_id'=> $this->session->userdata['loggedin']['branch_id']);
+
+				$product['date']   = $this->PurchaseModel->f_select('td_month_end',$select=null,$wherBranch,1);
+
+
 					$this->load->view('post_login/fertilizer_main');
 				
 					$this->load->view("dr_note/add",$product);

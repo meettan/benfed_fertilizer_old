@@ -1384,6 +1384,9 @@ public function f_get_sale_ro(){
 				
 				// print_r($product);
 				// die();
+				$wherBranch=array('branch_id'=> $this->session->userdata['loggedin']['branch_id']);
+
+				$product['date']   = $this->PurchaseModel->f_select('td_month_end',$select=null,$wherBranch,1);
 				
 		$this->load->view('post_login/fertilizer_main');
 

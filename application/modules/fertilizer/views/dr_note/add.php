@@ -155,8 +155,8 @@
                 <label for="trans_dt" class="col-sm-2 col-form-label">Credit Note Date:</label>
 
                 <div class="col-sm-4">
-                    <input type="date" id="trans_dt" name="trans_dt" value="<?php echo set_value('trans_dt'); ?>"
-                        class="form-control" required />
+                    <input type="date" id="trans_dt" min="" name="trans_dt" value="<?php echo set_value('trans_dt'); ?>"
+                        class="form-control mindate" required />
                 </div>
 
                 <!-- <label for="dr_amt" class="col-sm-2 col-form-label">Amount:</label> -->
@@ -547,13 +547,16 @@
 <script>
     $(document).ready(function () {
 
-        var today = new Date();
-        var curr_mnth = ("0" + (today.getMonth() + 1)).slice(-2);
-        var sdate = $('#mnthenddt').val();
-        //alert(sdate);
-        $('#trans_dt').prop('min', sdate);
+        // var today = new Date();
+        // var curr_mnth = ("0" + (today.getMonth() + 1)).slice(-2);
+        // var sdate = $('#mnthenddt').val();
+        // //alert(sdate);
+        // $('#trans_dt').prop('min', sdate);
 
 
     });
     $(".sch_cd").select2();
+</script>
+<script>
+    $('.mindate').attr( 'min','<?=$date->end_yr ?>-<?=sprintf("%02d", $date->end_mnth)?>-01');
 </script>

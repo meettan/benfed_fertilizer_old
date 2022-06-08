@@ -201,7 +201,7 @@
 
     				<label for="ro_dt" class="col-sm-1 col-form-label">Ro Date:</label>
     				<div class="col-sm-3">
-    					<input type="date" style="width:200px" id=ro_dt name="ro_dt" class="form-control" required />
+    					<input type="date" min="" style="width:200px" id=ro_dt name="ro_dt" class="form-control mindate" required />
     				</div>
     				<label for="no_of_days" class="col-sm-1 col-form-label">No Of Days:</label>
     				<div class="col-sm-3">
@@ -247,7 +247,7 @@
     				<label for="invoice_dt" class="col-sm-1 col-form-label">Invoice Dt:</label>
     				<div class="col-sm-3">
 
-    					<input type="date" style="width:200px" id=invoice_dt name="invoice_dt" class="form-control"
+    					<input type="date" min="" style="width:200px" id=invoice_dt name="invoice_dt" class="form-control mindate"
     						required />
     				</div>
     				<!-- <label for="unit" class="col-sm-1 col-form-label">Unit:</label>
@@ -309,7 +309,7 @@
     				<label for="trans_dt" class="col-sm-1 col-form-label">*Purchase Date:</label>
     				<div class="col-sm-3">
 
-    					<input type="date" style="width:200px" id=trans_dt name="trans_dt" class="form-control"
+    					<input type="date" min="" style="width:200px" id=trans_dt name="trans_dt" class="form-control mindate"
     						value="<?php echo set_value('trans_dt'); ?>" />
     				</div>
     			</div>
@@ -2187,4 +2187,8 @@ document.getElementById("demo").innerHTML = d;
 
 
     	});
+
+
+		$('.mindate').attr( 'min','<?=$date->end_yr ?>-<?=sprintf("%02d", $date->end_mnth)?>-01');
+		
     </script>
