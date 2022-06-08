@@ -799,30 +799,64 @@ public function add_advdetail(){
 
 		}else {
 
-            $select    = array("receipt_no");
-            $where     = array('branch_id'  => $branch,'fin_yr' => $finYr);
-			$data['receipts'] = $this->AdvanceModel->f_select('tdf_advance',$select,$where,0);
-			$selectcompany         = array("comp_id","comp_name");
-			$data['compdtls']   = $this->AdvanceModel->f_select('mm_company_dtls',$selectcompany,NULL,0);
-			$receipt_no     = $this->input->get('rcpt'); 
-			$branch         = $this->session->userdata['loggedin']['branch_id'];
-			$finYr          = $this->session->userdata['loggedin']['fin_id'];
-		    $selectavd   = array('a.*','b.soc_name');
-		    $whereadv    = array('a.soc_id = b.soc_id' => NULL,
-		    				  'a.receipt_no'    =>  $receipt_no,
-		    				  'a.branch_id'     =>  $branch,
-		    				  'a.fin_yr'        =>  $finYr
-		                      );
+			if($this->session->userdata['loggedin']['branch_id']==342){
+						unset($branch);
+						$branchdaat=$this->AdvanceModel->f_select('td_adv_details',array('branch_id'),array('receipt_no'=>$this->input->get('rcpt')),1);
+							
+						$branch=$branchdaat->branch_id;
+						$select    = array("receipt_no");
+						$where     = array('branch_id'  => $branch,'fin_yr' => $finYr);
+						$data['receipts'] = $this->AdvanceModel->f_select('tdf_advance',$select,$where,0);
+						$selectcompany         = array("comp_id","comp_name");
+						$data['compdtls']   = $this->AdvanceModel->f_select('mm_company_dtls',$selectcompany,NULL,0);
+						$receipt_no     = $this->input->get('rcpt'); 
+					
+						$finYr          = $this->session->userdata['loggedin']['fin_id'];
+						$selectavd   = array('a.*','b.soc_name');
+						$whereadv    = array('a.soc_id = b.soc_id' => NULL,
+										'a.receipt_no'    =>  $receipt_no,
+										'a.branch_id'     =>  $branch,
+										'a.fin_yr'        =>  $finYr
+										);
 
-	    $data['advdtl'] = $this->AdvanceModel->f_select('tdf_advance a,mm_ferti_soc b',$selectavd,$whereadv,1);
-	    $selectall   = array('a.detail_receipt_no','a.qty','a.rate','a.detail_receipt_no','a.comp_id','a.prod_id','a.fo_no','a.ro_no','a.amount','b.PROD_DESC');
-        $whereall    = array('a.prod_id =b.PROD_ID' => NULL,'a.receipt_no'    =>  $receipt_no,
-    				         'a.fin_yr'        =>  $finYr);
+						$data['advdtl'] = $this->AdvanceModel->f_select('tdf_advance a,mm_ferti_soc b',$selectavd,$whereadv,1);
+						$selectall   = array('a.detail_receipt_no','a.qty','a.rate','a.detail_receipt_no','a.comp_id','a.prod_id','a.fo_no','a.ro_no','a.amount','b.PROD_DESC');
+						$whereall    = array('a.prod_id =b.PROD_ID' => NULL,'a.receipt_no'    =>  $receipt_no,
+											'a.fin_yr'        =>  $finYr);
 
-	    $data['allocate'] = $this->AdvanceModel->f_select('td_adv_details a,mm_product b',$selectall,$whereall,0);
-		$where3  =	array("dist_id" => $this->session->userdata['loggedin']['branch_id']);
-	
-		$data['folis']    = $this->AdvanceModel->f_select('mm_fo_master',$select=NULL,$where3,0);
+						$data['allocate'] = $this->AdvanceModel->f_select('td_adv_details a,mm_product b',$selectall,$whereall,0);
+						$where3  =	array("dist_id" => $this->session->userdata['loggedin']['branch_id']);
+					
+						$data['folis']    = $this->AdvanceModel->f_select('mm_fo_master',$select=NULL,$where3,0);
+			}else{
+
+						$select    = array("receipt_no");
+						$where     = array('branch_id'  => $branch,'fin_yr' => $finYr);
+						$data['receipts'] = $this->AdvanceModel->f_select('tdf_advance',$select,$where,0);
+						$selectcompany         = array("comp_id","comp_name");
+						$data['compdtls']   = $this->AdvanceModel->f_select('mm_company_dtls',$selectcompany,NULL,0);
+						$receipt_no     = $this->input->get('rcpt'); 
+						$branch         = $this->session->userdata['loggedin']['branch_id'];
+						$finYr          = $this->session->userdata['loggedin']['fin_id'];
+						$selectavd   = array('a.*','b.soc_name');
+						$whereadv    = array('a.soc_id = b.soc_id' => NULL,
+										'a.receipt_no'    =>  $receipt_no,
+										'a.branch_id'     =>  $branch,
+										'a.fin_yr'        =>  $finYr
+										);
+
+						$data['advdtl'] = $this->AdvanceModel->f_select('tdf_advance a,mm_ferti_soc b',$selectavd,$whereadv,1);
+						$selectall   = array('a.detail_receipt_no','a.qty','a.rate','a.detail_receipt_no','a.comp_id','a.prod_id','a.fo_no','a.ro_no','a.amount','b.PROD_DESC');
+						$whereall    = array('a.prod_id =b.PROD_ID' => NULL,'a.receipt_no'    =>  $receipt_no,
+											'a.fin_yr'        =>  $finYr);
+
+						$data['allocate'] = $this->AdvanceModel->f_select('td_adv_details a,mm_product b',$selectall,$whereall,0);
+						$where3  =	array("dist_id" => $this->session->userdata['loggedin']['branch_id']);
+					
+						$data['folis']    = $this->AdvanceModel->f_select('mm_fo_master',$select=NULL,$where3,0);
+
+				}
+		//echo $this->session->userdata['loggedin']['branch_id'];
 
 		$this->load->view('post_login/fertilizer_main');
 		$this->load->view("advance/addadv_detail",$data);

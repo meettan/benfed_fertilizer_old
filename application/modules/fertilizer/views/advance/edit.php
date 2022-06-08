@@ -1,9 +1,9 @@
 <div class="wraper">
 
     <div class="col-md-11 container form-wraper">
-
+    <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
         <form method="POST" id="product" action="<?php echo site_url("adv/editadv") ?>">
-
+<?php } ?>
             <div class="form-header">
 
                 <h4>Edit Advance</h4>
@@ -140,7 +140,7 @@
                     <textarea id=remarks name="remarks" class="form-control"><?php echo $advDtls->remarks; ?></textarea>
                 </div>
             </div>
-
+            <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
             <div class="form-group row">
                 <div class="col-sm-10">
 
@@ -149,8 +149,10 @@
 
 
             </div>
+           
         </form>
-
+        <?php } ?>
+       
         <div class="form-group row">
             <div class="col-sm-10">
 
@@ -163,6 +165,7 @@
             </div>
 
         </div>
+        
 
     </div>
 </div>

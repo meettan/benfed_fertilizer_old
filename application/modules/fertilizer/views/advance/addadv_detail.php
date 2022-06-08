@@ -1,9 +1,9 @@
 <div class="wraper">
 
     <div class="col-md-12 container form-wraper">
-
+    <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
         <form method="POST" id="adv" action="<?php echo site_url("adv/add_advdetail") ?>">
-
+<?php } ?>
             <div class="form-header">
 
                 <h4>Edit Advance</h4>
@@ -53,7 +53,9 @@
                             <th style="text-align: center">Qty</th>
                             <th style="text-align: center">Rate</th>
                             <th style="text-align: center">Purchase Amount</th>
+                            <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
                             <th style="text-align: center"></th>
+                            <?php } ?>
                         </thead>
                         <?php $total_amount=0; $totalQty=0.0;$totalrate=0.00; foreach($allocate as $alloc) { $totalQty=$alloc->qty+$totalQty;$totalrate=$alloc->rate+$totalrate; $total_amount=($alloc->amount+$total_amount);  //print_r($key);?>
                         <tr>
@@ -110,11 +112,13 @@
                                 <input type="text" name="eamount[]" class="form-control amountt"
                                     value="<?php  echo $alloc->amount; ?>" id="" readonly>
                             </td>
+                            <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
                             <td><button type="button" class="delete" id="<?php echo $alloc->detail_receipt_no;?>"
                                     data-toggle="tooltip" data-placement="bottom" title="Delete">
 
                                     <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                 </button> </td>
+                                <?php } ?>
                         </tr>
                         
                         <?php } ?>
@@ -134,11 +138,11 @@
                     value="" />
 
             </div>
-
+            <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
             <div class="form-header">
                 <h4>Advance Details</h4>
             </div>
-
+            
             <div class="form-group row">
 
                 <table class="table table-striped table-bordered table-hover">
@@ -236,6 +240,7 @@
                 </table>
 
             </div>
+          
             <div class="form-group row">
                 <div class="col-sm-10">
 
@@ -243,8 +248,9 @@
                 </div>
 
             </div>
+           
         </form>
-
+        <?php } ?>
     </div>
 </div>
 
