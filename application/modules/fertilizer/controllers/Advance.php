@@ -629,9 +629,14 @@ $branchid=0;
 
 				$society['bnk_dtls']    = $this->AdvanceModel->f_getbnk_dtl($branch);	
 
-				$wherBranch=array('branch_id'=> $this->session->userdata['loggedin']['branch_id']);
+				
 
-				$society['date']   = $this->AdvanceModel->f_select('td_month_end',$select=null,$wherBranch,1);
+				
+
+				$society['date']   = $this->AdvanceModel->get_monthendDate();
+				// print_r($society['date']);
+				// echo $this->session->userdata['loggedin']['branch_id'];
+				// exit();
 
 				$this->load->view('post_login/fertilizer_main');
 

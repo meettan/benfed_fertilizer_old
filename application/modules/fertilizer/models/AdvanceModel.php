@@ -276,6 +276,11 @@ return $result;
 
 								
 		}
+		public function  get_monthendDate(){
+			
+			$branchId=$this->session->userdata['loggedin']['branch_id'];
+			return $this->db->query('SELECT * FROM td_month_end  where branch_id = '.$branchId.' and   sl_no = (select max(sl_no) from td_month_end  where  branch_id = '.$branchId.')')->row();
+		}
  
 	}
 ?>

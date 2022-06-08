@@ -217,7 +217,7 @@
     			<div class="form-group row">
     				<label for="due_dt" class="col-sm-1 col-form-label">Due Date:</label>
     				<div class="col-sm-3">
-    					<input type="date" style="width:200px" id=due_dt name="due_dt" class="form-control" required />
+    					<input type="date" min="" style="width:200px" id=due_dt name="due_dt" class="form-control mindate" required />
     				</div>
     				<label for="delivery_mode" class="col-sm-1 col-form-label">Delivery Mode:</label>
     				<div class="col-sm-3">
@@ -1665,26 +1665,26 @@
 
     <script>
     	$(document).ready(function () {
-    		$("#due_dt").change(function () {
+    		// $("#due_dt").change(function () {
 
-    			var ro_dt = $('#due_dt').val();
-    			var d = new Date();
-    			var month = d.getMonth() + 1;
-    			var day = d.getDate();
+    		// 	var ro_dt = $('#due_dt').val();
+    		// 	var d = new Date();
+    		// 	var month = d.getMonth() + 1;
+    		// 	var day = d.getDate();
 
-    			var output = d.getFullYear() + '-' +
-    				(month < 10 ? '0' : '') + month + '-' +
-    				(day < 10 ? '0' : '') + day;
+    		// 	var output = d.getFullYear() + '-' +
+    		// 		(month < 10 ? '0' : '') + month + '-' +
+    		// 		(day < 10 ? '0' : '') + day;
 
-    			// console.log(trans_dt,output);
-    			if (new Date(output) > new Date(ro_dt)) {
-    				alert("Due Date Can Not Be Less Than Current Date");
-    				$('#submit').attr('type', 'buttom');
-    				return false;
-    			} else {
-    				$('#submit').attr('type', 'submit');
-    			}
-    		})
+    		// 	// console.log(trans_dt,output);
+    		// 	if (new Date(output) > new Date(ro_dt)) {
+    		// 		alert("Due Date Can Not Be Less Than Current Date");
+    		// 		$('#submit').attr('type', 'buttom');
+    		// 		return false;
+    		// 	} else {
+    		// 		$('#submit').attr('type', 'submit');
+    		// 	}
+    		// })
     	});
     </script>
 
