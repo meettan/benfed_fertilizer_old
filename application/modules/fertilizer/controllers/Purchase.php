@@ -1138,6 +1138,7 @@ public function f_get_sale_ro(){
 			$invoice_dt    = $this->input->post('invoice_dt');
 
 			$qty           = $this->input->post('qty');
+			$receipt_no    = $this->input->post('receipt_no');
 
 			$unit           = $this->input->post('unit');
 
@@ -1232,6 +1233,7 @@ public function f_get_sale_ro(){
 					"invoice_dt"   =>  $invoice_dt,
 
 					"qty"          =>  $qty,
+					"advance_receipt_no"   =>$receipt_no,
 
 					"unit"         => $unit,
 
@@ -1449,6 +1451,7 @@ public function viewstock(){
 			"invoice_dt" 		=> $this->input->post('invoice_dt'),
 
 			"qty" 				=> $this->input->post('qty'),
+			"advance_receipt_no"=>$this->input->post('receipt_no'),
 
 			"unit" 				=> $this->input->post('unit_id'),
 

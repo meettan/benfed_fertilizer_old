@@ -217,7 +217,7 @@
 				</div>
 				<label for="no_of_days" class="col-sm-1 col-form-label">No Of Days:</label>
 				<div class="col-sm-3">
-					<input type="text" style="width:80px" id=no_of_days name="no_of_days" class="form-control"
+					<input type="text" style="width:200px" id=no_of_days name="no_of_days" class="form-control"
 						value="<?php echo $stock->no_of_days; ?>" required />
 				</div>
 				<!-- <label for="due_dt" class="col-sm-1 col-form-label">Due Date:</label>
@@ -236,7 +236,7 @@
 
 				<div class="col-sm-3">
 
-					<input type="date" style="width:150px" name="due_dt" class="form-control required"
+					<input type="date" style="width:200px" name="due_dt" class="form-control required"
 						value="<?php echo $stock->due_dt; ?>" />
 				</div>
 				<label for="delivery_mode" class="col-sm-1 col-form-label">Delivery Mode:</label>
@@ -278,7 +278,7 @@
 
 				<div class="col-sm-3">
 
-					<input type="date" style="width:150px" name="invoice_dt" class="form-control required"
+					<input type="date" style="width:200px" name="invoice_dt" class="form-control required"
 						value="<?php echo $stock->invoice_dt; ?>" />
 
 				</div>
@@ -291,6 +291,12 @@
 						value="<?php echo $stock->qty; ?>" />
 
 				</div>
+				<label for="qty" class="col-sm-1 col-form-label">Advance Receipt No:</label>
+    				<div class="col-sm-3">
+
+    					<input type="text" style="width:200px" id="receipt_no" name="receipt_no" class="form-control receipt_no" value="<?php echo $stock->advance_receipt_no; ?>" />
+
+    			</div>
 				<!-- <label for="unit" class="col-sm-1 col-form-label">Unit:</label>
 
 					<div class="col-sm-3">
@@ -314,7 +320,7 @@
 
 				<div class="col-sm-3">
 
-					<input type="text" style="width:150px" name="no_of_bags" class="form-control required"
+					<input type="text" style="width:200px" name="no_of_bags" class="form-control required"
 						value="<?php echo $stock->no_of_bags; ?>" readonly />
 
 				</div>
@@ -322,7 +328,7 @@
 				<label for="trans_dt" class="col-sm-1 col-form-label">Purchase Date:</label>
 				<div class="col-sm-3">
 
-					<input type="date" style="width:150px" id="trans_dt" name="trans_dt" class="form-control"
+					<input type="date" style="width:200px" id="trans_dt" name="trans_dt" class="form-control"
 						value="<?php echo $stock->trans_dt; ?>" />
 				</div>
 

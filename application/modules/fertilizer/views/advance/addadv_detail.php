@@ -45,7 +45,7 @@
                 <div class="col-sm-12" id="detail">
                     <table class="table table-striped table-bordered">
                         <thead>
-                            <th style="text-align: center">receipt no</th>
+                            <th style="text-align: center">Receipt no</th>
                             <th style="text-align: center">Company</th>
                             <th style="text-align: center">Product</th>
                             <th style="text-align: center">FO</th>
@@ -53,9 +53,9 @@
                             <th style="text-align: center">Qty</th>
                             <th style="text-align: center">Rate</th>
                             <th style="text-align: center">Purchase Amount</th>
-                            <th style="text-align: center">Detail</th>
+                            <th style="text-align: center"></th>
                         </thead>
-                        <?php $total_amount=0; foreach($allocate as $alloc) { $total_amount=($alloc->amount+$total_amount);  //print_r($key);?>
+                        <?php $total_amount=0; $totalQty=0.0;$totalrate=0.00; foreach($allocate as $alloc) { $totalQty=$alloc->qty+$totalQty;$totalrate=$alloc->rate+$totalrate; $total_amount=($alloc->amount+$total_amount);  //print_r($key);?>
                         <tr>
                             <td>
                                 <input type="text" name="ero_no[]" class="form-control ro_no" value="<?php echo $alloc->detail_receipt_no; ?>" id="" style="font-size: 12px;width:150px;" readonly>
@@ -99,15 +99,15 @@
                                     value="<?php echo $alloc->ro_no; ?>" id="" readonly>
                             </td>
                             <td>
-                                <input type="text" name="" class="form-control ro_no"
+                                <input type="text" name="" class="form-control qtyy"
                                     value="<?php echo $alloc->qty; ?>" id="" readonly>
                             </td>
                             <td>
-                                <input type="text" name="" class="form-control ro_no"
+                                <input type="text" name="" class="form-control ratee"
                                     value="<?php echo $alloc->rate; ?>" id="" readonly>
                             </td>
                             <td>
-                                <input type="text" name="eamount[]" class="form-control amount"
+                                <input type="text" name="eamount[]" class="form-control amountt"
                                     value="<?php  echo $alloc->amount; ?>" id="" readonly>
                             </td>
                             <td><button type="button" class="delete" id="<?php echo $alloc->detail_receipt_no;?>"
@@ -118,6 +118,12 @@
                         </tr>
                         
                         <?php } ?>
+                        <tr>
+                            <td colspan="5">Total</td>
+                            <td><?php echo $totalQty; ?></td>
+                            <td><?=$totalrate?></td>
+                            <td><?=$total_amount?></td>
+                        </tr>
                         
                     </table>
                 </div>
@@ -176,8 +182,7 @@
 
                             <td>
                                 <!-- <input type="text" name="fo_no[]" class="form-control fo_no" value="" id=""> -->
-                                <select name="fo_no[]"  class="form-control fo_no" id=""
-                                    required>
+                                <select name="fo_no[]"  class="form-control fo_no" id=""  >
                                     <option value="">Select</option>
 
                                     <?php  foreach($folis as $folist){  ?>
@@ -211,6 +216,12 @@
                         <tr>
                             <td colspan="4" style="text-align:right">
                                 <strong>Total:</strong>
+                            </td>
+                            <td colspan="" style="text-align:right">
+                                <strong id="totalQty"></strong>
+                            </td>
+                            <td colspan="" style="text-align:right">
+                                <strong id="totalRate"></strong>
                             </td>
 
                             <td>
@@ -404,7 +415,7 @@
                 '</td>' +
                 '<td>' +
                 
-                '<select name="fo_no[]" class="form-control fo_no" id="" required><option value="">Select</option>'+
+                '<select name="fo_no[]" class="form-control fo_no" id=""><option value="">Select</option>'+
                 string2+
                 '</select>'+
                 '</td>' +
@@ -442,13 +453,16 @@
         $('.amount').each(function () {
             allocte_amt += parseFloat($(this).val()) ? parseFloat($(this).val()) : 0.00;
         });
+        $('.amountt').each(function () {
+            allocte_amt += parseFloat($(this).val()) ? parseFloat($(this).val()) : 0.00;
+        });
         if (totalamt < 100) {
             alert('Please select a valid advance');
             e.preventDefault();
         }
         // else 
         if (allocte_amt > totalamt) {
-            alert('Total amount must be less than amount');
+            alert('Total amount must be less than advance amount');
             e.preventDefault();
         }
     });
@@ -529,6 +543,22 @@ $('#total_input_amount').val(tot_amt);
         var rate = parseFloat(row.find('td:eq(5) .rate').val());
         var totalAmt = (qty * rate);
         row.find('td:eq(6) .amount').val(parseFloat(totalAmt).toFixed(2));
+
+        var totalqt = 0;
+        $('.qty').each(function(){
+            totalqt = parseFloat($(this).val()) + totalqt;
+            //alert(totalqt);
+        });
+        //alert(totalqt);
+        $('#totalQty').html(parseFloat(totalqt).toFixed(3));
+
+        var totamt = 0;
+        $('.amount').each(function(){
+            totamt = parseFloat($(this).val()) + totamt;
+            //alert(totalqt);
+        });
+        //alert(totalqt);
+        $('#tot_amt').html(parseFloat(totamt).toFixed(2));
     });
 
     $('.table tbody').on('change', '.rate', function () {
@@ -539,5 +569,24 @@ $('#total_input_amount').val(tot_amt);
         var qty = parseFloat(row.find('td:eq(4) .qty').val());
         var totalAmt = (qty * rate);
         row.find('td:eq(6) .amount').val(parseFloat(totalAmt).toFixed(2));
+
+
+        var totamt = 0;
+        $('.amount').each(function(){
+            totamt = parseFloat($(this).val()) + totamt;
+            //alert(totalqt);
+        });
+        //alert(totalqt);
+        $('#tot_amt').html(parseFloat(totamt).toFixed(2));
+        
+        //totalRate
+
+        var totalrt = 0;
+        $('.rate').each(function(){
+            totalrt = parseFloat($(this).val()) + totalrt;
+            //alert(totalqt);
+        });
+        //alert(totalqt);
+        $('#totalRate').html(parseFloat(totalrt).toFixed(2));
     });
 </script>
