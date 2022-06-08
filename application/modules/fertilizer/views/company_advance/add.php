@@ -292,9 +292,10 @@ $("#submit").hide();
 
     $('#poenbtn').click(function(){
         var recno=$('#rep_id').val();
-        alert(recno);
+       // alert(recno);
         if(recno!=null){
-            window.location.href = "<?=site_url('adv/editadv?rcpt=')?>"+recno;
+            // window.location.href = "<?=site_url('adv/editadv?rcpt=')?>"+recno;
+            window.open("<?=site_url('adv/editadv?rcpt=')?>"+recno, '_blank');
         }
        
     });

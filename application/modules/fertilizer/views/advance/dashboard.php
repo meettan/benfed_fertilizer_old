@@ -113,8 +113,10 @@
                                 <td>  
                               
                                 <?php if($value->forward_flag == 'N') { ?>
-                                <a href="<?php echo site_url('adv/f_adv_forward?receipt_no='.$value->receipt_no.''); ?>">
-                                <button class="btn btn-primary" id="">Forward</button></a>
+
+                                <!-- <a href="<?php //echo site_url('adv/f_adv_forward?receipt_no='.$value->receipt_no.''); ?>"> -->
+                                <button class="btn btn-primary forwardbutton" receipt_no="<?= $value->receipt_no; ?>">Forward</button>
+                            <!-- </a> -->
                                 <?php } ?> 
                                 </td>
 
@@ -315,6 +317,29 @@ $(".filt").on("click", function() {
     }
   
   
+});
+
+$('.forwardbutton').click(function(){
+    var receipt_no=$(this).attr('receipt_no');
+   // alert(receipt_no);
+
+
+    $.ajax({
+        url: "<?=site_url('adv/checked_adv_forwar') ?>", 
+        type: "POST",
+        dataType: "json",
+        data:{ receipt_no: receipt_no},
+        success: function (result) {
+           //alert(result);
+           if(result){
+            
+            window.location = "<?php echo site_url('adv/socadvReport?receipt_no='); ?>"+receipt_no;
+           }else{
+               alert('! Detal entry has not yet been done');
+           }
+            },
+           
+        });
 });
 
         </script>

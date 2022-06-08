@@ -399,6 +399,18 @@ public function advancefilter(){
 
 }
 
+public function checked_adv_forwar(){
+	$receipt_no=$this->input->post('receipt_no');
+	$where=array('receipt_no'=>$receipt_no);
+	$data=$this->AdvanceModel->f_select("td_adv_details",array('id'),$where,0);
+	//echo count($data);
+	if(count($data)>0){
+		echo json_encode(true);	
+	}else{
+		echo json_encode(false);
+	}
+}
+
 public function f_adv_forward() {
 
 	$data=explode (",", $this->input->get('receipt_no'));
