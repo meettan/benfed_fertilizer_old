@@ -28,6 +28,25 @@ a.dt-button{
                 </div> -->
             </h3>
 
+            <div class="form-group row">
+              <form method="POST" action="" >
+
+                        <div class="col-sm-3">
+	                    <input type="date" style="width:300px" id=from_date name="from_date" class="form-control" value="<?php echo  date('Y-m-d'); ?>" />
+                        </div>
+
+                        <div class="col-sm-3">
+                        <input type="date" style="width:250px" id=to_date name="to_date" class="form-control" value="<?php echo  date('Y-m-d'); ?>"  />
+	                    </div>
+
+                        <div class="col-sm-3">
+                        <input type="submit" id= "submit" class="filt" value="Filter" />
+                        </div>
+
+               
+            </form>
+            </div>
+
             <table class="table table-bordered table-hover"id="example">
 
                 <thead>

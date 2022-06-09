@@ -471,7 +471,7 @@
 				return $data->result();
 		}
 
-		public function f_get_stock_view($banch_id,$fin_id){
+		public function f_get_stock_view($banch_id,$fin_id,$fDate,$todate){
 			$data=$this->db->query("select a.trans_dt,a.ro_no,a.ro_dt,a.invoice_no,a.invoice_dt,a.qty,a.challan_flag,a.comp_id,b.PROD_DESC,c.short_name,
 			(select  count(sale_ro) from td_sale where sale_ro=a.ro_no) sale_cnt
 			                        from td_purchase a,mm_product b,mm_company_dtls c
@@ -479,6 +479,7 @@
 									and a.comp_id=c.comp_id
 									and    a.br      ='$banch_id' 
 									and    a.fin_yr  ='$fin_id' 
+									and a.trans_dt BETWEEN '".$fDate."' AND '".$todate."'
 									and    a.trans_flag=1 order by a.trans_dt,a.ro_dt,a.ro_no");
 			return $data->result();
 

@@ -1061,10 +1061,28 @@ public function f_get_sale_ro(){
 
 
  public function stock_entry(){
-
+	 if($this->input->post()){
+		$from_date=$this->input->post('from_date');
+		$to_date=$this->input->post('to_date');
+		$br_cd         = $this->session->userdata['loggedin']['branch_id'];
+		$fin_id        = $this->session->userdata['loggedin']['fin_id'];
+		$bank['data']  = $this->PurchaseModel->f_get_stock_view($br_cd,$fin_id,$from_date,$to_date);
+	
+		
+		$this->load->view("post_login/fertilizer_main");
+	
+		$this->load->view("stock_entry/dashboard",$bank);
+		// echo $this->db->last_query();
+		// exit();
+	
+		$this->load->view('search/search');
+	
+		$this->load->view('post_login/footer');
+	 }else{
+		$todayday= date('Y-m-d');
 	$br_cd         = $this->session->userdata['loggedin']['branch_id'];
 	$fin_id        = $this->session->userdata['loggedin']['fin_id'];
-	$bank['data']  = $this->PurchaseModel->f_get_stock_view($br_cd,$fin_id);
+	$bank['data']  = $this->PurchaseModel->f_get_stock_view($br_cd,$fin_id,$todayday,$todayday);
 
 	
 	$this->load->view("post_login/fertilizer_main");
@@ -1076,6 +1094,7 @@ public function f_get_sale_ro(){
 	$this->load->view('search/search');
 
 	$this->load->view('post_login/footer');
+	 }
 }
 
 // Add stock_entry
