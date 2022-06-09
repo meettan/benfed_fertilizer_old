@@ -286,7 +286,7 @@
                                 <?php } ?>
 								<a href="<?php echo site_url("fert/rep/soc_payblepaid");?>">Received From Society</a>
 								
-
+                                <?php if( $this->session->userdata['loggedin']['ho_flag']=="Y"){?> 
                                 <div class="sub-dropdown">
                                    <a class="sub-dropbtn">Purchase & Sale Ledger <i class="fa fa-angle-right" style="float: right;"></i></a> 
 								   <div class="sub-dropdown-content">
@@ -294,6 +294,7 @@
                                         <a href="<?php echo site_url("fert/rep/ps_pl_all");?>">All Ledger</a>
 									</div>
                                 </div>
+                                <?php } ?>
 
 								<a href="<?php echo site_url("fert/rep/ps_soc");?>">District wise Distribution </a>
 								<!-- <a href="<?php echo site_url("fert/rep/yrwisesale");?>">Year Wise Sale</a> -->
