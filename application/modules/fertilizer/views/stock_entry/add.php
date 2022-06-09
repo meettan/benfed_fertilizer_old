@@ -2189,6 +2189,6 @@ document.getElementById("demo").innerHTML = d;
     	});
 
 
-		$('.mindate').attr( 'min','<?=$date->end_yr ?>-<?=sprintf("%02d", $date->end_mnth)?>-01');
+		$('.mindate').attr( 'min','<?=$date->end_yr ?>-<?php $month=$date->end_mnth+1; if($month==13){echo sprintf("%02d",1);}else{echo sprintf("%02d",$month);}?>-01');
 		
     </script>
