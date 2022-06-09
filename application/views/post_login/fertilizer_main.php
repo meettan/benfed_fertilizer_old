@@ -285,7 +285,16 @@
 								<a href="<?php echo site_url("fert/rep/advance_report");?>"> Company Advance</a> 
                                 <?php } ?>
 								<a href="<?php echo site_url("fert/rep/soc_payblepaid");?>">Received From Society</a>
-								<a href="<?php echo site_url("fert/rep/ps_pl_all");?>">All Sale Purchase </a>
+								
+
+                                <div class="sub-dropdown">
+                                   <a class="sub-dropbtn">Purchase & Sale Ledger <i class="fa fa-angle-right" style="float: right;"></i></a> 
+								   <div class="sub-dropdown-content">
+                                        <a href="<?php echo site_url("fert/rep/ps_pl_all_comp_dist");?>">Productwise & District</a>
+                                        <a href="<?php echo site_url("fert/rep/ps_pl_all");?>">All Ledger</a>
+									</div>
+                                </div>
+
 								<a href="<?php echo site_url("fert/rep/ps_soc");?>">District wise Distribution </a>
 								<!-- <a href="<?php echo site_url("fert/rep/yrwisesale");?>">Year Wise Sale</a> -->
 								<a href="<?php echo site_url("fert/rep/yrwssale");?>">Year Wise Sale</a>

@@ -693,6 +693,85 @@ public function ps_pl_all(){
 
 }
 
+
+
+
+
+public function ps_pl_all_comp_dist(){
+
+    if($_SERVER['REQUEST_METHOD'] == "POST") {
+
+        $from_dt    =   $_POST['from_date'];
+
+        $to_dt      =   $_POST['to_date'];
+        $proarra=$this->input->post('product');
+        $dist=$this->input->post('dist');
+        $ex=explode(',',$proarra);
+        $exdis=explode(',',$dist);
+        $product_id=$ex[0];
+        $district_id=$exdis[0];
+        $data['product_name']=$ex[1];
+        $data['district_id']=$exdis[1];
+
+        $compname=$_POST['comp_id'];
+        $arid=explode(',',$compname);
+        $comp=$arid[0];
+        $data['compName']=$arid[1];
+
+        // $branch     =   $this->session->userdata['loggedin']['branch_id'];
+
+        $mth        =  date('n',strtotime($from_dt));
+
+        $yr         =  date('Y',strtotime($from_dt));
+        $all_data            =   array($from_dt,$to_dt );
+        if($mth > 3){
+
+            $year = $yr;
+
+        }else{
+
+            $year = $yr - 1;
+        }
+
+        $opndt      =  date($year.'-04-01');
+
+        $prevdt     =  date('Y-m-d', strtotime('-1 day', strtotime($from_dt)));
+
+        $_SESSION['date']    =   date('d/m/Y',strtotime($from_dt)).'-'.date('d/m/Y',strtotime($to_dt));
+
+        $data['product']     =   $this->ReportModel->f_get_product_list_nw($opndt);
+        $data['all_data']    =   $this->ReportModel->p_ro_wise_prof_calc_all_comp_pro_dist($from_dt,$to_dt,$comp, $product_id, $district_id);
+    //  echo $this->db->last_query();
+    //  die();
+        $this->load->view('post_login/fertilizer_main');
+        $this->load->view('report/sp_pl_all_dist_pro/stk_stmt',$data);
+        $this->load->view('post_login/footer');
+
+    }else{
+        $data['company']    =   $this->ReportModel->f_select("mm_company_dtls", NULL, NULL, 0);
+
+        $data['dist']=$this->ReportModel->f_select("md_district", NULL, $where1=null,0);
+        $this->load->view('post_login/fertilizer_main');
+        $this->load->view('report/sp_pl_all_dist_pro/stk_stmt_ip',$data);
+        $this->load->view('post_login/footer');
+    }
+
+}
+    public function getcompany(){
+        $comp=$this->input->post('comp_id');
+        $ex=explode(',',$comp);
+        $comp_id=$ex[0];
+        $where1 = array("COMPANY"  =>  $comp_id);
+        $select=array('PROD_DESC','PROD_ID');
+
+        $data=$this->ReportModel->f_select("mm_product", $select, $where1,0);
+        $output='<option value="">Select Product</option>';
+        foreach ($data as $key) {
+            $output.='<option value="'.$key->PROD_ID.','.$key->PROD_DESC.'">'.$key->PROD_DESC.'</option>';
+        }
+        echo json_encode($output);
+    }
+
 /************************************************************ */
         // Company Wise Stock Statement 12/10/2020 //
 
