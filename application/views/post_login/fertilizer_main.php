@@ -88,6 +88,7 @@
     </head>  
     <body id="page-top" style="background-color: #eff3f6;">
     
+    
         <header class="header_class">
 <ul class="header_top">
     <li><strong>Branch Name: </strong><?php if(isset($this->session->userdata['loggedin']['branch_name'])){ echo $this->session->userdata['loggedin']['branch_name'];}?></li>
@@ -154,7 +155,10 @@
                             <a href="<?php echo site_url("rateslab");?>">Sale Rate</a>
                             <a href="<?php echo site_url("BNK");?>">Bank Master</a>
                             <a href="<?php echo site_url("fomaster");?>">Fo Master</a> 
-                            <?php }elseif($this->session->userdata['loggedin']['user_type']!="U" && $this->session->userdata['loggedin']['ho_flag']!="Y"){ ?>
+                            <?php 
+                        // }elseif($this->session->userdata['loggedin']['user_type']!="U" && $this->session->userdata['loggedin']['ho_flag']!="Y" ){ 
+                        }elseif($this->session->userdata['loggedin']['user_id']=="sss1"){
+                            ?>
                                 <!-- <a href="<?php echo site_url("fomaster");?>">Fo Master</a>     -->
                            <a href="<?php echo site_url("customer");?>">Society/Stock Point</a>
                            <a href="<?php echo site_url("BNK");?>">Bank Master</a>
