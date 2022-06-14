@@ -175,8 +175,8 @@ tr:hover {background-color: #f5f5f5;}
                                      <td class="report"><?php echo $i++; ?></td>
                                      <td><?php echo $prodtls->remarks; ?></td>
                                      <td><?= $prodtls->inv_no; ?></td>
-                                     < class="report"><?php echo $prodtls->ro_no; ?>
-                                     
+                                     <td class="report"><?php echo $prodtls->ro_no; ?>
+                                     </td>
                                      <td class="report opening" id="opening">
                                         <?php echo date('d/m/Y',strtotime($prodtls->ro_dt)); ?>
 									 </td>
@@ -212,25 +212,29 @@ tr:hover {background-color: #f5f5f5;}
                                         //echo $saleAmt-$prodtls->tot_paid;
                                         $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
                                         if($totalamt>0){
-                                            echo"<td></td>";
+                                            
                                             echo"<td>".$totalamt."</td>";
+                                            echo"<td></td>";
                                         }
                                         if($totalamt<0){
-                                            echo"<td>".$totalamt."</td>";
                                             echo"<td></td>";
+                                            echo"<td>".$totalamt."</td>";
+                                           
                                         }
                                         // echo $totalamt;
                                      }elseif($prodtls->remarks=='Sale'){
                                       
                                         $totalamt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
-                                        echo $totalamt;
+                                        //echo $totalamt;
                                         if($totalamt>0){
-                                            echo"<td></td>";
+                                           
                                             echo"<td>".$totalamt."</td>";
+                                            echo"<td></td>";
                                         }
                                         if($totalamt<0){
-                                            echo"<td>".$totalamt."</td>";
                                             echo"<td></td>";
+                                            echo"<td>".$totalamt."</td>";
+                                           
                                         }
                                      }
                                      ?>
@@ -270,7 +274,7 @@ tr:hover {background-color: #f5f5f5;}
 							<!-- <tr style="font-weight: bold;">
                                <td class="report" colspan="4" style="text-align:right"></td> 
                                <td class="report"> Closing Balance:</td>
-                                <td class="report"><?php echo $tot_ope +($tot_pur-$tot_sale) ;?></td>  
+                                <td class="report"><?php // echo $tot_ope +($tot_pur-$tot_sale) ;?></td>  
                             </tr> -->
                         </tbody>
                     </table>
