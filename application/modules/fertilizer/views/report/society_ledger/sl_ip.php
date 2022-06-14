@@ -207,13 +207,14 @@ tr:hover {background-color: #f5f5f5;}
                                         //echo $saleAmt-$prodtls->tot_paid;
                                         $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
                                         if($totalamt>0){
-                                            
-                                            echo"<td>".abs($totalamt)."</td>";
+                                            $totVal=round($totalamt, 2);
+                                            echo"<td>".abs($totVal)."</td>";
                                             echo"<td></td>";
                                         }
                                         if($totalamt<0){
                                             echo"<td></td>";
-                                            echo"<td>".abs($totalamt)."</td>";
+                                            $totVal=round($totalamt, 2);
+                                            echo"<td>".abs( $totVal)."</td>";
                                            
                                         }
                                         // echo $totalamt;
@@ -223,12 +224,14 @@ tr:hover {background-color: #f5f5f5;}
                                         //echo $totalamt;
                                         if($totalamt>0){
                                            
-                                            echo"<td>".abs($totalamt)."</td>";
+                                            $totVal=round($totalamt, 2);
+                                            echo"<td>".abs( $totVal)."</td>";
                                             echo"<td></td>";
                                         }
                                         if($totalamt<0){
                                             echo"<td></td>";
-                                            echo"<td>".abs($totalamt)."</td>";
+                                            $totVal=round($totalamt, 2);
+                                            echo"<td>".abs( $totVal)."</td>";
                                            
                                         }
                                      }
