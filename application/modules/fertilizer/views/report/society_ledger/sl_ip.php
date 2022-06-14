@@ -215,12 +215,12 @@ tr:hover {background-color: #f5f5f5;}
                                         $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
                                         if($totalamt>0){
                                             
-                                            echo"<td>".$totalamt."</td>";
+                                            echo"<td>".abs($totalamt)."</td>";
                                             echo"<td></td>";
                                         }
                                         if($totalamt<0){
                                             echo"<td></td>";
-                                            echo"<td>".$totalamt."</td>";
+                                            echo"<td>".abs($totalamt)."</td>";
                                            
                                         }
                                         // echo $totalamt;
@@ -230,12 +230,12 @@ tr:hover {background-color: #f5f5f5;}
                                         //echo $totalamt;
                                         if($totalamt>0){
                                            
-                                            echo"<td>".$totalamt."</td>";
+                                            echo"<td>".abs($totalamt)."</td>";
                                             echo"<td></td>";
                                         }
                                         if($totalamt<0){
                                             echo"<td></td>";
-                                            echo"<td>".$totalamt."</td>";
+                                            echo"<td>".abs($totalamt)."</td>";
                                            
                                         }
                                      }
