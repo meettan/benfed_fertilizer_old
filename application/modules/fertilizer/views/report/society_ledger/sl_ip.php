@@ -44,12 +44,8 @@ tr:hover {background-color: #f5f5f5;}
                     <label for="from_dt" class="col-sm-2 col-form-label">From Date:</label>
 
                     <div class="col-sm-3">
-
-                        <input type="date"
-                               name="from_date"
-                               class="form-control required"
-                               value="<?= $frm_dt;?>"
-                        />  
+                        <?php $fyear=$this->session->userdata['loggedin']['fin_yr']; $year=explode('-',$fyear) ?>
+                        <input type="date" name="from_date" class="form-control required" value="<?php echo $year[0],'-04-01' //echo $frm_dt;?>" min='<?=$year[0]?>-04-01' max="<?= $year[0]+1?>-03-31" readonly/>  
 
                     </div>
 					
@@ -57,11 +53,7 @@ tr:hover {background-color: #f5f5f5;}
 
                     <div class="col-sm-3">
 
-                        <input type="date"
-                               name="to_date"
-                               class="form-control required"
-                               value="<?= $to_dt;?>"
-                        />  
+                        <input type="date" name="to_date" class="form-control required" value="<?= $to_dt;?>"  min='<?=$year[0]?>-04-01' max="<?= $year[0]+1?>-03-31"/>  
 
                     </div>
 
@@ -97,6 +89,7 @@ tr:hover {background-color: #f5f5f5;}
         </div>
 
     <!-- </div> -->
+   
     <?php if(isset($_POST["submit"])){ ?>
  <!-- <div class="wraper">  -->
 
@@ -108,10 +101,10 @@ tr:hover {background-color: #f5f5f5;}
 
                         <h2>THE WEST BENGAL STATE CO.OP.MARKETING FEDERATION LTD.</h2>
                         <h4>HEAD OFFICE: SOUTHEND CONCLAVE, 3RD FLOOR, 1582 RAJDANGA MAIN ROAD, KOLKATA-700107.</h4>
-                        <h4>Societywise Due Register Between: <?php echo $_SESSION['date']; ?></h4>
+                        <h4>Society Ledger Between: <?php echo $_SESSION['date']; ?></h4>
                         <h5 style="text-align:left"><label>District: </label> <?php echo $br_name->district_name; ?></h5>
 						<h5 style="text-align:left"><label>Society: </label> <?php if($all_data) { foreach($all_data as $prodtls);echo $prodtls->soc_name; }?></h5>
-						<h5 style="text-align:left"><label>Opening: </label> <?php $tot_ope = 0.00; echo $tot_ope;?></h5>
+						<h5 style="text-align:left"><label>Gst No: </label> <?php if($all_data) { foreach($soc as $soc); echo $soc->gstin;}?></h5>
 
                     </div>
                     <br>  
@@ -121,11 +114,11 @@ tr:hover {background-color: #f5f5f5;}
 
                             <tr>
                                 <th>Sl No.</th>
-                                <th>Remark</th>
+                                <th>Remarks</th>
                                 <th>Product</th>
-                                <th>Invoice No</th>
+                                <th>Invoice No/Receipt No.</th>
                                 <th>RO</th>
-                                <th>RO Date</th>
+                                <th>RO / Deposit Date</th>
                                 <th>Qty</th>
                                  <th>Taxable Amount</th>
                                  <th>CGST</th>
@@ -257,14 +250,36 @@ tr:hover {background-color: #f5f5f5;}
                                        }
                                 else{
 
-                                    echo "<tr><td colspan='10' style='text-align:center;'>No Data Found</td></tr>";
+                                    echo "<tr> 
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td  style='text-align:center;'>No Data Found</td>
+                                     <td></td>
+                                     <td></td>
+                                     <td></td>
+                                     
+                                     </tr>";
 
                                 }   
 
                             ?>
 							<tr style="font-weight: bold;">
-                               <td class="report" colspan="4" style="text-align:right">Total</td> 
-                               <td class="report"><?=$qty?></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                               <td class="report" style="text-align:right">Total</td> 
+                              
                                <td class="report"><?=$taxable?></td>
                                 <td class="report"><?=$tot_cgst?></td>  
                                 <td class="report"><?=$tot_sgst?></td>  
@@ -272,12 +287,9 @@ tr:hover {background-color: #f5f5f5;}
                                 <td class="report"><?=$advCrnote?></td>  
                                 <td class="report"><?=$adjustable?></td> 
                                 <td></td> 
+                                <td></td>
                             </tr>
-							<!-- <tr style="font-weight: bold;">
-                               <td class="report" colspan="4" style="text-align:right"></td> 
-                               <td class="report"> Closing Balance:</td>
-                                <td class="report"><?php // echo $tot_ope +($tot_pur-$tot_sale) ;?></td>  
-                            </tr> -->
+							
                         </tbody>
                     </table>
                 </div>   
@@ -285,7 +297,7 @@ tr:hover {background-color: #f5f5f5;}
                 <div style="text-align: center;">
 
                     <button class="btn btn-primary" type="button" onclick="printDiv();">Print</button>
-                   <!-- <button class="btn btn-primary" type="button" id="btnExport" >Excel</button>-->
+                   <!-- <button class="btn btn-primary" type="button" id="btnExport" >Excel</button> -->
 
                 </div>
 
@@ -326,4 +338,35 @@ tr:hover {background-color: #f5f5f5;}
         }, 10);
 
   }
+</script>
+
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<!-- <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script> -->
+<!-- <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script> -->
+
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+
+<script>
+    $('#example').dataTable({
+        destroy: true,
+        searching: false,
+        ordering: false,
+        paging: false,
+
+        dom: 'Bfrtip',
+        buttons: [{
+            extend: 'excelHtml5',
+            title: 'BENFED All SALE PURCHASE REPORT',
+            text: 'Export to excel'
+            //Columns to export
+            // exportOptions: {
+            //    columns: [0, 1, 2, 3]
+            // }
+        }]
+    });
 </script>

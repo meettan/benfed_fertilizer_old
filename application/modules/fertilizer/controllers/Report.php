@@ -2409,9 +2409,11 @@ public function soc_payblepaid(){
             'paid' => $paid,
             'br_name' => $br_name
         );
-		$sselect          =   array('soc_id','soc_name');
+		$sselect          =   array('soc_id','soc_name','gstin');
 		$swhere           =   array('district' => $this->session->userdata['loggedin']['branch_id'] );
         $data['soc']      =   $this->ReportModel->f_select("mm_ferti_soc",$sselect, $swhere,0);
+        // echo $this->db->last_query();
+        // exit();
         $this->load->view('post_login/fertilizer_main');
         $this->load->view('report/society_ledger/sl_ip',$data);
         $this->load->view('post_login/footer');

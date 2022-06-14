@@ -1611,25 +1611,33 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
             $query  = $this->db->query("select  prod,inv_no, soc_id,soc_name,sum(paid_amt) as tot_paid,sum(paybl) as tot_payble,sum(cgst)cgst,sum(sgst)sgst,ro_no,ro_dt,sum(qty) qty ,sum(tot_recv) tot_recv,remarks
             from(
                
-                 SELECT '' prod,'' inv_no, c.soc_id soc_id,soc_name,0 as paid_amt,0 paybl,0 cgst,0 sgst,c.paid_id as ro_no,d.ro_dt as ro_dt,0 as qty,
-                sum(c.paid_amt) tot_recv ,'Cheque Adj' remarks
-                FROM tdf_payment_recv c,mm_ferti_soc b,td_purchase d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.ro_no = d.ro_no and c.pay_type=3 and c.paid_dt between '$frmDt' and '$toDt' group by soc_name,c.soc_id,c.paid_id,d.ro_dt
+                 SELECT '' prod,c.paid_id  as inv_no, c.soc_id soc_id,soc_name,0 as paid_amt,0 paybl,0 cgst,0 sgst,''ro_no,d.ro_dt as ro_dt,0 as qty,
+                sum(c.paid_amt) tot_recv ,CONCAT('Cheque Adj- ',ref_no) remarks
+                FROM tdf_payment_recv c,mm_ferti_soc b,td_purchase d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' 
+                and c.branch_id='$branch' and c.ro_no = d.ro_no
+                and c.pay_type=3 
+                 and c.paid_dt between '$frmDt' and '$toDt' group by soc_name,c.soc_id,c.paid_id,d.ro_dt
+
                  Union
-                 SELECT '' prod,'' inv_no, c.soc_id soc_id,soc_name,c.paid_amt as paid_amt,0 paybl,0,0,c.paid_id as ro_no,d.ro_dt as ro_dt,0 as qty ,sum(c.paid_amt) tot_recv , 'Draft Adj' remarks
-                 FROM tdf_payment_recv c,mm_ferti_soc b,td_purchase d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.ro_no = d.ro_no and c.pay_type=4 and c.paid_dt between '$frmDt' and '$toDt' group by soc_name,c.soc_id,c.paid_id,d.ro_dt
+                 SELECT '' prod,c.paid_id  as inv_no, c.soc_id soc_id,soc_name,c.paid_amt as paid_amt,0 paybl,0,0,'' ro_no,d.ro_dt as ro_dt,0 as qty ,sum(c.paid_amt) tot_recv , 'Draft Adj' remarks
+                 FROM tdf_payment_recv c,mm_ferti_soc b,td_purchase d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.ro_no = d.ro_no 
+                 and c.pay_type=4 
+                 and c.paid_dt between '$frmDt' and '$toDt' group by soc_name,c.soc_id,c.paid_id,d.ro_dt
+
                  Union
-                 SELECT '' prod,'' inv_no, c.soc_id soc_id,soc_name,c.paid_amt as paid_amt,0 paybl,0,0,c.paid_id as ro_no,d.ro_dt as ro_dt,0 as qty,sum(c.paid_amt) tot_recv ,'Pay Order Adj' remarks
+                 SELECT '' prod,c.paid_id  as inv_no, c.soc_id soc_id,soc_name,c.paid_amt as paid_amt,0 paybl,0,0,'' as ro_no,d.ro_dt as ro_dt,0 as qty,sum(c.paid_amt) tot_recv ,'Pay Order Adj' remarks
                  FROM tdf_payment_recv c,mm_ferti_soc b,td_purchase d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.ro_no = d.ro_no and c.pay_type=5 and c.paid_dt between '$frmDt' and '$toDt' group by soc_name,c.soc_id,c.paid_id,d.ro_dt
                  Union
-                 
-                 SELECT '' prod,'' inv_no, c.soc_id soc_id,soc_name,c.paid_amt as paid_amt,0 paybl,0,0,c.paid_id as ro_no,d.ro_dt as ro_dt,0 as qty ,sum(c.paid_amt) tot_recv ,'NEFT Adj' remarks
+
+                 SELECT '' prod,c.paid_id as inv_no, c.soc_id soc_id,soc_name,c.paid_amt as paid_amt,0 paybl,0,0,'' ro_no,d.ro_dt as ro_dt,0 as qty ,sum(c.paid_amt) tot_recv ,'NEFT Adj' remarks
                  FROM tdf_payment_recv c,mm_ferti_soc b,td_purchase d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.ro_no = d.ro_no and c.pay_type=7 and c.paid_dt between '$frmDt' and '$toDt' group by soc_name,c.soc_id,c.paid_id,d.ro_dt
              Union
-             SELECT '' prod,'' inv_no, c.soc_id soc_id,soc_name,c.tot_amt as paid_amt,0 paybl,0,0,c.ro as ro_no,trans_dt as ro_dt,0 as qty ,0,'Cr note' remarks
+
+             SELECT '' prod,recpt_no as inv_no, c.soc_id soc_id,soc_name,c.tot_amt as paid_amt,0 paybl,0,0,c.ro as ro_no,trans_dt as ro_dt,0 as qty ,0,'Cr note' remarks
                 FROM tdf_dr_cr_note c,mm_ferti_soc b,td_sale d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.invoice_no = d.sale_ro and c.trans_flag='R' and c.trans_dt between '$frmDt' and '$toDt' 
                 group by soc_name,c.soc_id,c.ro, trans_dt
              Union
-             SELECT '' prod,'' inv_no, c.soc_id soc_id,soc_name,c.adv_amt as paid_amt,0 paybl,0,0,''as ro_no,trans_dt as ro_dt,0 as qty ,0,'Advance' remarks
+             SELECT '' prod,receipt_no as inv_no, c.soc_id soc_id,soc_name,c.adv_amt as paid_amt,0 paybl,0,0,''as ro_no,trans_dt as ro_dt,0 as qty ,0,CONCAT('Advance- ',remarks) remarks
                 FROM tdf_advance c,mm_ferti_soc b where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.trans_type='I' and c.trans_dt between '$frmDt' and '$toDt'
                  group by soc_name,c.soc_id, trans_dt
                
