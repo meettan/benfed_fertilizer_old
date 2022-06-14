@@ -134,6 +134,8 @@ tr:hover {background-color: #f5f5f5;}
 								 Credit Note</th>
                                  <th>Adjustable Amount</th>
                                  <th>Closing</th>
+                                 <th>Dr</th>
+                                 <th>Cr</th>
                                 
                                 
                                  
@@ -216,6 +218,28 @@ tr:hover {background-color: #f5f5f5;}
                                         echo $totalamt;
                                      }
                                      ?></td>
+
+
+<?php 
+                                     if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'){
+                                        //echo $saleAmt-$prodtls->tot_paid;
+                                        $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
+                                        // echo $totalamt;
+                                     }elseif($prodtls->remarks=='Sale'){
+                                      
+                                        $totalamt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
+                                        // echo $totalamt;
+                                     }
+                                     ?>
+
+                                     <td><?php  if ($totalamt > 0){
+                                        // p
+                                        echo  abs($totalamt);
+                                     } ?></td>
+                                     <td><?php  if ($totalamt < 0){
+                                        // p
+                                        echo  abs($totalamt);
+                                     } ?></td>
                                   
                                                                       
                                 </tr>
