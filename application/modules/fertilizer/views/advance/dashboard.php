@@ -333,7 +333,7 @@ $('.forwardbutton').click(function(){
            //alert(result);
            if(result){
             
-            window.location = "<?php echo site_url('adv/socadvReport?receipt_no='); ?>"+receipt_no;
+            window.location = "<?php echo site_url('adv/f_adv_forward?receipt_no='); ?>"+receipt_no;
            }else{
                alert('! Detal entry has not yet been done');
            }

@@ -2395,7 +2395,8 @@ public function soc_payblepaid(){
 				$where1              =   array("district_code"  =>  $this->session->userdata['loggedin']['branch_id']);
 				$br_name      =   $this->ReportModel->f_select("md_district", NULL, $where1,1);
 				$all_data =$this->ReportModel->f_get_soc_ledger($from_dt,$to_dt , $branch,$soc_id);
-				
+				// echo $this->db->last_query();
+                // exit();
 				$paid     =$this->ReportModel->f_get_soc_paid($from_dt,$to_dt , $branch);
 		}
         

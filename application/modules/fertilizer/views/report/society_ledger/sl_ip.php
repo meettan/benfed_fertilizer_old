@@ -121,12 +121,23 @@ tr:hover {background-color: #f5f5f5;}
 
                             <tr>
                                 <th>Sl No.</th>
+                                <th>Remark</th>
+                                <th>Invoice No</th>
                                 <th>RO</th>
                                 <th>RO Date</th>
-								<th>Sale Amount</th>
-                                <th>Received Amount(Advance +
-								 Credit Note)</th>
-                                <th>Due Amount</th>
+                                <th>Qty</th>
+                                 <th>Taxable Amount</th>
+                                 <th>CGST</th>
+                                 <th>SGST</th>
+								<th>Total Amount</th>
+                                <th>Advance/
+								 Credit Note</th>
+                                 <th>Adjustable Amount</th>
+                                 <th>Closing</th>
+                                
+                                
+                                 
+                                <!-- <th>Due Amount</th> -->
                             </tr>
 
                         </thead>
@@ -136,37 +147,75 @@ tr:hover {background-color: #f5f5f5;}
                             <?php
 
                                 if($product){ 
+                                    // print_r($all_data[0]);
 
                                     $i = 1;
                                     $total = 0.00;
 									
                                     $tot_sale = 0.00;
                                     $tot_pur  = 0.00;
+                                    $taxable=0.00;
                                     $val =0;
+
+                                    $qty=0.000;
+                                    $tot_cgst=0.00;
+                                    $tot_sgst=0.00;
+                                    $totalamount=0.00;
+                                    $advCrnote=0.00;
+                                    $adjustable=0.00;
+                                    $saleAmt=0.00;
+                                    $totalamt=0.00;
 
                                         foreach($all_data as $prodtls){
                             ?>
 
                                 <tr class="rep">
                                      <td class="report"><?php echo $i++; ?></td>
+                                     <td><?php echo $prodtls->remarks; ?></td>
+                                     <td><?= $prodtls->inv_no; ?></td>
                                      <td class="report"><?php echo $prodtls->ro_no; ?>
                                      
                                      <td class="report opening" id="opening">
                                         <?php echo date('d/m/Y',strtotime($prodtls->ro_dt)); ?>
 									 </td>
+                                     <td class="report purchase" id="purchase">
+                                     <?php echo $prodtls->qty; $qty+=$prodtls->qty; ?>
+                                     </td>
 									  <td class="report purchase" id="purchase">
                                      <?php echo $prodtls->tot_payble;
-                                      $tot_pur += $prodtls->tot_payble  ?>
+                                      $taxable += $prodtls->tot_payble  ?>
                                      </td>
 									  <td class="report sale" id="sale">
-                                     <?php echo $prodtls->tot_paid; 
-                                     $tot_sale += $prodtls->tot_paid ;?>
+                                     <?php echo $prodtls->cgst; 
+                                    $tot_cgst += $prodtls->cgst;?>
                                      </td>
+                                     <td class="report sale" id="sale">
+                                     <?php echo $prodtls->sgst; 
+                                     $tot_sgst += $prodtls->sgst ;?>
+                                     </td>
+                                     <td class="report sale" id="sale">
+                                     <?php echo  $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; 
+                                    // $tot_cgst += $prodtls-> ; 
+                                     $totalamount += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
+                                    $saleAmt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;?>
+                                     </td>
+                                     <td> <?php echo $prodtls->tot_paid ; $advCrnote+=$prodtls->tot_paid;?></td>
 									 <td class="report sale" id="sale">
-                                     <?php echo ($prodtls->tot_payble)-($prodtls->tot_paid);
-										$total +=($prodtls->tot_payble)-($prodtls->tot_paid);
+                                     <?php echo ($prodtls->tot_recv);
+										$adjustable +=($prodtls->tot_recv);
 									  ?>
                                      </td>
+                                     <td><?php 
+                                     if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'){
+                                        //echo $saleAmt-$prodtls->tot_paid;
+                                        $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
+                                        echo $totalamt;
+                                     }elseif($prodtls->remarks=='Sale'){
+                                      
+                                        $totalamt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
+                                        echo $totalamt;
+                                     }
+                                     ?></td>
                                   
                                                                       
                                 </tr>
@@ -187,16 +236,21 @@ tr:hover {background-color: #f5f5f5;}
 
                             ?>
 							<tr style="font-weight: bold;">
-                               <td class="report" colspan="3" style="text-align:right">Total</td> 
-                               <td class="report"><?=$tot_pur?></td>
-                               <td class="report"><?=$tot_sale?></td>
-                                <td class="report"><?=$total?></td>  
+                               <td class="report" colspan="4" style="text-align:right">Total</td> 
+                               <td class="report"><?=$qty?></td>
+                               <td class="report"><?=$taxable?></td>
+                                <td class="report"><?=$tot_cgst?></td>  
+                                <td class="report"><?=$tot_sgst?></td>  
+                                <td class="report"><?=$totalamount?></td>  
+                                <td class="report"><?=$advCrnote?></td>  
+                                <td class="report"><?=$adjustable?></td> 
+                                <td></td> 
                             </tr>
-							<tr style="font-weight: bold;">
+							<!-- <tr style="font-weight: bold;">
                                <td class="report" colspan="4" style="text-align:right"></td> 
                                <td class="report"> Closing Balance:</td>
                                 <td class="report"><?php echo $tot_ope +($tot_pur-$tot_sale) ;?></td>  
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>   
