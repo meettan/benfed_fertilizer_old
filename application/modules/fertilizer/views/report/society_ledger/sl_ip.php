@@ -133,7 +133,7 @@ tr:hover {background-color: #f5f5f5;}
                                 <th>Advance/
 								 Credit Note</th>
                                  <th>Adjustable Amount</th>
-                                 <th>Closing</th>
+                                 <!-- <th>Closing</th> -->
                                  <th>Dr</th>
                                  <th>Cr</th>
                                 
@@ -175,7 +175,7 @@ tr:hover {background-color: #f5f5f5;}
                                      <td class="report"><?php echo $i++; ?></td>
                                      <td><?php echo $prodtls->remarks; ?></td>
                                      <td><?= $prodtls->inv_no; ?></td>
-                                     <td class="report"><?php echo $prodtls->ro_no; ?>
+                                     < class="report"><?php echo $prodtls->ro_no; ?>
                                      
                                      <td class="report opening" id="opening">
                                         <?php echo date('d/m/Y',strtotime($prodtls->ro_dt)); ?>
@@ -207,39 +207,36 @@ tr:hover {background-color: #f5f5f5;}
 										$adjustable +=($prodtls->tot_recv);
 									  ?>
                                      </td>
-                                     <td><?php 
+                                     <?php 
                                      if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'){
                                         //echo $saleAmt-$prodtls->tot_paid;
                                         $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
-                                        echo $totalamt;
-                                     }elseif($prodtls->remarks=='Sale'){
-                                      
-                                        $totalamt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
-                                        echo $totalamt;
-                                     }
-                                     ?></td>
-
-
-<?php 
-                                     if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'){
-                                        //echo $saleAmt-$prodtls->tot_paid;
-                                        $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
+                                        if($totalamt>0){
+                                            echo"<td></td>";
+                                            echo"<td>".$totalamt."</td>";
+                                        }
+                                        if($totalamt<0){
+                                            echo"<td>".$totalamt."</td>";
+                                            echo"<td></td>";
+                                        }
                                         // echo $totalamt;
                                      }elseif($prodtls->remarks=='Sale'){
                                       
                                         $totalamt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
-                                        // echo $totalamt;
+                                        echo $totalamt;
+                                        if($totalamt>0){
+                                            echo"<td></td>";
+                                            echo"<td>".$totalamt."</td>";
+                                        }
+                                        if($totalamt<0){
+                                            echo"<td>".$totalamt."</td>";
+                                            echo"<td></td>";
+                                        }
                                      }
                                      ?>
+                                     
 
-                                     <td><?php  if ($totalamt > 0){
-                                        // p
-                                        echo  abs($totalamt);
-                                     } ?></td>
-                                     <td><?php  if ($totalamt < 0){
-                                        // p
-                                        echo  abs($totalamt);
-                                     } ?></td>
+                                     
                                   
                                                                       
                                 </tr>
