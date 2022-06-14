@@ -64,7 +64,7 @@ tr:hover {background-color: #f5f5f5;}
                     <label for="to_date" class="col-sm-2 col-form-label">Society:</label>
 
                     <div class="col-sm-7">
-                        <select name="soc_id" class="form-control select2">
+                        <select name="soc_id" class="form-control sel select2">
 						<option value="">Select</option>
 						<?php foreach($soc as $key) { ?>
 						<option value="<?=$key->soc_id?>"><?=$key->soc_name?></option>
@@ -307,6 +307,7 @@ tr:hover {background-color: #f5f5f5;}
         </div>
 
         <script>
+            $(".sel").select2();
   function printDiv() {
 
         var divToPrint = document.getElementById('divToPrint');
