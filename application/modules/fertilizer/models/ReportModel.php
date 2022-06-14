@@ -1634,7 +1634,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
              Union
              
              SELECT '' prod,recpt_no as inv_no, c.soc_id soc_id,soc_name,c.tot_amt as paid_amt,0 paybl,0,0,c.ro as ro_no,trans_dt as ro_dt,0 as qty ,0,'Cr note' remarks
-                FROM tdf_dr_cr_note c,mm_ferti_soc b,td_sale d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.invoice_no = d.sale_ro and c.trans_flag='R' and c.trans_dt between '$frmDt' and '$toDt' 
+                FROM tdf_dr_cr_note c,mm_ferti_soc b,td_sale d where c.soc_id=b.soc_id and c.soc_id = '$soc_id' and c.branch_id='$branch' and c.invoice_no = d.trans_do and c.trans_flag='R' and c.trans_dt between '$frmDt' and '$toDt' 
                 group by soc_name,c.soc_id,c.ro, trans_dt
              Union
              SELECT '' prod,receipt_no as inv_no, c.soc_id soc_id,soc_name,c.adv_amt as paid_amt,0 paybl,0,0,''as ro_no,trans_dt as ro_dt,0 as qty ,0,'Advance' remarks
