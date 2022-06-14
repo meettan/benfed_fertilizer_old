@@ -122,6 +122,7 @@ tr:hover {background-color: #f5f5f5;}
                             <tr>
                                 <th>Sl No.</th>
                                 <th>Remark</th>
+                                <th>Product</th>
                                 <th>Invoice No</th>
                                 <th>RO</th>
                                 <th>RO Date</th>
@@ -174,6 +175,7 @@ tr:hover {background-color: #f5f5f5;}
                                 <tr class="rep">
                                      <td class="report"><?php echo $i++; ?></td>
                                      <td><?php echo $prodtls->remarks; ?></td>
+                                     <td><?php echo $prodtls->prod; ?></td>
                                      <td><?= $prodtls->inv_no; ?></td>
                                      <td class="report"><?php echo $prodtls->ro_no; ?>
                                      </td>
