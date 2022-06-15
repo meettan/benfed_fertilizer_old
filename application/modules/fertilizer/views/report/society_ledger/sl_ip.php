@@ -115,6 +115,7 @@ tr:hover {background-color: #f5f5f5;}
                             <tr>
                                 <th>Sl No.</th>
                                 <th>Remarks</th>
+                                <th>Date</th>
                                 <th>Product</th>
                                 <th>Invoice No/Receipt No.</th>
                                 <th>RO</th>
@@ -161,19 +162,22 @@ tr:hover {background-color: #f5f5f5;}
                                     $adjustable=0.00;
                                     $saleAmt=0.00;
                                     $totalamt=0.00;
-
+//print_r($all_data[0]); 
                                         foreach($all_data as $prodtls){
                             ?>
 
                                 <tr class="rep">
                                      <td class="report"><?php echo $i++; ?></td>
                                      <td><?php echo $prodtls->remarks; ?></td>
+                                     <td class="report opening" id="opening">
+                                        <?php echo date('d/m/Y',strtotime($prodtls->trans_dt)); ?>
+									 </td>
                                      <td><?php echo $prodtls->prod; ?></td>
                                      <td><?= $prodtls->inv_no; ?></td>
                                      <td class="report"><?php echo $prodtls->ro_no; ?>
                                      </td>
                                      <td class="report opening" id="opening">
-                                        <?php echo date('d/m/Y',strtotime($prodtls->ro_dt)); ?>
+                                        <?php if($prodtls->remarks!='Opening'){ echo date('d/m/Y',strtotime($prodtls->ro_dt));} ?>
 									 </td>
                                      <td class="report purchase" id="purchase">
                                      <?php echo $prodtls->qty; $qty+=$prodtls->qty; ?>
@@ -191,20 +195,25 @@ tr:hover {background-color: #f5f5f5;}
                                      $tot_sgst += $prodtls->sgst ;?>
                                      </td>
                                      <td class="report sale" id="sale">
-                                     <?php echo  $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; 
+                                     <?php if($prodtls->remarks!='Opening'){ echo  $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; 
                                     // $tot_cgst += $prodtls-> ; 
                                      $totalamount += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
-                                    $saleAmt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;?>
+                                    $saleAmt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; }?>
                                      </td>
-                                     <td> <?php echo $prodtls->tot_paid ; $advCrnote+=$prodtls->tot_paid;?></td>
+                                     <td> <?php if($prodtls->remarks!='Opening'){ echo $prodtls->tot_paid ; $advCrnote+=$prodtls->tot_paid;} ?></td>
 									 <td class="report sale" id="sale">
                                      <?php echo ($prodtls->tot_recv);
 										$adjustable +=($prodtls->tot_recv);
 									  ?>
                                      </td>
                                      <?php 
-                                     if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'){
+                                     if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'|| $prodtls->remarks=='Opening'){
                                         //echo $saleAmt-$prodtls->tot_paid;
+                                        echo $prodtls->tot_paid.'<br>';
+                                        echo $prodtls->tot_recv.'<br>';
+                                        echo (($prodtls->tot_recv) +($prodtls->tot_paid));
+                                        // exit();
+                                        
                                         $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
                                         if($totalamt>0){
                                             $totVal=round($totalamt, 2);
@@ -264,6 +273,7 @@ tr:hover {background-color: #f5f5f5;}
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                      <td  style='text-align:center;'>No Data Found</td>
                                      <td></td>
                                      <td></td>
@@ -275,6 +285,7 @@ tr:hover {background-color: #f5f5f5;}
 
                             ?>
 							<tr style="font-weight: bold;">
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
