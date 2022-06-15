@@ -22,7 +22,7 @@
 			}
         }
 
-        // git add check 
+        // git add check  add some
 
         public function f_get_product_list($branch,$frmDt){
             /*$query  = $this->db->query("select a.PROD_ID,a.PROD_DESC,a.COMPANY,a.unit,b.COMP_ID,
