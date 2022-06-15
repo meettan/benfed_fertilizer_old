@@ -22,6 +22,8 @@
 			}
         }
 
+        // git add check 
+
         public function f_get_product_list($branch,$frmDt){
             /*$query  = $this->db->query("select a.PROD_ID,a.PROD_DESC,a.COMPANY,a.unit,b.COMP_ID,
                                      b.COMP_NAME,b.short_name
