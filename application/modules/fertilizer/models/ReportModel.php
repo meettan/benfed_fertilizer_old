@@ -1655,12 +1655,15 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
         //         group by soc_id,soc_name,ro_no,ro_dt ORDER BY `a`.`ro_dt`  ");
 
         //     return $query->result();
+        //abs(c.balance),0) as paid_amt,
         // }
 		
         public function f_get_soc_ledger($frmDt,$toDt,$branch,$soc_id){
             $query  = $this->db->query("select  trans_dt,prod,inv_no, soc_id,soc_name,sum(paid_amt) as tot_paid,sum(paybl) as tot_payble,sum(cgst)cgst,sum(sgst)sgst,ro_no,ro_dt,sum(qty) qty ,sum(tot_recv) tot_recv,remarks
             from( 
-              SELECT c.op_dt as trans_dt,'' prod,'' as inv_no, c.soc_id soc_id,b.soc_name,if(c.balance<0,abs(c.balance),0) as paid_amt,if(c.balance>0,c.balance,0) paybl,0 cgst,0 sgst,''ro_no,'' as ro_dt,0 as qty,
+              SELECT c.op_dt as trans_dt,'' prod,'' as inv_no, c.soc_id soc_id,b.soc_name,if(c.balance<0,
+              c.balance,0) as paid_amt,
+              if(c.balance>0,c.balance,0) paybl,0 cgst,0 sgst,''ro_no,'' as ro_dt,0 as qty,
                 0 tot_recv ,'Opening' remarks
                 FROM td_soc_opening c,mm_ferti_soc b 
                 where c.soc_id=b.soc_id 

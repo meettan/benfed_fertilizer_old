@@ -195,24 +195,36 @@ tr:hover {background-color: #f5f5f5;}
                                      $tot_sgst += $prodtls->sgst ;?>
                                      </td>
                                      <td class="report sale" id="sale">
-                                     <?php if($prodtls->remarks!='Opening'){ echo  $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; 
+                                     <?php  echo  $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; 
                                     // $tot_cgst += $prodtls-> ; 
                                      $totalamount += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
-                                    $saleAmt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; }?>
+                                    $saleAmt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; ?>
                                      </td>
-                                     <td> <?php if($prodtls->remarks!='Opening'){ echo $prodtls->tot_paid ; $advCrnote+=$prodtls->tot_paid;} ?></td>
+                                     <td> <?php  echo round(abs($prodtls->tot_paid),2) ; $advCrnote+=$prodtls->tot_paid; ?></td>
 									 <td class="report sale" id="sale">
                                      <?php echo ($prodtls->tot_recv);
 										$adjustable +=($prodtls->tot_recv);
 									  ?>
                                      </td>
                                      <?php 
-                                     if($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'|| $prodtls->remarks=='Opening'){
-                                        //echo $saleAmt-$prodtls->tot_paid;
-                                        echo $prodtls->tot_paid.'<br>';
-                                        echo $prodtls->tot_recv.'<br>';
-                                        echo (($prodtls->tot_recv) +($prodtls->tot_paid));
-                                        // exit();
+                                     if($prodtls->remarks=='Opening'){
+                                        
+                                        $totalamt = (($prodtls->tot_recv) +($prodtls->tot_paid));
+                                       
+                                        if($totalamt>0){
+                                            $totalamt =$totalamt;
+                                            $totVal=round($totalamt, 2);
+                                            echo"<td>".abs($totVal)."</td>";
+                                            echo"<td></td>";
+                                        }
+                                        if($totalamt<0){
+                                            $totalamt =$totalamt;
+                                            echo"<td></td>";
+                                            $totVal=round($totalamt, 2);
+                                            echo"<td>".abs( $totVal)."</td>";
+                                           
+                                        }
+                                     }elseif($prodtls->remarks=='Cr note' || $prodtls->remarks=='Advance' || $prodtls->remarks=='NEFT Adj' || $prodtls->remarks=='Pay Order Adj' || $prodtls->remarks=='Draft Adj'|| $prodtls->remarks=='Cheque Adj'){
                                         
                                         $totalamt -= (($prodtls->tot_recv) +($prodtls->tot_paid));
                                         if($totalamt>0){
@@ -230,7 +242,10 @@ tr:hover {background-color: #f5f5f5;}
                                      }elseif($prodtls->remarks=='Sale'){
                                       
                                         $totalamt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
-                                        //echo $totalamt;
+
+                                        // unset($totalamt);
+                                        // $totalamt=100;
+                                        // //echo $totalamt;
                                         if($totalamt>0){
                                            
                                             $totVal=round($totalamt, 2);
