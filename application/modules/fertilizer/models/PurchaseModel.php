@@ -256,10 +256,10 @@
 /*Delete From Table*/
 		public function f_delete($table_name, $where) {			
 
-			$this->db->delete($table_name, $where);
+			$data=$this->db->delete($table_name, $where);
 			// echo $this->db->last_query();
 			//  die();
-			 return;
+			 return $data;
 		}
 
 /*Select Maximun Account Code*/
@@ -521,12 +521,13 @@
 /********************************************** */
 
 function f_purchasejnl($data){
-	//echo '<pre> I am Here';var_dump(json_encode($data));
+	// echo '<pre> I am Here';var_dump(json_encode($data));
+	// exit();
 	$curl = curl_init();
 
 	curl_setopt_array($curl, array(
 	
-	CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/purchase_voucher',
+	CURLOPT_URL => 'http://localhost/Benfed_finance/index.php/api_voucher/purchase_voucher',
 	// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/purchase_voucher',
 	 CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => '',
@@ -590,6 +591,12 @@ function f_purchasejnl($data){
 			
 			$branchId=$this->session->userdata['loggedin']['branch_id'];
 			return $this->db->query('SELECT * FROM td_month_end  where branch_id = '.$branchId.' and   sl_no = (select max(sl_no) from td_month_end  where  branch_id = '.$branchId.')')->row();
+		}
+		public function f_delete_voucher($where_fin){
+			$db2 = $this->load->database('findb', TRUE);
+			$data= $db2->query("DELETE FROM td_vouchers WHERE trans_no='$where_fin'");
+			return $data;
+		
 		}
 
 	}

@@ -200,15 +200,25 @@ tr:hover {background-color: #f5f5f5;}
                                      $totalamount += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst;
                                     $saleAmt += $prodtls->tot_payble +$prodtls->cgst + $prodtls->sgst; ?>
                                      </td>
-                                     <td> <?php  echo round(abs($prodtls->tot_paid),2) ; $advCrnote+=$prodtls->tot_paid; ?></td>
+                                     <td> <?php  if($prodtls->remarks=='Opening'){
+										echo '0.00';
+									}else{
+										echo round(abs($prodtls->tot_paid),2) ; $advCrnote+=$prodtls->tot_paid;}
+									?></td>
 									 <td class="report sale" id="sale">
-                                     <?php echo ($prodtls->tot_recv);
+                                     <?php if($prodtls->remarks=='Opening'){
+										echo '0.00';
+										}else{	echo ($prodtls->tot_recv);
 										$adjustable +=($prodtls->tot_recv);
+											 }
 									  ?>
                                      </td>
                                      <?php 
+										
                                      if($prodtls->remarks=='Opening'){
-                                        
+                                       	 //echo  $prodtls->tot_recv;
+										// echo  $prodtls->tot_paid;
+										// exit();
                                         $totalamt = (($prodtls->tot_recv) +($prodtls->tot_paid));
                                        
                                         if($totalamt>0){
@@ -344,7 +354,7 @@ tr:hover {background-color: #f5f5f5;}
         var WindowObject = window.open('', 'Print-Window');
         WindowObject.document.open();
         WindowObject.document.writeln('<!DOCTYPE html>');
-        WindowObject.document.writeln('<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title></title><style type="text/css">');
+        WindowObject.document.writeln('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title><style type="text/css">');
 
 
         WindowObject.document.writeln('@media print { .center { text-align: center;}' +

@@ -1663,8 +1663,8 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
             from( 
               SELECT c.op_dt as trans_dt,'' prod,'' as inv_no, c.soc_id soc_id,b.soc_name,if(c.balance<0,
               c.balance,0) as paid_amt,
-              if(c.balance>0,c.balance,0) paybl,0 cgst,0 sgst,''ro_no,'' as ro_dt,0 as qty,
-                0 tot_recv ,'Opening' remarks
+              0 paybl,0 cgst,0 sgst,''ro_no,'' as ro_dt,0 as qty,
+                if(c.balance>0,c.balance,0) tot_recv ,'Opening' remarks
                 FROM td_soc_opening c,mm_ferti_soc b 
                 where c.soc_id=b.soc_id 
                 and c.soc_id = '$soc_id'
@@ -1701,7 +1701,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
              Union
              SELECT trans_dt,'' prod,receipt_no as inv_no, c.soc_id soc_id,soc_name,c.adv_amt as paid_amt,0 paybl,0,0,''as ro_no,trans_dt as ro_dt,0 as qty ,0,'Advance' remarks
                 FROM tdf_advance c,mm_ferti_soc b where c.soc_id=b.soc_id and c.soc_id = '$soc_id'and c.branch_id='$branch' and c.trans_type='I' and c.trans_dt between '$frmDt' and '$toDt'
-                 group by soc_name,c.soc_id, trans_dt
+                 group by soc_name,c.soc_id, trans_dt,receipt_no
                
              Union
              SELECT c.do_dt,e.prod_desc prod,c.trans_do as inv_no, c.soc_id,b.soc_name,0 tot_paid ,c.taxable_amt as tot_payble,c.cgst ,c.sgst,c.sale_ro,d.ro_dt,c.qty ,0,'Sale' remarks
@@ -1711,8 +1711,9 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                 and c.sale_ro = d.ro_no and c.do_dt between '$frmDt' and '$toDt' 
                 and c.prod_id=e.prod_id
                 and c.soc_id not in(select soc_id from tdf_payment_recv where paid_dt between '$frmDt' and '$toDt' and branch_id=343)
-                )a
-                group by soc_id,soc_name,ro_no,ro_dt ORDER BY `a`.`trans_dt`");
+               group by c.do_dt ,c.soc_id,b.soc_name,e.prod_desc,c.trans_do)a
+                group by soc_id,soc_name,ro_no,ro_dt,inv_no 
+				ORDER BY `a`.`trans_dt`");
 
             return $query->result();
         }
