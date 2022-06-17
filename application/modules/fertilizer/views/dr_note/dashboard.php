@@ -28,11 +28,13 @@
             <form method="POST" action="">
 
                 <div class="col-sm-3">
-                    <input type="date" style="width:300px" id="from_date" name="from_date" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                    <input type="date" style="width:300px" id="from_date" name="from_date" class="form-control"
+                        value="<?php echo date('Y-m-d') ?>">
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="date" style="width:250px" id="to_date" name="to_date" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                    <input type="date" style="width:250px" id="to_date" name="to_date" class="form-control"
+                        value="<?php echo date('Y-m-d') ?>">
                 </div>
 
                 <div class="col-sm-3">
@@ -58,7 +60,7 @@
                     <th>Edit</th>
                     <th>Print</th>
                     <th>Download</th>
-                    <!-- <th>Delete</th> -->
+                    <th>Delete</th>
 
                 </tr>
 
@@ -128,19 +130,30 @@
                                 id="down_clk_td_<?= $i ?>" title="Download"><i class="fa fa-download fa-2x"
                                     style="color:green;"></i></a>
                     </td>
-                    <!-- </a> -->
-                    </td>
-                    <!-- <td> -->
-                    <!-- <button type="button" name="delete" class="delete_" id="delete"  
+                    <!-- <td>
+                    <button type="button" name="delete" class="delete_" id="delete"  
+                                data-toggle="tooltip" data-placement="bottom" title="delete_" <?= $disable_btn; ?>>
+
+                                <a data-toggle="tooltip" data-placement="bottom" id="delete_<?= $i ?>">
+                                    <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
+                                </a> 
+                    </td> -->
+                    <!-- <td>
+                    <button type="button" name="delete" class="delete_" id="delete"  
                                 data-toggle="tooltip" data-placement="bottom" title="delete_" <?= $disable_btn; ?>>
 
                                 <a  
                                         data-toggle="tooltip" data-placement="bottom" id="delete_<?= $i ?>">
                                         <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                       
-                                    </a>  -->
+                                    </a> 
+                    </button>
+                    </td> -->
 
-                    <!-- <td><button type="button" name="delete_<?= $i ?>" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
+                    <td>
+
+                    <?php if(empty($dr->irn)){ ?>
+                        <!-- <button type="button" name="delete_<?= $i ?>" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
                                        
                                        data-toggle="tooltip" data-placement="bottom" title="Delete" <?= $disable_del_btn; ?>>
 
@@ -149,13 +162,14 @@
                                </td> -->
 
 
-                    <!-- <button type="button" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>"    
-                                       
-                                        data-toggle="tooltip" data-placement="bottom" title="Delete">
+                        <button type="button" class="delete" id="<?=$dr->trans_dt;?>&trans_no=<?=$dr->trans_no;?>&recpt_no=<?=$dr->recpt_no?>&sale_invoice_no=<?=$dr->invoice_no?>"
+                            data-toggle="tooltip" data-placement="bottom" title="Delete" <?=$disable_btn?> >
 
-                                        <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
-                                    </button>  -->
-                    <!-- </tds> -->
+                            <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
+                        </button>
+
+                        <?php } ?>
+                    </td>
                 </tr>
 
                 <?php
@@ -186,7 +200,7 @@
                     <th>Edit</th>
                     <th>Print</th>
                     <th>Download</th>
-                    <!-- <th>Delete</th> -->
+                    <th>Delete</th>
                 </tr>
 
             </tfoot>
@@ -209,7 +223,7 @@
             if (result) {
 
                 window.location = "<?php echo site_url('drcrnote/deletedr_note?trans_dt=" + id +
-                "');?>";
+                    "');?>";
 
             }
 
@@ -221,7 +235,7 @@
 <script>
     $(document).ready(function () {
 
-            <?php if ($this->session->flashdata('msg')) { ?>
+            <?php if ($this->session->flashdata('msg')){ ?>
                 window.alert("<?php echo $this->session->flashdata('msg'); ?>");
             });
 

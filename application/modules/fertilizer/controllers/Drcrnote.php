@@ -724,19 +724,32 @@ public function drnoteReport()
 
 //delete
 	public function deletedr_note() {
-
-		$where  =   array(
-
-					"trans_dt" => $this->input->get('trans_dt'),
-					
-					"trans_no" => $this->input->get('trans_no')
-			);
-
-		$this->DrcrnoteModel->f_delete('tdf_dr_cr_note', $where);
-
-		$this->session->set_flashdata('msg', 'Successfully Deleted!');
-
-		redirect('drcrnote/dr_note');
+		//print_r($this->input->get());
+		
+		$recpt_no=$this->input->get('recpt_no');
+		$sale_invoice_no=$this->input->get('sale_invoice_no');
+		$recivedPayCount=$this->DrcrnoteModel->checked_recived_payment($sale_invoice_no);
+		//$recivedPaycrnodeCount=$this->DrcrnoteModel->checked_recived_payment_cradit_not($sale_invoice_no);
+		//if($recivedPaycrnodeCount==0){
+		if($recivedPayCount==0){
+			$where  =   array(
+						"trans_dt" => $this->input->get('trans_dt'),
+						"trans_no" => $this->input->get('trans_no')
+				);
+			$this->DrcrnoteModel->f_delete('tdf_dr_cr_note', $where);
+			$this->DrcrnoteModel->delete_td_vouchers($recpt_no);
+			$this->session->set_flashdata('msg', 'Successfully Deleted!');
+			redirect('drcrnote/dr_note');
+		}else{
+			$this->session->set_flashdata('msg', 'Advance alrady adjusted ! Delete not possible');
+			redirect('drcrnote/dr_note');
+		}
+	// }else{
+	// 	$this->session->set_flashdata('msg', 'Advance alrady adjusted ! Delete not possible');
+	// 	redirect('drcrnote/dr_note');
+	// }
+		//exit();
+		
 
 	}	
 
@@ -1002,4 +1015,3 @@ public function crnote_editvu(){
 	}
 
 }
-?>

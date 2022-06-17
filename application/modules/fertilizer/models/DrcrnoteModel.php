@@ -70,7 +70,7 @@
 
 	curl_setopt_array($curl, array(
 	
-	CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/totcrn_voucher',
+	CURLOPT_URL => 'http://localhost/Benfed_finance/index.php/api_voucher/totcrn_voucher',
 	// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/totcrn_voucher',
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => '',
@@ -106,7 +106,7 @@ function f_crnjnl($data){
 
 	curl_setopt_array($curl, array(
 	
-	CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/crn_voucher',
+	CURLOPT_URL => 'http://localhost/Benfed_finance/index.php/api_voucher/crn_voucher',
 	//CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/crn_voucher',
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => '',
@@ -184,7 +184,22 @@ function f_crnjnl($data){
 			 return;
 		}
 		
-
+		public function checked_recived_payment($sale_invoice_no){
+			$this->db->where('sale_invoice_no',$sale_invoice_no)->where('pay_type',6);
+			$q=$this->db->get('tdf_payment_recv')->num_rows();
+			return $q;
+		}
+		public function checked_recived_payment_cradit_not($sale_invoice_no){
+			$this->db->where('sale_invoice_no',$sale_invoice_no);
+			$this->db->where('pay_type',6);
+			$q=$this->db->get('tdf_payment_recv')->num_rows();
+			return $q;
+		}
+		public function delete_td_vouchers($recpt_no){
+			$db2 = $this->load->database('findb', TRUE);
+			$data= $db2->query("DELETE FROM td_vouchers WHERE voucher_id='$recpt_no'");
+			return $data;
+		}
 
 
 	}

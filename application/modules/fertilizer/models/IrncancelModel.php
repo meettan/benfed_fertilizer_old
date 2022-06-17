@@ -61,9 +61,9 @@ function f_cancelsalejnl($data){
 
 	curl_setopt_array($curl, array(
 	
-	// CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/cancelsale_voucher',
+	CURLOPT_URL => 'http://localhost/Benfed_finance/index.php/api_voucher/cancelsale_voucher',
 
-	CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/cancelsale_voucher',
+	// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/cancelsale_voucher',
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => '',
 	  CURLOPT_MAXREDIRS => 10,
