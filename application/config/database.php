@@ -137,3 +137,4 @@ $db['findb'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
