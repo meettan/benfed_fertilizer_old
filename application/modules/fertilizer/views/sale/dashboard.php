@@ -55,7 +55,7 @@
                 
             </h3>
             <div class="form-group row">
-              <form method="POST" action="" >
+                <form action="<?= site_url('trade/salesfilter'); ?>" method="post">
 
                         <div class="col-sm-3">
 	                    <input type="date" style="width:300px" id=from_date name="from_date" class="form-control"  />
@@ -66,7 +66,7 @@
 	                    </div>
 
                         <div class="col-sm-3">
-                        <input type="submit" id= "submit" class="filt" value="Filter" />
+                        <input type="submit" class="" value="Filter" />
                         </div>
 
                
@@ -125,6 +125,9 @@
                                     </a> 
                                 </td>
                                 <!-- <td><<a href="<?php echo site_url('trade/api_call?trans_do='.$value->trans_do.''); ?>"  -->
+
+
+
                                 <td id="irn_clk_td_<?= $i ?>">
                                 
                                     <?php if($value->irn ){echo ' <i class="fa fa-check fa-2x"  aria-hidden="true" style="color: green"></i>'; }
@@ -148,6 +151,9 @@
                                    
                                    <?php } ?> 
                                </td>
+
+
+
                                 <td>
                                 <button type="button" name="download_<?= $i ?>" class="download_" id="download"    
                                        
@@ -162,12 +168,12 @@
                                 <a href="<?php echo site_url('trade/saleinvoice_rep?trans_do='.$value->trans_do.''); ?>" title="Print"><i class="fa fa-print fa-2x" style="color:green;"></i></a>
                                 </td>
                                 
-                                <td><button type="button" name="delete_<?= $i ?>" class="delete" id="<?php echo $value->trans_do;?>"    
-                                       
-                                        data-toggle="tooltip" data-placement="bottom" title="Delete" <?= $disable_btn; ?>>
+                                <td>
+                                    <?php if(empty($value->irn)){  ?><button type="button" name="delete_<?= $i ?>" class="delete" id="<?php echo $value->trans_do;?>&transinvoice=<?php echo $value->trans_do; ?>" transInvoice=<?php echo $value->trans_do; ?> data-toggle="tooltip" data-placement="bottom" title="Delete" <?= $disable_btn; ?>>
 
                                         <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                     </button> 
+                                    <?php } ?>
                                 </td>
                             </tr>
 

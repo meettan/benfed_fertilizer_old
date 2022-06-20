@@ -33,185 +33,184 @@
 			}
 		}
 		
-		public function f_get_api_datacr($trans_do)
-{
-	$sql = $this->db->query("SELECT 
-	 1.1 'Version',
-	 'GST' TaxSch,'B2B'  SupTyp,'N' RegRev,null EcmGstin,'N' IgstOnIntra,
-	 'CRN' Typ,concat(a.trans_do,'/1') No ,a.do_dt Dt,
-	 '19AABAT0010H2ZY' Gstin,'The West Bengal State Co-operative Marketing Federation Ltd.'LglNm,'BENFED'TrdNm,
-	replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr2,
-	 d.district_name Loc,d.pin Pin,'19'Stcd,'9666666666'Ph,' info@benfed.org'Em,
+		public function f_get_api_datacr($trans_do){
+// 	$sql = $this->db->query("SELECT 
+// 	 1.1 'Version',
+// 	 'GST' TaxSch,'B2B'  SupTyp,'N' RegRev,null EcmGstin,'N' IgstOnIntra,
+// 	 'CRN' Typ,concat(a.trans_do,'/1') No ,a.do_dt Dt,
+// 	 '19AABAT0010H2ZY' Gstin,'The West Bengal State Co-operative Marketing Federation Ltd.'LglNm,'BENFED'TrdNm,
+// 	replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr2,
+// 	 d.district_name Loc,d.pin Pin,'19'Stcd,'9666666666'Ph,' info@benfed.org'Em,
 
-	 c.gstin Gstin1,c.soc_name LglNm1,c.soc_name TrdNm1,19 Pos,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_1,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_1,d.district_name Loc1,'45555666',d.pin Pin1,19 Stcd1,c.ph_no Ph1,c.email Em1,
+// 	 c.gstin Gstin1,c.soc_name LglNm1,c.soc_name TrdNm1,19 Pos,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_1,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_1,d.district_name Loc1,'45555666',d.pin Pin1,19 Stcd1,c.ph_no Ph1,c.email Em1,
 
-	 'The West Bengal State Co-operative Marketing Federation Ltd.' Nm2,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1_2,'' Addr2_2,'W.B' Loc2,d.pin Pin2,19 Stcd2,
+// 	 'The West Bengal State Co-operative Marketing Federation Ltd.' Nm2,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1_2,'' Addr2_2,'W.B' Loc2,d.pin Pin2,19 Stcd2,
 	 
-	 c.gstin Gstin2,c.soc_name LglNm2,c.soc_name TrdNm2,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_3,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_3,'W.B' Loc3,d.pin Pin3,19     Stcd3,
+// 	 c.gstin Gstin2,c.soc_name LglNm2,c.soc_name TrdNm2,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_3,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_3,'W.B' Loc3,d.pin Pin3,19     Stcd3,
 	 
-	 '1' SlNo,b.prod_desc PrdDesc,'N' IsServc,b.hsn_code HsnCd,''Barcde,a.qty Qty,'0'FreeQty,e.unit_name Unit,a.sale_rt UnitPrice,
-	a.taxable_amt TotAmt,a.dis Discount, 0 PreTaxVal,a.taxable_amt AssAmt,b.gst_rt GstRt,0 IgstAmt,a.cgst  CgstAmt,a.sgst SgstAmt,
-	 0 CesRt,0 CesAmt,0 CesNonAdvlAmt,0 StateCesRt,0 StateCesAmt, 0 StateCesNonAdvlAmt,0 OthChrg,a.taxable_amt+a.cgst+a.sgst TotItemVal,
-	 0 OrdLineRef,'IN' OrgCntry,0 PrdSlNo,
-	 '' Nm4,
-     NULL   ExpDt,
-     NULL  WrDt,
-	 '' Nm5,
-     '0'  Val,
-	 a.taxable_amt AssVal,
-     a.cgst CgstVal,
-     a.sgst SgstVal,
-     0 IgstVal,
-     0 CesVal,
-     0 StCesVal,
-     0 Discount,
-     0 OthChrg,
-     0 RndOffAmt,
-     a.taxable_amt + a.cgst+ a.sgst TotInvVal,
-     0 TotInvValFc,
-	 ''  Nm6,
-	 0  AccDet,
-	 '' Mode,
-	 '' FinInsBr,
-	 '0' PayTerm,
-	 '' PayInstr,
-	 '' CrTrn,
-	 '' DirDr,
-	 0 CrDay,
-	 0 PaidAmt,
-	 0 PaymtDue,
-	 '' InvRm, 
-	 NULL InvStDt,
-	 NULL InvEndDt,
-	 '' InvNo,
-	 NULL InvDt,
-	 '' OthRefNo,
-	 '' RecAdvRef,
-	 NULL RecAdvDt,
-	 '' TendRefr,
-	 '' ContrRefr,
-	 '' ExtRefr,
-	 '' ProjRefr,
-	 substr(g.ro_no,1,16) PORefr,
-	 DATE_FORMAT(g.ro_dt,'%d/%m/%Y')  PORefDt,
-	 'https://einv-apisandbox.nic.in'  Url,
-	 '' Docs,
-	 '' Info,
-	 '' ShipBNo,
-	  NULL ShipBDt,
-	  '' Port,
-	  '' RefClm,
-	  '' ForCur,
-	  '' CntCode,
-      ''  TransId,
-	  '' TransName,
-	  0  Distance,
-	  '' TransDocNo,
-	  NULL  TransDocDt,
-	  '' VehNo,
-	  ''  VehType,
-	  1  TransMode
-	from td_sale a  ,mm_product b,mm_ferti_soc c,md_district d,mm_unit e,mm_company_dtls f,td_purchase g
-	where a.prod_id=b.prod_id
-	and a.sale_ro=g.ro_no
-	and a.soc_id=c.soc_id
-	and c.district=d.district_code
-	and a.unit=e.id
-	and a.comp_id=f.comp_id
-	and a.trans_do='$trans_do'");
-			// echo $this->db->last_query();exit; 
-return $sql->result();
+// 	 '1' SlNo,b.prod_desc PrdDesc,'N' IsServc,b.hsn_code HsnCd,''Barcde,a.qty Qty,'0'FreeQty,e.unit_name Unit,a.sale_rt UnitPrice,
+// 	a.taxable_amt TotAmt,a.dis Discount, 0 PreTaxVal,a.taxable_amt AssAmt,b.gst_rt GstRt,0 IgstAmt,a.cgst  CgstAmt,a.sgst SgstAmt,
+// 	 0 CesRt,0 CesAmt,0 CesNonAdvlAmt,0 StateCesRt,0 StateCesAmt, 0 StateCesNonAdvlAmt,0 OthChrg,a.taxable_amt+a.cgst+a.sgst TotItemVal,
+// 	 0 OrdLineRef,'IN' OrgCntry,0 PrdSlNo,
+// 	 '' Nm4,
+//      NULL   ExpDt,
+//      NULL  WrDt,
+// 	 '' Nm5,
+//      '0'  Val,
+// 	 a.taxable_amt AssVal,
+//      a.cgst CgstVal,
+//      a.sgst SgstVal,
+//      0 IgstVal,
+//      0 CesVal,
+//      0 StCesVal,
+//      0 Discount,
+//      0 OthChrg,
+//      0 RndOffAmt,
+//      a.taxable_amt + a.cgst+ a.sgst TotInvVal,
+//      0 TotInvValFc,
+// 	 ''  Nm6,
+// 	 0  AccDet,
+// 	 '' Mode,
+// 	 '' FinInsBr,
+// 	 '0' PayTerm,
+// 	 '' PayInstr,
+// 	 '' CrTrn,
+// 	 '' DirDr,
+// 	 0 CrDay,
+// 	 0 PaidAmt,
+// 	 0 PaymtDue,
+// 	 '' InvRm, 
+// 	 NULL InvStDt,
+// 	 NULL InvEndDt,
+// 	 '' InvNo,
+// 	 NULL InvDt,
+// 	 '' OthRefNo,
+// 	 '' RecAdvRef,
+// 	 NULL RecAdvDt,
+// 	 '' TendRefr,
+// 	 '' ContrRefr,
+// 	 '' ExtRefr,
+// 	 '' ProjRefr,
+// 	 substr(g.ro_no,1,16) PORefr,
+// 	 DATE_FORMAT(g.ro_dt,'%d/%m/%Y')  PORefDt,
+// 	 'https://einv-apisandbox.nic.in'  Url,
+// 	 '' Docs,
+// 	 '' Info,
+// 	 '' ShipBNo,
+// 	  NULL ShipBDt,
+// 	  '' Port,
+// 	  '' RefClm,
+// 	  '' ForCur,
+// 	  '' CntCode,
+//       ''  TransId,
+// 	  '' TransName,
+// 	  0  Distance,
+// 	  '' TransDocNo,
+// 	  NULL  TransDocDt,
+// 	  '' VehNo,
+// 	  ''  VehType,
+// 	  1  TransMode
+// 	from td_sale a  ,mm_product b,mm_ferti_soc c,md_district d,mm_unit e,mm_company_dtls f,td_purchase g
+// 	where a.prod_id=b.prod_id
+// 	and a.sale_ro=g.ro_no
+// 	and a.soc_id=c.soc_id
+// 	and c.district=d.district_code
+// 	and a.unit=e.id
+// 	and a.comp_id=f.comp_id
+// 	and a.trans_do='$trans_do'");
+// 			// echo $this->db->last_query();exit; 
+// return $sql->result();
 }
 
-public function f_get_api_data($trans_do)
-{
-	$sql = $this->db->query("SELECT 
-	 1.1 'Version',
-	 'GST' TaxSch,'B2B'  SupTyp,'N' RegRev,null EcmGstin,'N' IgstOnIntra,
-	 'INV' Typ,concat(a.trans_do,'/1') No ,a.do_dt Dt,
-	 '19AABAT0010H2ZY' Gstin,'The West Bengal State Co-operative Marketing Federation Ltd.'LglNm,'BENFED'TrdNm,
-	 replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr2,
-	 d.district_name Loc,d.pin Pin,'19'Stcd,'9666666666'Ph,' info@benfed.org'Em,
+// public function f_get_api_data($trans_do)
+// {
+// 	$sql = $this->db->query("SELECT 
+// 	 1.1 'Version',
+// 	 'GST' TaxSch,'B2B'  SupTyp,'N' RegRev,null EcmGstin,'N' IgstOnIntra,
+// 	 'INV' Typ,concat(a.trans_do,'/1') No ,a.do_dt Dt,
+// 	 '19AABAT0010H2ZY' Gstin,'The West Bengal State Co-operative Marketing Federation Ltd.'LglNm,'BENFED'TrdNm,
+// 	 replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr2,
+// 	 d.district_name Loc,d.pin Pin,'19'Stcd,'9666666666'Ph,' info@benfed.org'Em,
 
-	 c.gstin Gstin1,c.soc_name LglNm1,c.soc_name TrdNm1,19 Pos,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_1,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_1,d.district_name Loc1,'45555666',d.pin Pin1,19 Stcd1,c.ph_no Ph1,c.email Em1,
+// 	 c.gstin Gstin1,c.soc_name LglNm1,c.soc_name TrdNm1,19 Pos,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_1,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_1,d.district_name Loc1,'45555666',d.pin Pin1,19 Stcd1,c.ph_no Ph1,c.email Em1,
 
-	 'The West Bengal State Co-operative Marketing Federation Ltd.' Nm2,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1_2,'' Addr2_2,'W.B' Loc2,d.pin Pin2,19 Stcd2,
+// 	 'The West Bengal State Co-operative Marketing Federation Ltd.' Nm2,replace(replace(substr(d.addr,1,100),'\r\n',''),'/','-') Addr1_2,'' Addr2_2,'W.B' Loc2,d.pin Pin2,19 Stcd2,
 	 
-	 c.gstin Gstin2,c.soc_name LglNm2,c.soc_name TrdNm2,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_3,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_3,'W.B' Loc3,d.pin Pin3,19     Stcd3,
+// 	 c.gstin Gstin2,c.soc_name LglNm2,c.soc_name TrdNm2,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr1_3,replace(replace(substr(c.soc_add,1,100),'\r\n',''),'/','-')  Addr2_3,'W.B' Loc3,d.pin Pin3,19     Stcd3,
 	 
-	 '1' SlNo,b.prod_desc PrdDesc,'N' IsServc,b.hsn_code HsnCd,''Barcde,a.qty Qty,'0'FreeQty,e.unit_name Unit,a.sale_rt UnitPrice,
-	a.taxable_amt TotAmt,a.dis Discount, 0 PreTaxVal,a.taxable_amt AssAmt,b.gst_rt GstRt,0 IgstAmt,a.cgst  CgstAmt,a.sgst SgstAmt,
-	 0 CesRt,0 CesAmt,0 CesNonAdvlAmt,0 StateCesRt,0 StateCesAmt, 0 StateCesNonAdvlAmt,0 OthChrg,a.taxable_amt+a.cgst+a.sgst TotItemVal,
-	 0 OrdLineRef,'IN' OrgCntry,0 PrdSlNo,
-	 '' Nm4,
-     NULL   ExpDt,
-     NULL  WrDt,
-	 '' Nm5,
-     '0'  Val,
-	 a.taxable_amt AssVal,
-     a.cgst CgstVal,
-     a.sgst SgstVal,
-     0 IgstVal,
-     0 CesVal,
-     0 StCesVal,
-     0 Discount,
-     0 OthChrg,
-     0 RndOffAmt,
-     a.taxable_amt + a.cgst+ a.sgst TotInvVal,
-     0 TotInvValFc,
-	 ''  Nm6,
-	 0  AccDet,
-	 '' Mode,
-	 '' FinInsBr,
-	 '0' PayTerm,
-	 '' PayInstr,
-	 '' CrTrn,
-	 '' DirDr,
-	 0 CrDay,
-	 0 PaidAmt,
-	 0 PaymtDue,
-	 '' InvRm, 
-	 NULL InvStDt,
-	 NULL InvEndDt,
-	 '' InvNo,
-	 NULL InvDt,
-	 '' OthRefNo,
-	 '' RecAdvRef,
-	 NULL RecAdvDt,
-	 '' TendRefr,
-	 '' ContrRefr,
-	 '' ExtRefr,
-	 '' ProjRefr,
-	 substr(g.ro_no,1,16) PORefr,
-	 DATE_FORMAT(g.ro_dt,'%d/%m/%Y')  PORefDt,
-	 'https://einv-apisandbox.nic.in'  Url,
-	 '' Docs,
-	 '' Info,
-	 '' ShipBNo,
-	  NULL ShipBDt,
-	  '' Port,
-	  '' RefClm,
-	  '' ForCur,
-	  '' CntCode,
-      ''  TransId,
-	  '' TransName,
-	  0  Distance,
-	  '' TransDocNo,
-	  NULL  TransDocDt,
-	  '' VehNo,
-	  ''  VehType,
-	  1  TransMode
-	from td_sale a  ,mm_product b,mm_ferti_soc c,md_district d,mm_unit e,mm_company_dtls f,td_purchase g
-	where a.prod_id=b.prod_id
-	and a.sale_ro=g.ro_no
-	and a.soc_id=c.soc_id
-	and c.district=d.district_code
-	and a.unit=e.id
-	and a.comp_id=f.comp_id
-	and a.trans_do='$trans_do'");
-			// echo $this->db->last_query();exit; 
-return $sql->result();
-}
+// 	 '1' SlNo,b.prod_desc PrdDesc,'N' IsServc,b.hsn_code HsnCd,''Barcde,a.qty Qty,'0'FreeQty,e.unit_name Unit,a.sale_rt UnitPrice,
+// 	a.taxable_amt TotAmt,a.dis Discount, 0 PreTaxVal,a.taxable_amt AssAmt,b.gst_rt GstRt,0 IgstAmt,a.cgst  CgstAmt,a.sgst SgstAmt,
+// 	 0 CesRt,0 CesAmt,0 CesNonAdvlAmt,0 StateCesRt,0 StateCesAmt, 0 StateCesNonAdvlAmt,0 OthChrg,a.taxable_amt+a.cgst+a.sgst TotItemVal,
+// 	 0 OrdLineRef,'IN' OrgCntry,0 PrdSlNo,
+// 	 '' Nm4,
+//      NULL   ExpDt,
+//      NULL  WrDt,
+// 	 '' Nm5,
+//      '0'  Val,
+// 	 a.taxable_amt AssVal,
+//      a.cgst CgstVal,
+//      a.sgst SgstVal,
+//      0 IgstVal,
+//      0 CesVal,
+//      0 StCesVal,
+//      0 Discount,
+//      0 OthChrg,
+//      0 RndOffAmt,
+//      a.taxable_amt + a.cgst+ a.sgst TotInvVal,
+//      0 TotInvValFc,
+// 	 ''  Nm6,
+// 	 0  AccDet,
+// 	 '' Mode,
+// 	 '' FinInsBr,
+// 	 '0' PayTerm,
+// 	 '' PayInstr,
+// 	 '' CrTrn,
+// 	 '' DirDr,
+// 	 0 CrDay,
+// 	 0 PaidAmt,
+// 	 0 PaymtDue,
+// 	 '' InvRm, 
+// 	 NULL InvStDt,
+// 	 NULL InvEndDt,
+// 	 '' InvNo,
+// 	 NULL InvDt,
+// 	 '' OthRefNo,
+// 	 '' RecAdvRef,
+// 	 NULL RecAdvDt,
+// 	 '' TendRefr,
+// 	 '' ContrRefr,
+// 	 '' ExtRefr,
+// 	 '' ProjRefr,
+// 	 substr(g.ro_no,1,16) PORefr,
+// 	 DATE_FORMAT(g.ro_dt,'%d/%m/%Y')  PORefDt,
+// 	 'https://einv-apisandbox.nic.in'  Url,
+// 	 '' Docs,
+// 	 '' Info,
+// 	 '' ShipBNo,
+// 	  NULL ShipBDt,
+// 	  '' Port,
+// 	  '' RefClm,
+// 	  '' ForCur,
+// 	  '' CntCode,
+//       ''  TransId,
+// 	  '' TransName,
+// 	  0  Distance,
+// 	  '' TransDocNo,
+// 	  NULL  TransDocDt,
+// 	  '' VehNo,
+// 	  ''  VehType,
+// 	  1  TransMode
+// 	from td_sale a  ,mm_product b,mm_ferti_soc c,md_district d,mm_unit e,mm_company_dtls f,td_purchase g
+// 	where a.prod_id=b.prod_id
+// 	and a.sale_ro=g.ro_no
+// 	and a.soc_id=c.soc_id
+// 	and c.district=d.district_code
+// 	and a.unit=e.id
+// 	and a.comp_id=f.comp_id
+// 	and a.trans_do='$trans_do'");
+// 			// echo $this->db->last_query();exit; 
+// return $sql->result();
+// }
 
 		public function f_get_receiptReport_dtls($trans_do)
 		{
@@ -951,7 +950,7 @@ function f_salecrjnl($data){
 
 			curl_setopt_array($curl, array(
 			//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/sale_voucher',
-			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/sale_voucher',
+			CURLOPT_URL => 'http://localhost/Benfed_finance/index.php/api_voucher/sale_voucher',
 
 			// CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/sale_voucher',
 			  CURLOPT_RETURNTRANSFER => true,
@@ -1044,6 +1043,28 @@ function f_salecrjnl($data){
 
 				
 			}
+		}
+
+
+
+		public function checked_recived_payment_cradit_not($sale_invoice_no){
+			$this->db->where('sale_invoice_no',$sale_invoice_no);
+			$q=$this->db->get('tdf_payment_recv')->num_rows();
+			return $q;
+		}
+
+		public function checked_selsRo($sale_invoice_no){
+			$this->db->where('trans_do',$sale_invoice_no);
+			$this->db->where('irn is NOT NULL', NULL, FALSE);
+			$this->db->where('ack is NOT NULL', NULL, FALSE);
+			$this->db->where('ack_dt is NOT NULL', NULL, FALSE);
+			$q=$this->db->get('td_sale')->num_rows();
+			return $q;
+		}
+		public function delete_td_vouchers($trans_no){
+			$db2 = $this->load->database('findb', TRUE);
+			$data= $db2->query("DELETE FROM td_vouchers WHERE trans_no='$trans_no'");
+			return $data;
 		}
 
 

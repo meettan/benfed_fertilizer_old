@@ -651,17 +651,36 @@ public function salesfilter(){
 }
 		
 public function deletesale() {
-
+// 	print_r($this->input->get());
+// exit();
 	$where = array(
 				 "trans_do"    =>  $this->input->get('trans_do')
 				
 		
 	);
-$this->SaleModel->f_delete('td_sale', $where);
 
-$this->session->set_flashdata('msg', 'Successfully Deleted!');
 
-redirect("trade/sale");
+	$sale_invoice_no=$this->input->get('transinvoice');
+	
+$resp=$this->SaleModel->checked_recived_payment_cradit_not($sale_invoice_no);
+$irnChecked= $this->SaleModel->checked_selsRo($sale_invoice_no);
+
+if($resp==0){
+	if($irnChecked==0){
+		$this->SaleModel->delete_td_vouchers($sale_invoice_no);
+		$this->SaleModel->f_delete('td_sale', $where);
+		$this->session->set_flashdata('msg', 'Successfully Deleted!');
+		redirect("trade/sale");
+	}else{
+		redirect("trade/sale");
+	}
+}else{
+	redirect("trade/sale");
+}
+
+
+
+
 
 }
 
