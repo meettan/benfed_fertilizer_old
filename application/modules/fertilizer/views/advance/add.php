@@ -1,3 +1,8 @@
+<?php $fyarra=$this->session->userdata('loggedin')['fin_yr']; 
+$fy=explode('-',$fyarra);
+$thisyear=$fy[0];
+
+?>
 <style>
 	.radio-label {
 		display: inline-block;
@@ -88,7 +93,7 @@
 
 				<div class="col-sm-4">
 
-					<input type="date" min="" id=trans_dt name="trans_dt" class="form-control mindate" required />
+					<input type="date" id=trans_dt name="trans_dt" class="form-control" min="<?=$thisyear?>-04-01" max="<?php $d=$thisyear+1;echo $d;?>-03-31" required />
 
 				</div>
 				<div class="col-sm-2">
