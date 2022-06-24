@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | WITH a trailing slash:
 |
 |	http://example.com/
-|
+| 
 | WARNING: You MUST set this value!
 |
 | If it is not set, then CodeIgniter will try guess the protocol and path
