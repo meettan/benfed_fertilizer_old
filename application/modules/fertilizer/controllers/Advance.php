@@ -147,10 +147,15 @@ public function company_advAdd(){
 			$adv_receive_no = $this->input->post('adv_receive_no');
             //for($i = 0; $i < count($adv_receive_no);$i++){
 				$i=0;
+
+               
 			foreach ( $_POST['ckamt'] as $key )
-			{
-				$amt  = $this->input->post('amt');	
-			$data_array = array (
+			{	
+				if(isset($key['list'])){
+					// print_r($key['amt']);
+					// die();
+				// $amt  = $this->input->post('amt');	
+			    $data_array = array (
 
                     "trans_dt" 			=> $this->input->post('trans_dt'),
 
@@ -174,7 +179,9 @@ public function company_advAdd(){
 
 					"trans_type"   		=> $this->input->post('trans_type'),
 
-					"adv_amt"			=> $amt[$i],
+					"adv_amt"			=> $key['amt'],
+					// "adv_amt"			=> $amt[$i],
+					
 					'cr_head'           => $this->input->post('cr_head'),
 
 					"remarks" 			=> $this->input->post('remarks'),
@@ -183,30 +190,33 @@ public function company_advAdd(){
 
 					"created_dt"    	=>  date('Y-m-d h:i:s')
 				);
+				// print_r($key);
+                // print_r($data_array);
+				// die();
+					$this->AdvanceModel->f_insert('tdf_company_advance', $data_array);
+					
+					$data_array_comp=$data_array;
+					$select_comp         		= array("COMP_NAME","adv_acc");
+					$where_comp            		= array("COMP_ID"     => $this->input->post('company'));
+					$comp_dtls 					= $this->AdvanceModel->f_select("mm_company_dtls",$select_comp,$where_comp,1);
 
-				$this->AdvanceModel->f_insert('tdf_company_advance', $data_array);
+					$select_bank                = array("acc_code");
+					$where_bank          		= array("sl_no" => $this->input->post('bank'));
+					$bank_dtls 					= $this->AdvanceModel->f_select("mm_feri_bank",$select_bank,$where_bank,1);
+					
+					$data_array_comp['rem'] 	= "Advance Paid To ".$comp_dtls->COMP_NAME.",".$this->input->post('remarks');
+					$select_br    				= array("dist_sort_code");
+					$where_br     				= array("district_code"=> $branch );
 
-				$data_array_comp=$data_array;
-				$select_comp         		= array("COMP_NAME","adv_acc");
-		        $where_comp            		= array("COMP_ID"     => $this->input->post('company'));
-	            $comp_dtls 					= $this->AdvanceModel->f_select("mm_company_dtls",$select_comp,$where_comp,1);
+					$data_array_comp['acc_cd']   = $comp_dtls->adv_acc;
+					$data_array_comp['bank_acc'] = $bank_dtls->acc_code;				
+					$data_array_comp['fin_fulyr']= $fin_year;
+					$data_array_comp['br_nm']    = $brn->dist_sort_code;
+					
+					$this->AdvanceModel->f_compadvjnl($data_array_comp);
 
-				$select_bank                = array("acc_code");
-		        $where_bank          		= array("sl_no" => $this->input->post('bank'));
-	            $bank_dtls 					= $this->AdvanceModel->f_select("mm_feri_bank",$select_bank,$where_bank,1);
-				
-				$data_array_comp['rem'] 	= "Advance Paid To ".$comp_dtls->COMP_NAME.",".$this->input->post('remarks');
-				$select_br    				= array("dist_sort_code");
-				$where_br     				= array("district_code"=> $branch );
-
-				$data_array_comp['acc_cd']   = $comp_dtls->adv_acc;
-				$data_array_comp['bank_acc'] = $bank_dtls->acc_code;				
-				$data_array_comp['fin_fulyr']= $fin_year;
-				$data_array_comp['br_nm']    = $brn->dist_sort_code;
-                 
-				$this->AdvanceModel->f_compadvjnl($data_array_comp);
-
-				$this->AdvanceModel->f_edit('td_adv_details', array('comp_pay_flag'=>'Y'),array('detail_receipt_no'=>$key['list'] ) );
+					$this->AdvanceModel->f_edit('td_adv_details', array('comp_pay_flag'=>'Y'),array('detail_receipt_no'=>$key['list'] ) );
+				}
 				$i++;
 				
 			}
