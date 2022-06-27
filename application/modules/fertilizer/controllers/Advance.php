@@ -121,7 +121,7 @@ public function company_advAdd(){
 				$select         = array("dist_sort_code");
 				$where          = array("district_code"     =>  $branch);
 
-                 $brn           = $this->AdvanceModel->f_select("md_district",$select,$where,1); 
+                $brn           = $this->AdvanceModel->f_select("md_district",$select,$where,1); 
 
 	    if($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -970,7 +970,112 @@ public function f_get_dist_bnk_dtls(){
 	    echo json_encode($data);
 	}
 
-	
+   ///    *************  Code start for Adance Forward   27/06/2022  **************  //
+
+   public function advancefwd(){
+
+	$br_cd      = $this->session->userdata['loggedin']['branch_id'];
+	$fin_id     = $this->session->userdata['loggedin']['fin_id'];
+	if($_SERVER['REQUEST_METHOD'] == "POST") {
+	$frmdt      = $this->input->post('from_date');
+	$todt       = $this->input->post('to_date');
+	$select	=	array("a.trans_dt","a.receipt_no","a.soc_id","a.trans_type","b.soc_name","a.adv_amt","a.forward_flag forward_flag");
+	$where  =	array(
+		"a.soc_id=b.soc_id"   => NULL,
+		"district"            => $this->session->userdata['loggedin']['branch_id'],
+		"fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
+		"a.trans_type='I'"   => NULL,
+		"a.trans_dt between '$frmdt ' and '$todt'"=> NULL,
+	);
+	$adv['data']    = $this->AdvanceModel->f_select("tdf_advance a,mm_ferti_soc b",$select,$where,0);
+	$this->load->view("post_login/fertilizer_main");
+	$this->load->view("advance/dashboard",$adv);
+	$this->load->view('search/search');
+	$this->load->view('post_login/footer');
+	}else{
+		//$select	=	array("a.trans_dt","a.receipt_no","a.soc_id","a.trans_type","b.soc_name","a.adv_amt","a.forward_flag forward_flag");
+		$where  =	array(
+			//"a.soc_id=b.soc_id"   => NULL,
+			"branch_id"            => $this->session->userdata['loggedin']['branch_id'],
+			"fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
+			//"a.trans_type='I'"   => NULL,
+			"trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=> NULL,
+			);
+		$adv['data']    = $this->AdvanceModel->f_select("tdf_adv_fwd",NULL,$where,0);
+		$this->load->view("post_login/fertilizer_main");
+		$this->load->view("advance/advfwd_dashboard",$adv);
+		$this->load->view('search/search');
+		$this->load->view('post_login/footer');
+	}
+    }
+	public function js_get_received_no(){
+		$select = array('detail_receipt_no');
+		$where= array(//'a.receipt_no = b.receipt_no' => NULL,
+			          'fwd_flag' => 'N',
+			          'comp_id'=>$this->input->get('comp_id'),
+				      'prod_id'=>$this->input->get('prod_id'),
+					  'branch_id' => $this->session->userdata['loggedin']['branch_id']);
+		$data  = $this->AdvanceModel->f_select('td_adv_details',$select,$where,0);
+		echo json_encode($data);
+	}
+
+	public function js_get_reciept_detail(){
+		$detail_receipt_no = $this->input->get('detail_receipt_no');
+		$data  = $this->AdvanceModel->f_select('td_adv_details',NULL,array('detail_receipt_no'=>$detail_receipt_no),1);
+		echo json_encode($data);
+
+	}
+
+	public function advancefwd_add(){
+
+		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$cntrow    = count($this->input->post('detail_receipt_no'));
+			$amt        = $this->input->post('amount');
+			$branch         = $this->session->userdata['loggedin']['branch_id'];
+			$finYr          = $this->session->userdata['loggedin']['fin_id'];
+			$fin_year       = $this->session->userdata['loggedin']['fin_yr'];
+            $brn            = $this->AdvanceModel->f_select("md_district",array("dist_sort_code"),array("district_code" => $branch),1);  
+
+			$ids = $this->AdvanceModel->f_select('tdf_adv_fwd',array('ifnull(max(id),0) as id'),array('fin_yr'=>$finYr),1);
+			$id = ($ids->id)+1;
+			$fwd_receipt_no = 'FWD/'.$brn->dist_sort_code.'/'.$fin_year.'/'.$id;
+		
+			for($i=0; $i<$cntrow; $i++) {
+					$data = array(
+						'id'        => $id++,
+						'trans_dt'  => date("Y-m-d"),
+						'detail_receipt_no'=>$this->input->post('detail_receipt_no')[$i],
+						'fwd_receipt_no'=>$fwd_receipt_no,
+						'comp_id'   =>$this->input->post('comp_id'),
+						'prod_id'   =>$this->input->post('prod_id'),
+						'fo_no'     =>$this->input->post('fo_no')[$i],
+						'ro_no'     =>$this->input->post('ro_no')[$i],
+						'qty'       =>$this->input->post('qty')[$i],
+						'rate'      =>$this->input->post('rate')[$i],
+						'amount'    =>$this->input->post('amount')[$i],
+						'branch_id' =>$this->session->userdata['loggedin']['branch_id'],
+						'fin_yr'    => $finYr,
+						'created_by'=>$this->session->userdata['loggedin']['user_name'],
+						'created_dt'=>date('Y-m-d h:i:s')
+					);
+				if($this->input->post('amount')[$i] > 0){
+					$this->AdvanceModel->f_insert('tdf_adv_fwd', $data);
+					$this->AdvanceModel->f_edit('td_adv_details',array('fwd_flag'=>'Y'),array('detail_receipt_no'=>$this->input->post('detail_receipt_no')[$i]));
+				}	
+		    }
+			redirect('adv/advancefwd');
+		}else{
+			$selectcompany      = array("comp_id","comp_name");
+			$data['compdtls']   = $this->AdvanceModel->f_select('mm_company_dtls',$selectcompany,NULL,0);
+			$this->load->view("post_login/fertilizer_main",$data);
+			$this->load->view("advance/advfwd_add",$data);
+			$this->load->view('search/search');
+			$this->load->view('post_login/footer');
+		}
+
+	}
+   
+   ///    *************  Code End for Adance Forward   27/06/2022  **************  //	
 
 }
 ?>
