@@ -1225,6 +1225,8 @@ class Purchase extends MX_Controller
 
 			$data_array = array(
 
+				"adv_status"  => $this->input->post('adv_status'),
+
 				"comp_id"      => $comp_id,
 
 				"prod_id"      => $prod_id,

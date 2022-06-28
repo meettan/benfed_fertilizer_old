@@ -22,31 +22,25 @@
     				</div>
 
     			</div>
+				<div class="form-group row">
+				<label for="adv_status" class="col-sm-1 col-form-label">Payment</label>
+				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advstatus" value="wadv" checked> With advance
+				<input class="form-check-input adv_status" type="radio" name="adv_status" id="advst" value="woadv"> Without advance</div>
 
+			    </div>
     			<div class="form-group row">
     				<label for="comp_id" class="col-sm-1 col-form-label">Company:</label>
     				<div class="col-sm-3">
-
     					<select name="comp_id" class="form-control required" id="comp_id" required>
 
     						<option value="">Select</option>
+    						<?php	foreach($compdtls as $comp){ ?>
+    						<option value="<?php echo $comp->comp_id;?>">
+							<?php echo $comp->comp_name;?>
+						    </option>
 
-    						<?php
-
-	foreach($compdtls as $comp){
-
-?>
-
-    						<option value="<?php echo $comp->comp_id;?>"><?php echo $comp->comp_name;?></option>
-
-    						<?php
-
-	}
-
-?>
-
+    						<?php  }   ?>
     					</select>
-
     				</div>
     				<label for="gst_no" class="col-sm-1 col-form-label">GSTIN:</label>
     				<div class="col-sm-3">
@@ -64,18 +58,12 @@
 
     			<div class="form-group row">
     				<label for="comp_add" class="col-sm-1 col-form-label">Address:</label>
-    				<div class="col-sm-4">
+    				<div class="col-sm-10">
 
-    					<textarea style="width:530px;height:70px" id=comp_add name="comp_add" class="form-control"
-    						readonly /></textarea>
+    					<textarea  id=comp_add name="comp_add" class="form-control" rows='2' readonly /></textarea>
 
     				</div>
-    				<!-- <label for="cin" class="col-sm-2 col-form-label">CIN:</label>
-					<div class="col-sm-3">
-
-					<input type="text" style="width:200px" id=cin name="cin" class="form-control" readonly />
-
-					</div> -->
+    			
     			</div>
     			<div class="form-header">
 
@@ -284,7 +272,7 @@
 					<label for="qty" class="col-sm-1 col-form-label">Advance Receipt No:</label>
     				<div class="col-sm-3">
 
-    					<input type="text" style="width:200px" id="receipt_no" name="receipt_no" class="form-control receipt_no" />
+    					<input type="text" style="width:200px" id="receipt_no" name="receipt_no" class="form-control receipt_no" required/>
 
     				</div>
 
@@ -2190,5 +2178,18 @@ document.getElementById("demo").innerHTML = d;
 
 
 		$('.mindate').attr( 'min','<?=$date->end_yr ?>-<?php $month=$date->end_mnth+1; if($month==13){echo sprintf("%02d",1);}else{echo sprintf("%02d",$month);}?>-01');
-		
+		$(document).ready(function () {
+			$('.adv_status').change(function () {
+				var data = $(this).val();
+				if(data == 'woadv'){
+					$('#receipt_no').removeAttr('required');
+					$('#receipt_no').attr("readonly", true);
+				}else{
+					$('#receipt_no').attr('required', 'true');
+					$('#receipt_no').attr("readonly", false); 
+				}
+		    
+			
+	         })	
+		})
     </script>
