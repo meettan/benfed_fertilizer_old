@@ -12,7 +12,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url("/assets/js/validation.js")?>"></script>
 		<script type="text/javascript" src="<?php echo base_url("/assets/js/select2.js")?>"></script>
-		<script type="text/javascript" src="<?php echo base_url("/assets/js/select2.min.js")?>"></script>
+		<!-- <script type="text/javascript" src="<?php //echo base_url("/assets/js/select2.min.js")?>"></script> -->
 		<link href="<?php echo base_url("/assets/css/bootstrap-toggle.css");?>" rel="stylesheet">
 		<script type="text/javascript" src="<?php echo base_url("/assets/js/table2excel.js")?>"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

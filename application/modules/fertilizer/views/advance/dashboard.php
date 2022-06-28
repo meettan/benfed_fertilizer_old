@@ -77,7 +77,7 @@
 
                         <th>Amount(Rs)</th>
 
-                        <th>Forward</th>
+                        <!-- <th>Forward</th> -->
 
                         <th>Edit</th>
 
@@ -110,15 +110,13 @@
 
                                 <!-- <td><?php echo $value->forward_flag; ?></td> -->
 
-                                <td>  
-                              
-                                <?php if($value->forward_flag == 'N') { ?>
-
-                                <!-- <a href="<?php //echo site_url('adv/f_adv_forward?receipt_no='.$value->receipt_no.''); ?>"> -->
-                                <button class="btn btn-primary forwardbutton" receipt_no="<?= $value->receipt_no; ?>">Forward</button>
-                            <!-- </a> -->
-                                <?php } ?> 
-                                </td>
+                                <!-- <td>  
+                                <?php //if($value->forward_flag == 'N') { ?>
+                                 <a href="<?php //echo site_url('adv/f_adv_forward?receipt_no='.$value->receipt_no.''); ?>"> 
+                                <button class="btn btn-primary forwardbutton" receipt_no="<?php //$value->receipt_no; ?>">Forward</button>
+                                  </a> 
+                                <?php //} ?> 
+                                </td> -->
 
 			 	                <td><a href="editadv?rcpt=<?php echo $value->receipt_no;?>" 
                                         data-toggle="tooltip" data-placement="bottom" title="Edit">
@@ -178,7 +176,7 @@
 
                         <th>Amount(Rs)</th>
 
-                        <th>Forward</th>
+                        <!-- <th>Forward</th> -->
 
                         <th>Edit</th>
 
@@ -322,8 +320,6 @@ $(".filt").on("click", function() {
 $('.forwardbutton').click(function(){
     var receipt_no=$(this).attr('receipt_no');
    // alert(receipt_no);
-
-
     $.ajax({
         url: "<?=site_url('adv/checked_adv_forwar') ?>", 
         type: "POST",
@@ -342,4 +338,4 @@ $('.forwardbutton').click(function(){
         });
 });
 
-        </script>
+</script>
