@@ -32,10 +32,11 @@
                     <tr>
                         <th>Sl.No.</th>
                         <th>Year</th>
-            			<th>Receipt No.</th>
+            			<!-- <th>Receipt No.</th> -->
                         <th>Fwd receive no</th>
+                        <th>Amount</th>
                         <th>Forward</th>
-                        <th>Edit</th>
+                        <th>Option</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -47,9 +48,10 @@
                             <tr>   
                                 <td><?php echo ++$i; ?></td>
                                 <td><?php echo date('d/m/Y',strtotime($value->trans_dt)); ?></td>
-                                <td><?php echo $value->detail_receipt_no; ?></td>
+                                <!-- <td><?php //echo $value->detail_receipt_no; ?></td> -->
                                 <td><?php echo $value->fwd_receipt_no; ?></td>
-                                <td>  <?php if($value->fwd_flag == 'N') { ?>
+                                <th><?php echo $value->amount; ?></th>
+                                <td><?php if($value->fwd_flag == 'N') { ?>
                                  <a href="<?php echo site_url('adv/f_advfwd_forward?fwd_receipt_no='.$value->fwd_receipt_no.''); ?>"> 
                                 <button class="btn btn-primary forwardbutton" receipt_no="<?php $value->fwd_receipt_no; ?>">Forward</button>
                                   </a> 
@@ -58,9 +60,9 @@
                                         data-toggle="tooltip" data-placement="bottom" title="View">
                                         <i class="fa fa-eye fa-2x" style="color: #007bff"></i>
                                     </a>
-                                    <button type="button" name="delete_5" class="delete" id="<?=$value->receipt_no;?>,<?=$value->detail_receipt_no;?>,<?=$value->fwd_receipt_no;?>" data-toggle="tooltip" data-placement="bottom" title="Delete">
+                                    <!-- <button type="button" name="delete_5" class="delete" id="<?=$value->receipt_no;?>,<?=$value->detail_receipt_no;?>,<?=$value->fwd_receipt_no;?>" data-toggle="tooltip" data-placement="bottom" title="Delete">
                                         <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
-                                    </button> 
+                                    </button>  -->
                                 </td>
                             </tr>
 
@@ -76,8 +78,9 @@
                     <tr>
                         <th>Sl.No.</th>
                         <th>Date</th>
-                        <th>Receipt No.</th>
-                        <th>Society Name</th>
+                        <!-- <th>Receipt No.</th> -->
+                        <th>Receipt No</th>
+                        <th>Amount</th>
                         <th>Forward</th>
                         <th>Option</th>
                         <!-- <th>Delete</th> -->

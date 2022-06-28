@@ -974,16 +974,21 @@ public function f_get_dist_bnk_dtls(){
 		$this->load->view('search/search');
 		$this->load->view('post_login/footer');
 	}else{
-		//$select	=	array("a.trans_dt","a.receipt_no","a.soc_id","a.trans_type","b.soc_name","a.adv_amt","a.forward_flag forward_flag");
+		$select	=	array("a.fwd_flag","a.trans_dt","a.fwd_receipt_no",'sum(b.amount) amount');
 		$where  =	array(
-			"branch_id"            => $this->session->userdata['loggedin']['branch_id'],
-			"fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
-			"trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=> NULL,
-			"fwd_flag"=> 'N'
+			"a.detail_receipt_no = b.detail_receipt_no" => NULL,
+			"a.branch_id"            => $this->session->userdata['loggedin']['branch_id'],
+			"a.fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
+			"a.trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=> NULL,
+			"a.fwd_flag"=> 'N'
+			,"1 group by a.trans_dt,a.fwd_receipt_no,a.fwd_flag" =>NULL
 			);
+		
 		$adv['frmdt']   = date("Y-m-d");
 		$adv['todt']   = date("Y-m-d");
-		$adv['data']    = $this->AdvanceModel->f_select("tdf_adv_fwd",NULL,$where,0);
+		$adv['data']    = $this->AdvanceModel->f_select("tdf_adv_fwd a,td_adv_details b",$select,$where,0);
+		//echo $this->db->last_query();
+		//die();
 		$this->load->view("post_login/fertilizer_main");
 		$this->load->view("advance/advfwd_dashboard",$adv);
 		$this->load->view('search/search');

@@ -64,19 +64,24 @@ $thisyear=$fy[0];
 						<th style="text-align: center">Qty</th>
                         <th style="text-align: center">Rate</th>
                         <th style="text-align: center">Amount</th>
-                       
+						<th style="text-align: center">Delete</th>
                     </thead>
 
                 <tbody id="intro">
-				<?php foreach($fwds as $value){ ?>
+				<?php   $tot_amt =0.00;
+				       foreach($fwds as $value){ ?>
 
 					<tr>
 					<td ><input type="text" name="rec[]" class="form-control" id="" style="width:165px" readonly="" value='<?php echo $value->detail_receipt_no; ?>'></td>
 					<td><input type="text" name="fo_no[]" class="form-control" value='<?php echo $value->fo_no; ?>' style="width:125px" readonly=""></td>
-					<td><input type="text" name="ro_no[]" class="form-control" value='<?php echo $value->detail_receipt_no; ?>' style="" readonly=""></td>
+					<td><input type="text" name="ro_no[]" class="form-control" value='<?php echo $value->ro_no; ?>' style="" readonly=""></td>
 					<td><input type="text" name="qty[]" class="form-control" value='<?php echo $value->qty; ?>' readonly=""></td>
 					<td><input type="text" name="rate[]" class="form-control"value='<?php echo $value->rate; ?>' readonly=""></td>
-					<td><input type="text" name="amount[]" class="form-control" value='<?php echo $value->amount; ?>' readonly=""></td>
+					<td><input type="text" name="amount[]" class="form-control" value='<?php echo $value->amount;
+																						$tot_amt +=$value->amount; ?>' readonly=""></td>
+				    <td> <button type="button" name="delete_5" class="delete" id="<?=$value->receipt_no;?>,<?=$value->detail_receipt_no;?>,<?=$value->fwd_receipt_no;?>" data-toggle="tooltip" data-placement="bottom" title="Delete">
+                                        <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
+                                    </button> </td>			
 				</tr>
 
 				<?php } ?>
@@ -88,8 +93,8 @@ $thisyear=$fy[0];
                                 <strong>Total:</strong>
                             </td>
                            
-                            <td colspan="" style="text-align:right">
-                                <strong id="tot_amt"></strong>
+                            <td colspan="" style="text-align:left">
+                                <strong id="tot_amt"><?=$tot_amt?></strong>
                             </td>
                         </tr>
                     </tfoot>
@@ -107,6 +112,18 @@ $thisyear=$fy[0];
 </script>
 <script>
 $(document).ready(function () {
+
+	$('.delete').click(function () {
+		
+		var id = $(this).attr('id');
+		console.log(id);
+		var result = confirm("Do you really want to delete this record?");
+		if(result) {
+			window.location = "<?php echo site_url('adv/advfwddetailDel?data="+id+"');?>";
+		}
+		
+	});
+
     var i = 0;
     $("#comp_id").change(function () {
         $("#prod_id").html('');
