@@ -18,7 +18,6 @@ $thisyear=$fy[0];
 <div class="wraper">
 
 	<div class="col-md-12 container form-wraper">
-
 		<form method="POST" id="product" action="<?php echo site_url("adv/advancefwd_add") ?>">
 
 			<div class="form-header">
@@ -44,7 +43,6 @@ $thisyear=$fy[0];
                 <div class="col-sm-3">
                         <select name="prod_id"  class="form-control prod_id select2" id="prod_id" required>
                             <option value="">Select</option>
-                          
                         </select>
 				</div>
 			</div>
@@ -149,7 +147,7 @@ $(document).ready(function(){
 									+'</select>'
 								+'</td>'
 								+'<td>'
-									+'<input type="text" name="fo_no[]" class="form-control fo_no" id="fo_no" style="width:125px" readonly>'
+									+'<input type="hidden" name="receipt_no[]" value="" class="receipt_no"><input type="text" name="fo_no[]" class="form-control fo_no" id="fo_no" style="width:125px" readonly>'
 								+'</td>'
 								+'<td>'
 									+'<input type="text" name="ro_no[]" class="form-control ro_no" id="ro_no" style="" readonly>'
@@ -170,18 +168,16 @@ $(document).ready(function(){
 
 				$("#intro").append($(newElement1));
 				$('.select2').select2();
-				   $( document ).ready(function() {  
+				   $(document).ready(function() {
 						var tot = 0.00;
 						$('.amount').each(function(){
 							tot += parseFloat($(this).val())?parseFloat($(this).val()):0.00;
 						});
 						$('#tot_amt').html(parseFloat(tot));
 					})
-				
 				})
 
 		}else{
-
 			alert('Please select Company and Product');
 			return false;
 		}
@@ -207,19 +203,42 @@ $("#intro").on("change", ".detail_receipt_no", function(){
 	//var receipt_no = $('#').val();
 		$.get('<?php echo site_url("adv/js_get_reciept_detail") ?>',{detail_receipt_no:detail_receipt_no})
 		.done(function(data){
-
 			var value = JSON.parse(data);
+			row.find("td:eq(1) input[type='hidden']").val(value.receipt_no);
 			row.find("td:eq(1) input[type='text']").val(value.fo_no);
 			row.find("td:eq(2) input[type='text']").val(value.ro_no);
 			row.find("td:eq(3) input[type='text']").val(value.qty);
 			row.find("td:eq(4) input[type='text']").val(value.rate);
 			row.find("td:eq(5) input[type='text']").val(value.amount);
-
 			$('.amount').each(function(){
 				tot += parseFloat($(this).val())?parseFloat($(this).val()):0.00;
 			});
 			$('#tot_amt').html(parseFloat(tot));
 		})
 
+})
+$(document).ready(function(){
+	//$(document).ajaxComplete(function(){
+		
+		$("#intro").on('change','.detail_receipt_no',function(){
+			var cnts = 0;
+			var row = $(this).closest('tr');
+			var detail_receipt_no = $(this).val();
+			$('.detail_receipt_no').each(function(){
+					if(detail_receipt_no == $(this).val()){
+						cnts++;
+					}
+			});
+			if(cnts > 1){
+				alert('duplicate data');
+				row.css("background","red");
+				//return false; // breaks
+				//cnts = 0;
+			}else{
+				row.css("background","");
+			}
+		});
+		
+	//})
 })
 </script>
