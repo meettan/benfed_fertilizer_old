@@ -79,9 +79,12 @@ $thisyear=$fy[0];
 					<td><input type="text" name="rate[]" class="form-control"value='<?php echo $value->rate; ?>' readonly=""></td>
 					<td><input type="text" name="amount[]" class="form-control" value='<?php echo $value->amount;
 																						$tot_amt +=$value->amount; ?>' readonly=""></td>
-				    <td> <button type="button" name="delete_5" class="delete" id="<?=$value->receipt_no;?>,<?=$value->detail_receipt_no;?>,<?=$value->fwd_receipt_no;?>" data-toggle="tooltip" data-placement="bottom" title="Delete">
-                                        <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
-                                    </button> </td>			
+				    <td> <?php if($value->fwd_flag == 'N'){ ?>
+						<button type="button" name="delete_5" class="delete" id="<?=$value->receipt_no;?>,<?=$value->detail_receipt_no;?>,<?=$value->fwd_receipt_no;?>" 
+						            data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
+                        </button>
+						<?php } ?>
+					</td>			
 				</tr>
 
 				<?php } ?>

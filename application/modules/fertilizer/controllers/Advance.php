@@ -37,23 +37,24 @@ public function company_advance(){
 
 //Company Advance add
 public function company_advAddlist(){
-   $dist= $this->AdvanceModel->f_select('tdf_advance' ,array('branch_id'),array('receipt_no'=>$this->input->post('receipt_no')),1);
-   $dis=$dist->branch_id;
+   //$dist= $this->AdvanceModel->f_select('tdf_advance' ,array('branch_id'),array('receipt_no'=>$this->input->post('receipt_no')),1);
+   //$dis=$dist->branch_id;
    
-    if($dis==$this->input->post('branch_id')){
+    //if($dis==$this->input->post('branch_id')){
 		$select = array('a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
 		$where = array(
 					'a.comp_id = b.COMP_ID' =>NULL, 
-					'a.prod_id = C.prod_id' =>NULL, 
-					'a.receipt_no'    => $this->input->post('receipt_no'),
-					'a.comp_pay_flag' => 'N',
+					'a.prod_id = c.PROD_ID' =>NULL,
+					'a.detail_receipt_no = d.detail_receipt_no'=>NULL, 
+					'd.fwd_receipt_no'    => $this->input->post('receipt_no'),
+					'd.comp_pay_flag' => 'N',
 					'a.comp_id'=>$this->input->post('comp_id')
 					);
-		$list  = $this->AdvanceModel->f_select("td_adv_details a,mm_company_dtls b,mm_product c",$select,$where,0);
+		$list  = $this->AdvanceModel->f_select("td_adv_details a,mm_company_dtls b,mm_product c,tdf_adv_fwd d",$select,$where,0);
 		echo json_encode($list);
-	}else{
-         echo 0;
-	}
+	//}else{
+        // echo 0;
+	//}
 }
 
 
@@ -142,7 +143,7 @@ public function company_advAdd(){
             $brn            = $this->AdvanceModel->f_select("md_district",$select,$where,1);  
 
             $transCd 	    = $this->AdvanceModel->f_get_comp_advance_code($branch,$finYr);
-
+			
             $receipt        = 'CompAdv/'.$brn->dist_sort_code.'/'.$fin_year.'/'.$transCd->sl_no;
 			$adv_receive_no = $this->input->post('adv_receive_no');
             //for($i = 0; $i < count($adv_receive_no);$i++){
@@ -159,7 +160,7 @@ public function company_advAdd(){
 
                     "trans_dt" 			=> $this->input->post('trans_dt'),
 
-                    // "sl_no" 			=> $transCd->sl_no,
+                    "sl_no" 			=> $transCd->sl_no,
                     
                     "receipt_no"        => $receipt,
 
@@ -215,14 +216,13 @@ public function company_advAdd(){
 					
 					$this->AdvanceModel->f_compadvjnl($data_array_comp);
 
-					$this->AdvanceModel->f_edit('td_adv_details', array('comp_pay_flag'=>'Y'),array('detail_receipt_no'=>$key['list'] ) );
+					$this->AdvanceModel->f_edit('tdf_adv_fwd', array('comp_pay_flag'=>'Y'),array('detail_receipt_no'=>$key['list'] ) );
 				}
 				$i++;
 				
 			}
 				$this->session->set_flashdata('msg', 'Successfully Added');
-
-				 redirect('adv/company_advance');
+				redirect('adv/company_advance');
 
 			}else {
 
@@ -496,9 +496,6 @@ public function advAdd(){
 	$finYr          = $this->session->userdata['loggedin']['fin_id'];
 
 	$fin_year       = $this->session->userdata['loggedin']['fin_yr'];
-
-	
-	
 
 	if($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -847,7 +844,6 @@ public function add_advdetail(){
 						$selectall   = array('a.detail_receipt_no','a.qty','a.rate','a.detail_receipt_no','a.comp_id','a.prod_id','a.fo_no','a.ro_no','a.amount','b.PROD_DESC');
 						$whereall    = array('a.prod_id =b.PROD_ID' => NULL,'a.receipt_no'    =>  $receipt_no,
 											'a.fin_yr'        =>  $finYr);
-
 						$data['allocate'] = $this->AdvanceModel->f_select('td_adv_details a,mm_product b',$selectall,$whereall,0);
 						$where3  =	array("dist_id" => $this->session->userdata['loggedin']['branch_id']);
 					
@@ -939,12 +935,17 @@ public function f_get_dist_bnk_dtls(){
 
 	public function get_receiptbydist(){
 		$finYr          = $this->session->userdata['loggedin']['fin_id'];
-		
-
 		$dist_id= $this->input->get('dist');
 		$c_id= $this->input->get('c_id');
-
 	    $data   = $this->AdvanceModel->get_recep_no($c_id,$dist_id);
+
+	    echo json_encode($data);
+	}
+	public function get_fwdreceiptbydist(){
+		$finYr          = $this->session->userdata['loggedin']['fin_id'];
+		$dist_id= $this->input->get('dist');
+		$c_id= $this->input->get('c_id');
+	    $data   = $this->AdvanceModel->get_fwdrecep_no($c_id,$dist_id);
 
 	    echo json_encode($data);
 	}
@@ -958,15 +959,16 @@ public function f_get_dist_bnk_dtls(){
 	if($_SERVER['REQUEST_METHOD'] == "POST") {
 		$frmdt      = $this->input->post('from_date');
 		$todt       = $this->input->post('to_date');
-		//$select	=	array("a.trans_dt","a.receipt_no","a.soc_id","a.trans_type","b.soc_name","a.adv_amt","a.forward_flag forward_flag");
+		$select	=	array("a.fwd_flag","a.trans_dt","a.fwd_receipt_no",'sum(b.amount) amount');
 		$where  =	array(
-			"branch_id"            => $this->session->userdata['loggedin']['branch_id'],
-			"fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
-			"trans_dt between '".$frmdt."' and '".$todt."'"=> NULL,
-			"fwd_flag"=> 'N'
-			 //,"1 group by fwd_receipt_no" =>NULL
+			"a.detail_receipt_no = b.detail_receipt_no" => NULL,
+			"a.branch_id"            => $this->session->userdata['loggedin']['branch_id'],
+			"a.fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
+			"a.trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=> NULL,
+			//"a.fwd_flag"=> 'N'
+			"1 group by a.trans_dt,a.fwd_receipt_no,a.fwd_flag" =>NULL
 			);
-		$adv['data']    = $this->AdvanceModel->f_select("tdf_adv_fwd",NULL,$where,0);
+		$adv['data']    = $this->AdvanceModel->f_select("tdf_adv_fwd a,td_adv_details b",$select,$where,0);
 		$adv['frmdt']   = $frmdt;
 		$adv['todt']   = $todt;
 		$this->load->view("post_login/fertilizer_main");
@@ -980,15 +982,13 @@ public function f_get_dist_bnk_dtls(){
 			"a.branch_id"            => $this->session->userdata['loggedin']['branch_id'],
 			"a.fin_yr"              => $this->session->userdata['loggedin']['fin_id'],
 			"a.trans_dt between '".date("Y-m-d")."' and '".date("Y-m-d")."'"=> NULL,
-			"a.fwd_flag"=> 'N'
-			,"1 group by a.trans_dt,a.fwd_receipt_no,a.fwd_flag" =>NULL
+			//"a.fwd_flag"=> 'N'
+			"1 group by a.trans_dt,a.fwd_receipt_no,a.fwd_flag" =>NULL
 			);
 		
 		$adv['frmdt']   = date("Y-m-d");
 		$adv['todt']   = date("Y-m-d");
 		$adv['data']    = $this->AdvanceModel->f_select("tdf_adv_fwd a,td_adv_details b",$select,$where,0);
-		//echo $this->db->last_query();
-		//die();
 		$this->load->view("post_login/fertilizer_main");
 		$this->load->view("advance/advfwd_dashboard",$adv);
 		$this->load->view('search/search');
@@ -1083,7 +1083,6 @@ public function f_get_dist_bnk_dtls(){
 		$data['compdtls']   = $this->AdvanceModel->f_select('mm_company_dtls',$selectcompany,NULL,0);
 		$selectprod      = array("PROD_ID","PROD_DESC");
 		$data['prodtls']   = $this->AdvanceModel->f_select('mm_product',$selectprod,NULL,0);
-		
         $select =array('a.*','b.comp_id','b.prod_id','b.fo_no','b.ro_no','b.qty','b.rate','b.amount');
 		$where = array('a.receipt_no = b.receipt_no' => NULL,
 		               'a.detail_receipt_no = b.detail_receipt_no' => NULL,
@@ -1091,6 +1090,21 @@ public function f_get_dist_bnk_dtls(){
 		$data['fwds'] = $this->AdvanceModel->f_select('tdf_adv_fwd a,td_adv_details b',$select,$where,0); 
 		$this->load->view("post_login/fertilizer_main");
 		$this->load->view("advance/advfwd_view",$data);
+		$this->load->view('post_login/footer');
+	}
+	public function fwdadvdtls(){
+		$selectcompany      = array("comp_id","comp_name");
+		$data['compdtls']   = $this->AdvanceModel->f_select('mm_company_dtls',$selectcompany,NULL,0);
+		$selectprod      = array("PROD_ID","PROD_DESC");
+		$data['prodtls']   = $this->AdvanceModel->f_select('mm_product',$selectprod,NULL,0);
+		$fwd_receipt_no = $this->input->get('fwd_receipt_no');
+		$select =array('a.*','b.comp_id','b.prod_id','b.fo_no','b.ro_no','b.qty','b.rate','b.amount');
+		$where = array('a.receipt_no = b.receipt_no' => NULL,
+		               'a.detail_receipt_no = b.detail_receipt_no' => NULL,
+					    'a.fwd_receipt_no' => $this->input->get('fwd_receipt_no')); 
+		$data['fwds'] = $this->AdvanceModel->f_select('tdf_adv_fwd a,td_adv_details b',$select,$where,0);
+		$this->load->view("post_login/fertilizer_main");
+		$this->load->view("company_advance/fwdadvdtls",$data);
 		$this->load->view('post_login/footer');
 	}
    

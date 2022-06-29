@@ -176,6 +176,13 @@
          $paddy  =   $ci->db->query($sql)->row();
         return  $paddy->max_qty;
    }
+   function get_receipt_no_fwd_status($receipt_detail_no){
+        $ci =& get_instance();
+        $ci->load->database();
+        $sql="select count(*) cnt from tdf_adv_fwd where detail_receipt_no = '".$receipt_detail_no."' ";
+        $advfwd  =  $ci->db->query($sql)->row();
+        return $advfwd->cnt;
+   }
 
 
 ?>

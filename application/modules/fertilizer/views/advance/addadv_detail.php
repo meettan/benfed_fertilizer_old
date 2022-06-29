@@ -112,13 +112,15 @@
                                 <input type="text" name="eamount[]" class="form-control amountt"
                                     value="<?php  echo $alloc->amount; ?>" id="" readonly>
                             </td>
-                            <?php if($this->session->userdata['loggedin']['branch_id']!=342){ ?>
+                            <?php if($this->session->userdata['loggedin']['branch_id']!=342){ 
+                                if(get_receipt_no_fwd_status($alloc->detail_receipt_no) == 0){
+                                ?>
                             <td><button type="button" class="delete" id="<?php echo $alloc->detail_receipt_no;?>"
                                     data-toggle="tooltip" data-placement="bottom" title="Delete">
 
                                     <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
                                 </button> </td>
-                                <?php } ?>
+                            <?php  } } ?>
                         </tr>
                         
                         <?php } ?>
@@ -443,6 +445,7 @@
                 '</tr>';
 
             $("#intro").append($(newElement1));
+            $(".prod_id").select2();
         })
 
         $("#intro").on("click", "#removeRow", function () {

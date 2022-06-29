@@ -81,17 +81,15 @@
                 </div>
                 <label for="Receipt No" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-4 poenbtn">
-                <button class="btn btn-success poenbtn" id="poenbtn">Open Advance</button>
+                <button class="btn btn-success poenbtn" id="poenbtn">View Detail</button>
                 <input type="hidden" value="" id="rep_id">
                 </div>
                 <!-- <label class="col-sm-2 col-form-label">Total Advance</label>
                 <label class="col-sm-2 col-form-label">Amount Already paid</label>
                 <label class="col-sm-2 col-form-label">Amount to be paid</label>
-                
                 <label  class="col-sm-2 col-form-label" id='tot_adv' ></label>
                 <label class="col-sm-2 col-form-label" id='adv_paid' ></label>
                 <label class="col-sm-2 col-form-label" id='adv_topaid' style="color:red;"></label> -->
-                
 
             </div>
 
@@ -162,14 +160,14 @@ $( document ).ajaxComplete(function() {
         //data: {receipt_no:receipt_no,comp_id:comp_id},
 		data: {receipt_no:receipt_no,comp_id:comp_id,branch_id:dist},
         success: function(data){
-		if(data==0){
-            alert('District Not Matched');
-			 $('#submit').attr('type', 'buttom');
-             return true;
+		// if(data==0){
+        //     alert('District Not Matched');
+		// 	 $('#submit').attr('type', 'buttom');
+        //      return true;
 
-            }else{
+        //     }else{
             var tot_amt = 0.0;
-            var i  = 0; var j = 0;
+            var i  = 1; var j = 0;
             var list = '<tr><th>Sl No</th><th style="width:33%">Advance No</th><th style="width:33%">Company Name</th><th style="width:33%">Product</th><th style="width:33%">Amount</th><th>Option</th></tr>';
             $.each(JSON.parse(data), function(index, value) {
                 list += '<tr><td>'+ i +'</td><td><input type="hidden" class="form-control" value="'+value.detail_receipt_no+'" name="adv_receive_no[]" readonly>'+value.detail_receipt_no+'</td><td>'+value.COMP_NAME+'</td><td>'+value.PROD_DESC+'</td><td>'+value.amount+'</td><td><input type="checkbox" id="ckamt" name="ckamt['+i +'][list]"  value ='+value.detail_receipt_no+' class="ckamt"><input type="hidden" name="ckamt['+ i +'][amt]" value="'+value.amount+'"></td></tr>';
@@ -180,19 +178,18 @@ $( document ).ajaxComplete(function() {
             
             list += '<tr style="font-weight: bold;"><td colspan="3">Total</td><td></td><td id="approve_tot">0.00</td></tr>';
         $("#list").html(list);
-				$.ajax({
-        type:'POST',
-        url: '<?=base_url()?>index.php/adv/company_advdetail',
-        data: {receipt_no:receipt_no},
-        success: function(data){
-
-            var data = JSON.parse(data);
-            $('#tot_adv').html(data.totadv);
-            $('#adv_topaid').html(parseFloat(data.totadv)-parseFloat(data.totpaid));
-            $('#adv_paid').html(data.totpaid);
-       
-        }});
-			}			
+		    $.ajax({
+            type:'POST',
+            url: '<?=base_url()?>index.php/adv/company_advdetail',
+            data: {receipt_no:receipt_no},
+            success: function(data){
+                var data = JSON.parse(data);
+                $('#tot_adv').html(data.totadv);
+                $('#adv_topaid').html(parseFloat(data.totadv)-parseFloat(data.totpaid));
+                $('#adv_paid').html(data.totpaid);
+                }
+            });
+			//}			
         }});
        /* $.ajax({
         type:'POST',
@@ -253,7 +250,7 @@ $("#submit").hide();
     $("#dist").on("change", function(){
         var dist = $(this).val();
         
-        $.get('<?php echo site_url("adv/get_receiptbydist");?>',
+        $.get('<?php echo site_url("adv/get_fwdreceiptbydist");?>',
               { dist: $(this).val(),c_id:$('#company').val()}
              ).done(function(data){
 
@@ -261,7 +258,7 @@ $("#submit").hide();
 
             $.each(JSON.parse(data), function( index, value ) {
 
-                string += '<option value="' + value.receipt_no + '">' + value.receipt_no + '</option>'
+                string += '<option value="' + value.fwd_receipt_no + '">' + value.fwd_receipt_no + '</option>'
             });
 
             $("#receipt_no").html(string);
@@ -298,7 +295,7 @@ $("#submit").hide();
        // alert(recno);
         if(recno!=null){
             // window.location.href = "<?=site_url('adv/editadv?rcpt=')?>"+recno;
-            window.open("<?=site_url('adv/editadv?rcpt=')?>"+recno, '_blank');
+            window.open("<?=site_url('adv/fwdadvdtls?fwd_receipt_no=')?>"+recno, '_blank');
         }
        
     });

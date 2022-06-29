@@ -230,7 +230,7 @@ $(document).ready(function(){
 					}
 			});
 			if(cnts > 1){
-				alert('duplicate data');
+				alert('Duplicate data');
 				row.css("background","red");
 				//return false; // breaks
 				//cnts = 0;

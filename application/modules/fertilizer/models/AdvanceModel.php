@@ -253,6 +253,16 @@ return $result;
 			and b.forward_flag = 'Y';");
 			return $q->result();
 		}
+		public function get_fwdrecep_no($c_id,$dist_id){
+			$q=$this->db->query("SELECT distinct a.fwd_receipt_no
+			FROM tdf_adv_fwd a,td_adv_details b
+			where a.detail_receipt_no = b.detail_receipt_no
+			and b.comp_id = $c_id
+			and b.branch_id = $dist_id
+			and a.comp_pay_flag = 'N'
+			and a.fwd_flag = 'Y';");
+			return $q->result();
+		}
 
 		public function getBranchId($rcpt){
 			$q=$this->db->query("select a.dr_head, a.bank, a.trans_dt,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt,e.COMP_ID,e.COMP_NAME,f.remarks
