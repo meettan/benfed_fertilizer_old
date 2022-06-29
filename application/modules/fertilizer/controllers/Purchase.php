@@ -3710,4 +3710,14 @@ class Purchase extends MX_Controller
 			$this->load->view('post_login/footer');
 		}
 	}
+
+	public function f_advfwdstatus(){
+		$advfwdid = trim($this->input->get('advfwdid'));
+		$where = array('fwd_flag' => 'Y',
+					   'comp_pay_flag' => 'Y',
+					  'fwd_receipt_no' => $advfwdid);
+		$result   = $this->PurchaseModel->f_select('tdf_adv_fwd', array('count(*) cnt'),$where, 1);
+		echo $result->cnt;
+
+	}
 }

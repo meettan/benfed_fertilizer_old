@@ -23,10 +23,10 @@
 
     			</div>
 				<div class="form-group row">
-				<label for="adv_status" class="col-sm-1 col-form-label">Payment</label>
+				<label for="adv_status" class="col-sm-1 col-form-label">Purchase</label>
 				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advstatus" value="wadv" checked> With advance
-				<input class="form-check-input adv_status" type="radio" name="adv_status" id="advst" value="woadv"> Without advance</div>
-
+				</div>
+				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advst" value="woadv"> Without advance</div>
 			    </div>
     			<div class="form-group row">
     				<label for="comp_id" class="col-sm-1 col-form-label">Company:</label>
@@ -269,7 +269,7 @@
 
     				</div>
 
-					<label for="qty" class="col-sm-1 col-form-label">Advance Receipt No:</label>
+					<label for="qty" class="col-sm-1 col-form-label">Advance Forward No:</label>
     				<div class="col-sm-3">
 
     					<input type="text" style="width:200px" id="receipt_no" name="receipt_no" class="form-control receipt_no" required/>
@@ -2188,8 +2188,24 @@ document.getElementById("demo").innerHTML = d;
 					$('#receipt_no').attr('required', 'true');
 					$('#receipt_no').attr("readonly", false); 
 				}
-		    
-			
 	         })	
 		})
+		$('#receipt_no').change(function () {
+        $.get(
+		'<?php echo site_url("stock/f_advfwdstatus");?>', {
+
+			advfwdid: $(this).val()
+		   }
+	      ).done(function (data) {
+
+			if(data == 0){
+				alert('Advance to Company not yet has been done.');
+				$('#submit').attr('type', 'button');
+			}else{
+				$('#submit').attr('type', 'submit');
+			}
+
+	     })
+        })
+
     </script>
