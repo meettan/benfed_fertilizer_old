@@ -55,7 +55,7 @@
                 <label for="soc_id" class="col-sm-2 col-form-label">Society :</label>
                 <div class="col-sm-3">
 
-                    <select name="soc_id" style="width:180px" class="form-control sch_cd required" id="soc_id" required>
+                    <select name="soc_id"  class="form-control sch_cd required" id="soc_id" required>
 
                         <option value="">Select</option>
 
@@ -76,9 +76,9 @@
                     </select>
                 </div>
                 <label for="paid_dt" class="col-sm-2 col-form-label">Date:</label>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
 
-                    <input type="date" style="width:200px" id="paid_dt" name="paid_dt" class="form-control"
+                    <input type="date"  id="paid_dt" name="paid_dt" class="form-control"
                         value="<?php echo date('Y-m-d');  ?>" readonly required />
                 </div>
                 <!-- </div> -->
@@ -87,7 +87,7 @@
             <div class="form-group row">
                 <label for="trans_do" class="col-sm-2 col-form-label">Invoice No:</label>
                 <div class="col-sm-3">
-                    <select name="trans_do" style="width:180px" class="form-control sch_cd required" id="trans_do">
+                    <select name="trans_do"  class="form-control sch_cd required" id="trans_do">
                         <option value="">Select</option>
                         <?php
                        foreach($ro_dtls as $ro){
@@ -98,42 +98,26 @@
                 </div>
 
                 <label for="do_dt" class="col-sm-2 col-form-label">Invoice Date:</label>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
 
-                    <input type="date" style="width:200px" id="do_dt" name="do_dt" class="form-control" readonly />
+                    <input type="date" id="do_dt" name="do_dt" class="form-control" readonly />
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="sale_ro" class="col-sm-2 col-form-label">RO No:</label>
                 <div class="col-sm-3">
-
-                    <!-- <input type="text" style="width:180px" id="sale_ro" name="sale_ro" class="form-control"  /> -->
-                    <select name="sale_ro" class="form-control sch_cd required" id="sale_ro" style="width:180px"
+                    <select name="sale_ro" class="form-control sch_cd required" id="sale_ro" 
                         required>
 
                         <option value="">Select</option>
-
-                        <!-- <?php
-
-								foreach($proddtls as $prod){
-
-							?>
-
-								<option value="<?php echo $prod->prod_id;?>"><?php echo $prod->prod_desc;?></option>
-
-							<?php
-
-								}
-
-							?>      -->
 
                     </select>
                 </div>
                 <label for="tot_recvble_amt" class="col-sm-2 col-form-label">Total Invoice RO Amount:</label>
                 <div class="col-sm-3">
                     <input type="hidden" id="tot_amt" name="tot_amt" />
-                    <input type="text" style="width:150px" id="tot_recvble_amt" name="tot_recvble_amt" value="0"
+                    <input type="text"  id="tot_recvble_amt" name="tot_recvble_amt" value="0"
                         class="form-control" readonly />
                 </div>
 
@@ -143,10 +127,14 @@
                 <!-- </div> -->
             </div>
             <div class="form-group row">
+                <div class="col-sm-12"  id='show_detail'>
+                </div>
+            </div>    
+            <div class="form-group row">
 
                 <label for="tot_dr_amt" class="col-sm-2 col-form-label">Total Cr Note Amount:</label>
                 <div class="col-sm-3">
-                    <input type="text" style="width:180px" id="tot_dr_amt" name="tot_dr_amt" value="0"
+                    <input type="text"  id="tot_dr_amt" name="tot_dr_amt" value="0"
                         class="form-control" readonly />
                     <!-- <a href="<?php echo site_url('drcrnote/crnote_editvu') ?>">Get Details</a> -->
                     <a href="javascript:void(0)" onclick="drcrnotefunction()">Get Details</a>
@@ -156,7 +144,7 @@
 
                 <label for="adv_amt" class="col-sm-2 col-form-label">Advance Amount:</label>
                 <div class="col-sm-3">
-                    <input type="text" style="width:200px" id="adv_amt" name="adv_amt" value="0" class="form-control"
+                    <input type="text"  id="adv_amt" name="adv_amt" value="0" class="form-control"
                         readonly />
                 </div>
             </div>
@@ -166,7 +154,7 @@
                 <label for="net_amt" class="col-sm-2 col-form-label">RO Net Amount<br>(Total Amount - Paid
                     Amount):</label>
                 <div class="col-sm-3">
-                    <input type="text" style="width:180px" id="net_amt" name="net_amt" value="0" class="form-control"
+                    <input type="text" id="net_amt" name="net_amt" value="0" class="form-control"
                         readonly />
                 </div>
                 <div class="col-sm-2">
@@ -200,13 +188,13 @@
                 <label for="rndnet_amt" class="col-sm-2 col-form-label">Net Amount(Rounded)<br>(Total Amount - Paid
                     Amount):</label>
                 <div class="col-sm-3">
-                    <input type="text" style="width:180px" id="rndnet_amt" name="rndnet_amt" value="0"
+                    <input type="text"  id="rndnet_amt" name="rndnet_amt" value="0"
                         class="form-control" readonly />
                 </div>
                 <label for="bnk_id" class="col-sm-2 col-form-label" id="bnktxt">Bank Name :</label>
                 <div class="col-sm-3" id="bnkk">
 
-                    <select name="bnk_id" style="width:180px" class="form-control bnk_id" id="bnk_id" required>
+                    <select name="bnk_id"  class="form-control bnk_id" id="bnk_id" required>
                         <option value="">Select</option>
                         <?php
                        foreach($bnk_dtls as $bnk){
@@ -219,29 +207,29 @@
             <div class="form-group row" id="bank_info">
                 <label for="ifsc" class="col-sm-2 col-form-label">IFSC :</label>
                 <div class="col-sm-3">
-                    <input type="text" style="width:180px" id="ifsc" name="ifsc" value="" class="form-control"
+                    <input type="text"  id="ifsc" name="ifsc" value="" class="form-control"
                         readonly />
-                    <input type="hidden" style="width:180px" id="comp_id" name="comp_id" value="" class="form-control"
-                        readonly />
-
-
-                    <input type="hidden" style="width:180px" id="prod_id" name="prod_id" value="" class="form-control"
+                    <input type="hidden" id="comp_id" name="comp_id" value="" class="form-control"
                         readonly />
 
 
-                    <input type="hidden" style="width:180px" id="ro_rt" name="ro_rt" value="" class="form-control"
+                    <input type="hidden"  id="prod_id" name="prod_id" value="" class="form-control"
+                        readonly />
+
+
+                    <input type="hidden"  id="ro_rt" name="ro_rt" value="" class="form-control"
                         readonly />
                 </div>
                 <label for="ac_no" class="col-sm-2 col-form-label">A/C No:</label>
                 <div class="col-sm-3">
-                    <input type="text" style="width:200px" id="ac_no" name="ac_no" value="" class="form-control"
+                    <input type="text"  id="ac_no" name="ac_no" value="" class="form-control"
                         required />
                 </div>
             </div>
             <div class="form-group row">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks :</label>
-                <div class="col-sm-3">
-                    <textarea class="form-control" style="width:590px" name="remarks" id="remarks" required></textarea>
+                <div class="col-sm-8">
+                    <textarea class="form-control" name="remarks" id="remarks" required></textarea>
                 </div>
             </div>
             <div class="form-group row">
@@ -975,12 +963,8 @@
         $('#bnk_id').change(function () {
 
             $.get(
-
                     '<?php echo site_url("socpay/f_get_dist_bnk_dtls");?>', {
-
                         bnk_id: $(this).val(),
-
-
                     }
 
                 )
@@ -992,8 +976,6 @@
                     $('#ifsc').val(ifsc);
 
                 });
-
-
         });
 
     });
@@ -1127,15 +1109,6 @@
     })
 
 
-    // $('#intro').on("change", ".paid_amt", function () {
-
-    //     alert($(this).val());
-    // });
-
-
-
-
-
     $('#intro').on("change", ".paid_amt", function () {
         //$('.pur_ro').eq($('.pur_inv').index(this)).val("");
         let row = $(this).closest('tr');
@@ -1170,8 +1143,36 @@
                 $("#addrow").show();
             }
         }
-        //alert(abc);
 
+    });
+    $(document).ready(function () {
+
+        $('#sale_ro').change(function () {
+            $.get('<?php echo site_url("socpay/f_advdetails");?>', {
+                        ro: $(this).val(),soc_id:$('#soc_id').val()
+                    }
+                )
+                .done(function (data) {
+
+
+                    var string = '<h4>Advance To Company</h4><table class="table table-striped table-bordered" style="border: 2px solid;"><tr><th>Product </th><th>FO No</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>';
+                    if(data == 0){
+                        string += '<tr><td colspan="5" style="text-align: center;font-size: 18px;font-weight: 600;color: #2a6496;">No record Found</td></tr>'; 
+                    }else{
+
+                        $.each(JSON.parse(data), function( index, value ) {
+			
+                            string += '<tr><td>'+value.product+'</td><td>'+value.fo_no+'</td><td>'+value.qty+'</td><td>'+value.rate+'</td><td>'+value.amount+'</td></tr>';
+                    
+                        });
+
+                    }
+		
+		           string +='</table>'
+
+                   $('#show_detail').html(string);
+                });
+        });
 
     });
 </script>

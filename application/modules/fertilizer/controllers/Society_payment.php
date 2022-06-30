@@ -110,7 +110,7 @@ public function society_payEdit(){
 
 }
 
-        public function society_payAdd(){
+    public function society_payAdd(){
 
             $br_cd        = $this->session->userdata['loggedin']['branch_id'];
 			$fin_id       = $this->session->userdata['loggedin']['fin_id'];
@@ -297,7 +297,7 @@ public function society_payEdit(){
 												   'created_dt'    => date('Y-m-d'));
 	   
 						   $this->Society_paymentModel->f_insert('tdf_advance', $data_adv_pay);
-}
+        }
 	
 					// }
 
@@ -519,7 +519,6 @@ public function society_payEdit(){
 		
 					 }
 				
-// exit();
                     $this->session->set_flashdata('msg', 'Successfully Added');
         
                      redirect('socpay/society_payment');
@@ -544,7 +543,7 @@ public function society_payEdit(){
             	$this->load->view('post_login/footer');
         }
         
-}
+    }
 
           public function society_payment(){
 			$br_cd          = $this->session->userdata['loggedin']['branch_id'];
@@ -3617,7 +3616,29 @@ public function deleteAccCd() {
 				$this->load->view('report/dr_redis',$row);
 				$this->load->view('post_login/footer');
 			}	
-		}	
+		}
+		
+		public function f_advdetails(){
+			$ro     = $this->input->get('ro');
+			$soc_id = $this->input->get('soc_id');
+			$result = $this->Society_paymentModel->f_select('td_purchase',array('adv_status','advance_receipt_no'),array('ro_no'=>$ro),1);
+			if($result->adv_status == 'Y'){
+				$select = array('b.fo_no','b.qty','b.rate','b.amount','d.PROD_DESC as product');
+				$where = array('a.detail_receipt_no = b.detail_receipt_no' => NULL,
+							    'a.receipt_no = b.receipt_no' => NULL,
+								'b.receipt_no = c.receipt_no'  => NULL,
+								'c.soc_id = a.soc_id'  => NULL,
+								'b.prod_id = d.PROD_ID'  => NULL,
+								'a.fwd_receipt_no'     => $result->advance_receipt_no,
+								'a.soc_id'             => $soc_id
+			                  );
+				$result = $this->Society_paymentModel->f_select('tdf_adv_fwd a,td_adv_details b,tdf_advance c,mm_product d',$select,$where,0);
+				
+                echo json_encode($result);
+			}else{
+				echo 0 ;
+			}
+		}
 	
 	}
 ?>

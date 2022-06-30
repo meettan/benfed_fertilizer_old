@@ -24,9 +24,9 @@
     			</div>
 				<div class="form-group row">
 				<label for="adv_status" class="col-sm-1 col-form-label">Purchase</label>
-				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advstatus" value="wadv" checked> With advance
+				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advstatus" value="Y" checked> With advance
 				</div>
-				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advst" value="woadv"> Without advance</div>
+				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advst" value="N"> Without advance</div>
 			    </div>
     			<div class="form-group row">
     				<label for="comp_id" class="col-sm-1 col-form-label">Company:</label>
@@ -2181,7 +2181,7 @@ document.getElementById("demo").innerHTML = d;
 		$(document).ready(function () {
 			$('.adv_status').change(function () {
 				var data = $(this).val();
-				if(data == 'woadv'){
+				if(data == 'N'){
 					$('#receipt_no').removeAttr('required');
 					$('#receipt_no').attr("readonly", true);
 				}else{

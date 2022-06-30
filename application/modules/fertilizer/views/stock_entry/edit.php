@@ -9,7 +9,12 @@
 				<h4>Edit Purchase</h4>
 				<span id="msg" style="color:#bd2130"></span>
 			</div>
-
+			<div class="form-group row">
+				<label for="adv_status" class="col-sm-1 col-form-label">Purchase</label>
+				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advstatus" value="Y" <?php if(isset($stock->adv_status)){ if($stock->adv_status=='Y') echo 'checked'; } ?> disabled> With advance
+				</div>
+				<div class="col-sm-3"><input class="form-check-input adv_status" type="radio" name="adv_status" id="advst" value="N" <?php if(isset($stock->adv_status)){ if($stock->adv_status=='N') echo 'checked'; } ?> disabled> Without advance</div>
+			</div>
 			<div class="form-group row">
 
 				<label for="comp_id" class="col-sm-1 col-form-label">Company:</label>
@@ -291,10 +296,10 @@
 						value="<?php echo $stock->qty; ?>" />
 
 				</div>
-				<label for="qty" class="col-sm-1 col-form-label">Advance Receipt No:</label>
+				<label for="qty" class="col-sm-1 col-form-label">Advance Forward No:</label>
     				<div class="col-sm-3">
 
-    					<input type="text" style="width:200px" id="receipt_no" name="receipt_no" class="form-control receipt_no" value="<?php echo $stock->advance_receipt_no; ?>" />
+    					<input type="text" style="width:200px" id="receipt_no" name="receipt_no" class="form-control receipt_no" value="<?php echo $stock->advance_receipt_no; ?>" readonly/>
 
     			</div>
 				<!-- <label for="unit" class="col-sm-1 col-form-label">Unit:</label>

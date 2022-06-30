@@ -54,7 +54,8 @@ $thisyear=$fy[0];
             <div class="form-group row">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
-                        <th style="text-align: center">Receipt no</th>
+                        <th style="text-align: center;width:200px">Receipt no</th>
+						<th style="text-align: center;width:200px">Society Name</th>
                         <th style="text-align: center">FO</th>
                         <th style="text-align: center">RO Number</th>
 						<th style="text-align: center">Qty</th>
@@ -72,7 +73,7 @@ $thisyear=$fy[0];
 
                     <tfoot>
                         <tr>
-                            <td colspan="5" style="text-align:right">
+                            <td colspan="6" style="text-align:right">
                                 <strong>Total:</strong>
                             </td>
                            
@@ -147,7 +148,10 @@ $(document).ready(function(){
 									+'</select>'
 								+'</td>'
 								+'<td>'
-									+'<input type="hidden" name="receipt_no[]" value="" class="receipt_no"><input type="text" name="fo_no[]" class="form-control fo_no" id="fo_no" style="width:125px" readonly>'
+									+'<input type="hidden" name="scoiety_id[]" value="" class="scoiety_id"><input type="text" name="scoiety_name[]" class="form-control scoiety_name" id="scoiety_name" readonly>'
+								+'</td>'
+								+'<td>'
+									+'<input type="hidden" name="receipt_no[]" value="" class="receipt_no"><input type="text" name="fo_no[]" class="form-control fo_no" id="fo_no" readonly>'
 								+'</td>'
 								+'<td>'
 									+'<input type="text" name="ro_no[]" class="form-control ro_no" id="ro_no" style="" readonly>'
@@ -204,12 +208,14 @@ $("#intro").on("change", ".detail_receipt_no", function(){
 		$.get('<?php echo site_url("adv/js_get_reciept_detail") ?>',{detail_receipt_no:detail_receipt_no})
 		.done(function(data){
 			var value = JSON.parse(data);
-			row.find("td:eq(1) input[type='hidden']").val(value.receipt_no);
-			row.find("td:eq(1) input[type='text']").val(value.fo_no);
-			row.find("td:eq(2) input[type='text']").val(value.ro_no);
-			row.find("td:eq(3) input[type='text']").val(value.qty);
-			row.find("td:eq(4) input[type='text']").val(value.rate);
-			row.find("td:eq(5) input[type='text']").val(value.amount);
+			row.find("td:eq(1) input[type='hidden']").val(value.soc_id);
+			row.find("td:eq(1) input[type='text']").val(value.soc_name);
+			row.find("td:eq(2) input[type='hidden']").val(value.receipt_no);
+			row.find("td:eq(2) input[type='text']").val(value.fo_no);
+			row.find("td:eq(3) input[type='text']").val(value.ro_no);
+			row.find("td:eq(4) input[type='text']").val(value.qty);
+			row.find("td:eq(5) input[type='text']").val(value.rate);
+			row.find("td:eq(6) input[type='text']").val(value.amount);
 			$('.amount').each(function(){
 				tot += parseFloat($(this).val())?parseFloat($(this).val()):0.00;
 			});

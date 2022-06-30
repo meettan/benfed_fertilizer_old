@@ -58,7 +58,8 @@ $thisyear=$fy[0];
             <div class="form-group row">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
-                        <th style="text-align: center">Receipt no</th>
+                        <th style="text-align: center;width:200px">Receipt no</th>
+						<th style="text-align: center;width:200px">Society Name</th>
                         <th style="text-align: center">FO</th>
                         <th style="text-align: center">RO Number</th>
 						<th style="text-align: center">Qty</th>
@@ -73,6 +74,7 @@ $thisyear=$fy[0];
 
 					<tr>
 					<td ><input type="text" name="rec[]" class="form-control" id="" style="width:165px" readonly="" value='<?php echo $value->detail_receipt_no; ?>'></td>
+					<td><input type="text" name="soc_name[]" class="form-control" value='<?php echo $value->soc_name; ?>' readonly=""></td>
 					<td><input type="text" name="fo_no[]" class="form-control" value='<?php echo $value->fo_no; ?>' style="width:125px" readonly=""></td>
 					<td><input type="text" name="ro_no[]" class="form-control" value='<?php echo $value->ro_no; ?>' style="" readonly=""></td>
 					<td><input type="text" name="qty[]" class="form-control" value='<?php echo $value->qty; ?>' readonly=""></td>

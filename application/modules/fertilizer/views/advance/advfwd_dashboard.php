@@ -14,7 +14,7 @@
                 </div> -->
             </h3>
             <div class="form-group row">
-              <form method="POST" action="" >
+            <form method="POST" action="<?=base_url()?>index.php/adv/advancefwd" >
                         <div class="col-sm-3">
 	                    <input type="date" style="width:300px" id=from_date name="from_date" class="form-control" value='<?=$frmdt?>' />
                         </div>
@@ -134,16 +134,15 @@ $(document).ready(function() {
 
 <script>
 var clicked = false;
-$(".filt").on("click", function() {
+$(".filtd").on("click", function() {
     var frmdt = $('#from_date').val();
     var todt = $('#to_date').val();
-    // $(".obutn").click(function() {
-    //  $(this).closest("form").attr("action", "/benfed_fertilizer/index.php/trade/salesfilter");   
     $(this).closest("form").attr("action", "advancefwd");   
-// });
+    
+     var base_url = '<?=base_url()?>';
     if(frmdt=='' && todt==''){
-      //  alert('raj'); 
-        // $(this).closest("form").attr("action", "/benfed_fertilizer/index.php/trade/sale"); 
+        alert('raj'); 
+        $(this).closest("form").attr("action",base_url+"/index.php/trade/sale"); 
         $(this).closest("form").attr("action", "advance"); 
     }
   
