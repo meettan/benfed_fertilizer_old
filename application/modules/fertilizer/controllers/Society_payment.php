@@ -1,5 +1,5 @@
 <?php
-	class Society_payment extends MX_Controller{
+class Society_payment extends MX_Controller{
 		protected $sysdate;
 		protected $fin_year;
 		public function __construct(){
@@ -129,26 +129,21 @@ public function society_payEdit(){
 			$where_comp          = array("b.sale_ro" => $ro,"a.comp_id=b.comp_id"=>NULL );
 
 			$select_bnkacc       = array("acc_code");
-			// $where_bnkacc        = array("sl_no"     => $bnk_id);
-			// $bnk_acc             = $this->Society_paymentModel->f_select("mm_feri_bank",$select_bnkacc,$where_bnkacc,1);
-
 			$select_socacc       = array("acc_cd");
 			$where_socacc        = array("soc_id"     => $this->input->post('soc_id'));
 			$soc_acc             = $this->Society_paymentModel->f_select("mm_ferti_soc",$select_socacc,$where_socacc,1);
-        
 			$soc_id              = $this->input->post('soc_id');					 
 			$select_soc          = array("soc_name");
 		    $where_soc           = array("soc_id"     => $soc_id);
 	        $soc_name            = $this->AdvanceModel->f_select("mm_ferti_soc",$select_soc,$where_soc,1);
-				// $data_array_fin['rem'] ="Advance Received From ".$soc_name->soc_name;
 		    $cnt                 = $this->Society_paymentModel->check_soc_paytype($ro ,$br_cd);
 				
             if($_SERVER['REQUEST_METHOD'] == "POST") {
 				$soc_id       = $this->input->post('soc_id');
 				$bnk_idd=explode(',',$this->input->post('bnk_id'));
-			   $bnk_id=$bnk_idd[0];
-			   $bnk_acc_id=$bnk_idd[1];
-
+			    $bnk_id=$bnk_idd[0];
+			    $bnk_acc_id=$bnk_idd[1];
+			    $total  = 0;
 				$ro          = $this->input->post('sale_ro');
 				$select_comp = array("short_name" );
 			    $where_comp  = array("b.sale_ro" => $ro,
@@ -156,7 +151,9 @@ public function society_payEdit(){
 
 			$comp_short_name  = $this->Society_paymentModel->f_get_distinct('mm_company_dtls a,td_sale b',$select_comp,$where_comp,1);
 			$cust_pay_recipt  = 'RCPT/'.$brn->dist_sort_code.'/'.$comp_short_name->short_name.'/'.$month.'/'.$fin_year.'/'.$transCd->sl_no;
-		
+			$presult = $this->AdvanceModel->f_select("td_purchase",array('rate'),array('ro_no'=>trim($ro)),1);
+            $tot_amt = array_sum($_POST['paid_amt']);
+			$tot_qty = round(($tot_amt/($presult->rate)),3);
             $pay_type = $this->input->post('pay_type');
             
 					$tot_paid_amt    = 0.00;
@@ -214,6 +211,8 @@ public function society_payEdit(){
                                             'pay_type'           => $_POST['pay_type'][$i],
         
 											'paid_amt'           => $_POST['paid_amt'][$i],
+
+											'paid_qty'           => $tot_qty,
 											
 											'ref_no'             => $_POST['ref_no'][$i],
 											
@@ -228,7 +227,7 @@ public function society_payEdit(){
 											'fin_yr'             => $fin_id,
 											
 										    'approval_status'    =>'U');
-        
+
 						$this->Society_paymentModel->f_insert('tdf_payment_recv', $data);
 
 						if($trans_type==2 ){
@@ -297,7 +296,7 @@ public function society_payEdit(){
 												   'created_dt'    => date('Y-m-d'));
 	   
 						   $this->Society_paymentModel->f_insert('tdf_advance', $data_adv_pay);
-        }
+                }
 	
 					// }
 
@@ -346,12 +345,11 @@ public function society_payEdit(){
 					'approval_status'    =>'U');
 
 					$data_cr_fin=$data1;
-					// $data_array_fin['acc_code'] = $bnk_acc->acc_code; 
+					
 					$data_cr_fin['rem'] ="Amount Received From ".$soc_name->soc_name." vide sale invoice no: " .$this->input->post('trans_do');
 					
 					if ($trans_type=='2'){
-						//echo  $total;
-						// die();
+						
 						
 						$data_cr_fin['adv_acc'] = $adv_acc->adv_acc;
 						
@@ -393,7 +391,6 @@ public function society_payEdit(){
 	
 						'bnk_id'            => $bnk_id,
 						
-						// 'paid_amt'           => $tot_paid_amt,
 						'paid_amt'           => $tot_bnk,
 						
 						"created_by"         =>  $this->session->userdata['loggedin']['user_name'],
@@ -411,7 +408,7 @@ public function society_payEdit(){
 	
 						// if($this->input->post('bnk_id')>0 ){
 						$data_array_fin=$data2;
-				        // $data_array_fin['acc_code'] = $bnk_acc->acc_code; 
+				        
 						$data_array_fin['acc_code'] = $soc_acc->acc_code;
 						$data_array_fin['rem'] ="Amount Received From ".$soc_name->soc_name." vide sale invoice no: " .$this->input->post('trans_do');
 						/***********For Cash or Bank head */
@@ -464,7 +461,6 @@ public function society_payEdit(){
 		
 							'fin_yr'             => $fin_id,
 							
-							
 							'approval_status'    =>'U');
 							
 						$data_array_fin=$data3;
@@ -478,35 +474,6 @@ public function society_payEdit(){
 						$crtransNo         = $this->DrcrnoteModel->get_trans_no($this->session->userdata['loggedin']['fin_id']);
 						// $crreceipt         = 'Crnote/'.$brn->dist_sort_code.'/'.$fin_year.'/'.$crtransNo->trans_no;
 		 		 
-						// $data_dr_cr_note     = array('recpt_no' => $crreceipt ,
-
-						// 							'soc_id'      =>  $this->input->post('soc_id'),
-	
-						// 							'trans_dt'    =>  date('Y-m-d'),
-
-						// 							"trans_no"	  =>  $crtransNo->trans_no,													
-
-						// 							'tot_amt'      => $this->input->post('tot_dr_amt'),
-
-						// 							'invoice_no'   => $this->input->post('trans_do'),
-
-						// 							'ro'           => $this->input->post('sale_ro'),
-
-						// 							'trans_flag'   => 'A',
-
-						// 							'note_type'    => 'D',
-
-						// 							'branch_id'    => $br_cd,
-
-						// 							'fin_yr'       => $fin_id,
-
-						// 							'remarks'      => 'Cr Note Adjusted',
-													
-						// 							'created_by'    => $this->session->userdata['loggedin']['user_name'],
-
-						// 							'created_dt'    => date('Y-m-d'));
-
-						// $this->DrcrnoteModel->f_insert('tdf_dr_cr_note',$data_dr_cr_note);
 						$data_drcr     = array('br_adj_flag'       => 'Y');
 
 						$where_drcr  =   array(
@@ -521,7 +488,7 @@ public function society_payEdit(){
 				
                     $this->session->set_flashdata('msg', 'Successfully Added');
         
-                     redirect('socpay/society_payment');
+                //     redirect('socpay/society_payment');
                 
              }else {
     
@@ -545,55 +512,45 @@ public function society_payEdit(){
         
     }
 
-          public function society_payment(){
-			$br_cd          = $this->session->userdata['loggedin']['branch_id'];
-			$fin_id         = $this->session->userdata['loggedin']['fin_id'];
-			$this->sysdate  = $_SESSION['sys_date'];
-			$to_date=$this->input->post('to_date');
-			$from_date=$this->input->post('from_date');
+    public function society_payment(){
+		$br_cd          = $this->session->userdata['loggedin']['branch_id'];
+		$fin_id         = $this->session->userdata['loggedin']['fin_id'];
+		$this->sysdate  = $_SESSION['sys_date'];
+		$to_date=$this->input->post('to_date');
+		$from_date=$this->input->post('from_date');
 
-			if($this->input->post()){
-				$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$to_date,$from_date);
-				// echo $this->db->last_query();
-				// exit();
+		if($this->input->post()){
+			$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$to_date,$from_date);
+			
+			$this->load->view("post_login/fertilizer_main");
+			$this->load->view("society_payment/dashboard",$data);
+			$this->load->view('search/search');
+			$this->load->view('post_login/footer');
 
-				$this->load->view("post_login/fertilizer_main");
-			
-				$this->load->view("society_payment/dashboard",$data);
-			
-				$this->load->view('search/search');
-			
-				$this->load->view('post_login/footer');
+		}else{
+			$today=date('Y-m-d');
+			$fDate=$today;
+			$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$today,$fDate);
 
-			}else{
-				$today=date('Y-m-d');
-				$fDate=$today;
-				$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$today,$fDate);
-
-				$this->load->view("post_login/fertilizer_main");
-			
-				$this->load->view("society_payment/dashboard",$data);
-			
-				$this->load->view('search/search');
-			
-				$this->load->view('post_login/footer');
-			}
-			//paid_dt
-
-		  
-       }
-		public function check_data(){
-			$invNo=$this->input->post('invNo');
-			$roNo=$this->input->post('roNo');
-			$data=$this->Society_paymentModel->checkForward($roNo, $invNo);
-			if($data->count_row > 0){
-				echo json_encode(false);
-			}else{
-				echo json_encode(true);
-			}
+			$this->load->view("post_login/fertilizer_main");
+			$this->load->view("society_payment/dashboard",$data);
+			$this->load->view('search/search');
+			$this->load->view('post_login/footer');
 		}
+		  
+    }
+	public function check_data(){
+		$invNo=$this->input->post('invNo');
+		$roNo=$this->input->post('roNo');
+		$data=$this->Society_paymentModel->checkForward($roNo, $invNo);
+		if($data->count_row > 0){
+			echo json_encode(false);
+		}else{
+			echo json_encode(true);
+		}
+	}
        
-		public function f_cust_pay_forward() {
+	public function f_cust_pay_forward() {
 
 			$data=explode (",", $this->input->get('ro_no'));
 			$ro_no    = $data["0"];
@@ -614,34 +571,16 @@ public function society_payEdit(){
 
 			//$cnt = $this->Society_paymentModel->check_soc_pay($ro_no,$br_cd)->counts();
 
-
-			//$qty=$this->Society_paymentModel->getQty();
-			// echo $this->db->last_query();
-			// echo $cnt;
-			// exit;
-	// if($cnt == '0'){
 			$this->Society_paymentModel->f_forward_pay_recv($ro_no,$comp_id,$prod_id,$rate,$pur_inv,$sale_invoice,$paid_id,$br_cd);
-			// echo $this->db->last_query();
-			// echo' hello';
-			// exit;
-	// }else{
-	// 	$this->Society_paymentModel->f_forward_pay_recv_upd($ro_no,$sale_qty,$br_cd);
-		// echo "<script>
-		// 			alert('update');
-		// 			window.location.href='society_payment';
-		// 			</script>";
-		// echo 'hi';
-		// exit;
-		// }
 			
 				echo "<script>
 					alert('Customer Payment data forwarded successfully');
 					window.location.href='society_payment';
 					</script>";
 	   
-		}
+	}
 
-		public function dr_note(){
+	public function dr_note(){
 			$this->sysdate  = $_SESSION['sys_date'];
 		   $data['dr_notes']    = $this->FertilizerModel->f_get_drnote_dtls();
 		   $this->load->view("post_login/fertilizer_main");
@@ -651,7 +590,7 @@ public function society_payEdit(){
 		   $this->load->view('search/search');
 	   
 		   $this->load->view('post_login/footer');
-	   }
+	}
 //     Add DR note code written by Lokesh kumar jha 09/04/2020"
 	   public function drnoteAdd(){
 
@@ -3639,6 +3578,101 @@ public function deleteAccCd() {
 				echo 0 ;
 			}
 		}
-	
+
+	public function soc_payment_fwd(){
+		$br_cd          = $this->session->userdata['loggedin']['branch_id'];
+		$fin_id         = $this->session->userdata['loggedin']['fin_id'];
+		$this->sysdate  = $_SESSION['sys_date'];
+		$to_date=$this->input->post('to_date');
+		$from_date=$this->input->post('from_date');
+
+		if($this->input->post()){
+			$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$to_date,$from_date);
+			
+			$this->load->view("post_login/fertilizer_main");
+			$this->load->view("society_payment/socpayfwd_dashboard",$data);
+			$this->load->view('search/search');
+			$this->load->view('post_login/footer');
+
+		}else{
+			$today=date('Y-m-d');
+			$fDate=$today;
+			$data['soc_pay']   = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$today,$fDate);
+
+			$this->load->view("post_login/fertilizer_main");
+			$this->load->view("society_payment/socpayfwd_dashboard",$data);
+			$this->load->view('search/search');
+			$this->load->view('post_login/footer');
+		}
+			
 	}
+	public function socpayfwdAdd(){
+
+		$this->load->view("post_login/fertilizer_main");
+		$this->load->view("society_payment/socpayfwdadd");
+		$this->load->view('post_login/footer');
+
+	}
+
+	public function f_rodetail(){
+        $ro_no  = trim($this->input->get('ro_no'));
+		$select = array('a.adv_status','a.advance_receipt_no','b.COMP_NAME','c.PROD_DESC');
+		$where  = array('a.comp_id = b.COMP_ID' => NULL,'a.prod_id = c.PROD_ID'=>NULL,'a.ro_no'=>$ro_no);
+		$result = $this->Society_paymentModel->f_select('td_purchase a,mm_company_dtls b,mm_product c',$select,$where,1);
+		echo json_encode($result);
+	}
+	public function f_advoffwd(){
+		$ro_no  = trim($this->input->get('ro_no'));
+			$select = array('a.adv_status','a.advance_receipt_no','b.COMP_NAME','c.PROD_DESC');
+		    $where  = array('a.comp_id = b.COMP_ID' => NULL,'a.prod_id = c.PROD_DESC','a.ro_no'=>$ro_no);
+		    $result = $this->Society_paymentModel->f_select('td_purchase a,mm_company_dtls b,mm_product c',$select,$where,1);
+            if($result->adv_status == 'Y'){
+
+				$select =array('c.adv_amt','a.fwd_receipt_no');
+				$where = array('a.receipt_no = b.receipt_no' => NULL,
+							'a.detail_receipt_no = b.detail_receipt_no' => NULL,
+							'b.receipt_no = c.receipt_no' => NULL,
+							'a.soc_id = c.soc_id' => NULL,
+							'a.fwd_receipt_no' => ($result->advance_receipt_no)); 
+				$result = $this->AdvanceModel->f_select('tdf_adv_fwd a,td_adv_details b,tdf_advance c',$select,$where,1); 
+				echo json_encode($result);
+			}else{
+				echo '0';
+			}	
+	}
+	public function get_paymentreceived_id(){
+		$rono = $this->input->get('ro_no');
+		$sql = "SELECT distinct paid_id FROM tdf_payment_recv WHERE approval_status = 'U' AND ro_no = '".$rono."'";
+		$data  = $this->db->query($sql)->result();
+		echo json_encode($data);
+	}
+	public function paididdetail(){
+
+		$paid_id  = trim($this->input->post('paid_id'));
+		$select = array('a.sale_invoice_no','b.qty','c.soc_name');
+		$where  = array('a.sale_invoice_no = b.trans_do' => NULL,'a.soc_id = c.soc_id'=>NULL,'a.paid_id'=>$paid_id);
+		$result = $this->Society_paymentModel->f_select('tdf_payment_recv a,td_sale b,mm_ferti_soc c',$select,$where,1);
+		echo json_encode($result);
+	}
+	public function advqty(){
+
+	    $paid_id  = trim($this->input->post('paid_id'));
+		$advfwd   = trim($this->input->post('advfwdid'));
+		$result = $this->Society_paymentModel->f_select('tdf_payment_recv',array('soc_id'),array('paid_id'=>$paid_id),1);
+		$select =array('b.qty');
+		$where = array('a.receipt_no = b.receipt_no' => NULL,
+		               'a.detail_receipt_no = b.detail_receipt_no' => NULL,
+					   'b.receipt_no = c.receipt_no' => NULL,
+					   'a.soc_id'    =>$result->soc_id,
+					   'a.fwd_receipt_no' => $advfwd); 
+		$data = $this->AdvanceModel->f_select('tdf_adv_fwd a,td_adv_details b,tdf_advance c',$select,$where,1); 
+		if($data->qty > 0){
+			echo json_encode($data);
+		}else{
+			echo json_encode('0');
+		}
+		
+	}
+	
+}
 ?>
