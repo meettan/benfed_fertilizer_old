@@ -144,81 +144,65 @@
 		}
         
         
-        public function f_get_soc_payment_dtls($br_cd,$fin_id,$todate,$fDate){
-
-				// $data = $this->db->query("select a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,c.rate,c.invoice_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,sum(d.QTY)sale_qty
-				// 							from  tdf_payment_recv a , mm_ferti_soc b,td_purchase c,td_sale d
-				// 							where a.soc_id=b.soc_id
-				// 							and a.ro_no=c.ro_no
-				// 							and c.ro_no=d.sale_ro
-				// 							and a.branch_id=$br_cd
-				// 							group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,c.rate,c.invoice_no,approval_status");
+    public function f_get_soc_payment_dtls($br_cd,$fin_id,$todate,$fDate){
     
-			$data = $this->db->query("select distinct a.paid_id,a.sl_no,a.paid_dt paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
-			from  tdf_payment_recv a , mm_ferti_soc b,td_purchase c,mm_product d
-			where a.soc_id=b.soc_id
-			and a.ro_no=c.ro_no
-			and c.prod_id = d.prod_id
-			and a.branch_id=$br_cd
-			and a.fin_yr=$fin_id
-			and a.paid_dt between '".$fDate."' And '".$todate."'
-			group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no,approval_status
-			union
-			select a.paid_id,a.sl_no,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
-			from  tdf_payment_recv a , mm_ferti_soc b, mm_product d
-			where a.soc_id=b.soc_id	
-			and a.prod_id = d.prod_id
-			and a.branch_id=$br_cd
-			and a.fin_yr=$fin_id
-			and a.paid_dt between '".$fDate."' And '".$todate."'
-			group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.approval_status
-			order by paid_dt");
+		$data = $this->db->query("select distinct a.paid_id,a.sl_no,a.paid_dt paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
+		from  tdf_payment_recv a , mm_ferti_soc b,td_purchase c,mm_product d
+		where a.soc_id=b.soc_id
+		and a.ro_no=c.ro_no
+		and c.prod_id = d.prod_id
+		and a.branch_id=$br_cd
+		and a.fin_yr=$fin_id
+		and a.paid_dt between '".$fDate."' And '".$todate."'
+		group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,c.comp_id,c.prod_id,d.prod_desc,c.rate,c.ro_no,a.approval_status,a.sale_invoice_no
+		union
+		select a.paid_id,a.sl_no,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.ro_no as pur_inv,a.approval_status,sum(a.paid_amt)amount,0 as sale_qty,a.sale_invoice_no
+		from  tdf_payment_recv a , mm_ferti_soc b, mm_product d
+		where a.soc_id=b.soc_id	
+		and a.prod_id = d.prod_id
+		and a.branch_id=$br_cd
+		and a.fin_yr=$fin_id
+		and a.paid_dt between '".$fDate."' And '".$todate."'
+		group by a.sl_no,a.paid_id,a.paid_dt,a.soc_id,b.soc_name,a.ro_no,a.comp_id,a.prod_id,d.prod_desc,a.ro_rt,a.ro_no,a.approval_status,a.sale_invoice_no
+		order by paid_dt");
 
-             return $data->result();
-            
+        return $data->result();
                 
-            }
+    }
 
-			public function checkForward($roNo, $invNo){
+	public function checkForward($roNo, $invNo){
 				return $this->db->query("SELECT count(*)count_row  FROM tdf_company_payment where sale_inv_no = '".$invNo."' and pur_ro = '".$roNo."'")->row();
 				
-			}
-		public function f_get_drnote_dtls(){
+	}
+	public function f_get_drnote_dtls(){
 
-		$data = $this->db->query("select a.comp_id,a.ro_no,a.ro_dt,a.invoice_no, sum(a.soc_amt) as tot_amt,b.COMP_NAME COMP_NAME
-									from  td_dr_note a,
-	   					    mm_company_dtls b    							   							
-					  where  a.comp_id = b.COMP_ID
-									group by comp_id,ro_no,ro_dt,invoice_no,COMP_NAME");
+	$data = $this->db->query("select a.comp_id,a.ro_no,a.ro_dt,a.invoice_no, sum(a.soc_amt) as tot_amt,b.COMP_NAME COMP_NAME
+								from  td_dr_note a,
+						mm_company_dtls b    							   							
+					where  a.comp_id = b.COMP_ID
+								group by comp_id,ro_no,ro_dt,invoice_no,COMP_NAME");
 
-		
-		 return $data->result();
-		
-			
-		}
-		public function f_get_crnote_dtls(){
-			// $user_id    = $this->session->userdata('login')->user_id;
+		return $data->result();	
+	}
+	public function f_get_crnote_dtls(){
 	
-		$data = $this->db->query("select comp_id,do_no,do_dt,invoice_no, sum(br_amt) as tot_amt
-									from td_cr_note 
-									group by comp_id,do_no,do_dt,invoice_no");
-	
-		return $data->result();
-			
-		}
+	$data = $this->db->query("select comp_id,do_no,do_dt,invoice_no, sum(br_amt) as tot_amt
+								from td_cr_note 
+								group by comp_id,do_no,do_dt,invoice_no");
+	return $data->result();
+		
+	}
 
 			 //  Function For Credit Note Developed By Lokesh  08/04/2020//
-		public function credit_amt(){
-		   $data=$this->db->query("Select a.comp_id comp_id,a.do_no do_no,a.do_dt do_dt,a.invoice_no invoice_no,a.invoice_dt  invoice_dt,sum(a.br_amt) as tot_amt,b.COMP_NAME COMP_NAME
-       							
-       						from  td_cr_note a,
-	   					    mm_company_dtls b    							   							
-					  where  a.comp_id = b.COMP_ID
-					
-					  group by comp_id,do_no,do_dt,invoice_no,invoice_dt,COMP_NAME");
+	public function credit_amt(){
+		$data=$this->db->query("Select a.comp_id comp_id,a.do_no do_no,a.do_dt do_dt,a.invoice_no invoice_no,a.invoice_dt  invoice_dt,sum(a.br_amt) as tot_amt,b.COMP_NAME COMP_NAME
+						from  td_cr_note a,
+						mm_company_dtls b    							   							
+					where  a.comp_id = b.COMP_ID
+					group by comp_id,do_no,do_dt,invoice_no,invoice_dt,COMP_NAME");
 
-				return $data->result();
-		}
+		return $data->result();
+	}
 
         
 		public function f_getdo_dtl($br_cd,$soc_id){

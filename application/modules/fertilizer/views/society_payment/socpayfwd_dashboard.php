@@ -4,7 +4,7 @@
 
         <div class="col-lg-9 col-sm-12">
 
-            <h1><strong>Customer Payment</strong></h1>
+            <h1><strong>Customer Payment Forward</strong></h1>
 
         </div>
 
@@ -13,7 +13,7 @@
     <div class="col-lg-12 container contant-wraper">
 
         <h3>
-            <small><a href="<?php echo site_url("socpay/society_payAdd");?>" class="btn btn-primary"
+            <small><a href="<?php echo site_url("socpay/socpayfwdAdd");?>" class="btn btn-primary"
                     style="width: 100px;">Add</a></small>
             <span class="confirm-div" style="float:right; color:green;"></span>
             <!-- <div  class="input-group" style="margin-left:75%;">
@@ -53,7 +53,7 @@
                     <th>Product</th>
                     <th>Society</th>
                     <th>Amount</th>
-                    <!-- <th>Forward</th> -->
+                    <th>Forward</th>
                     <th>Print</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -78,17 +78,17 @@
                     <td><?php echo $pay->soc_name; ?></td>
                     <td><?php echo $pay->amount; ?></td>
 
-                    <!-- <td>
+                    <td>
                         <?php if($pay->approval_status == 'U') { ?>
-                         <a href="<?php echo site_url("socpay/f_cust_pay_forward");?>?ro_no=<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no;?>"> 
+                        <!-- <a href="<?php echo site_url("socpay/f_cust_pay_forward");?>?ro_no=<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no;?>"> -->
 
                         <button class="btn btn-primary fButton"
                             rono="<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no;?>"
                             id="fButton">Forward</button>
 
-                         </a> 
+                        <!-- </a> -->
                         <?php } ?>
-                    </td> -->
+                    </td>
 
                     <td>
                         <a href="<?php echo site_url('socpay/money_recptReport?paid_id='.$pay->paid_id.''); ?>"
@@ -149,7 +149,7 @@
                     <th>Product</th>
                     <th>Society</th>
                     <th>Amount</th>
-                    <!-- <th>Forward</th> -->
+                    <th>Forward</th>
                     <th>Print</th>
                     <th>Edit</th>
                     <th>Delete</th>
