@@ -3587,8 +3587,14 @@ public function deleteAccCd() {
 		$from_date=$this->input->post('from_date');
 
 		if($this->input->post()){
-			$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$to_date,$from_date);
-			
+			$frmdt=$from_date;
+			$todt=$to_date;
+			$select = array('trans_dt','ro_no','fwd_no','sum(fwd_qty) fwd_qty','fwd_status','fin_yr');
+			$where = array(
+			               "branch_id"  => $this->session->userdata['loggedin']['branch_id'],
+			               "trans_dt between '".$frmdt."' and '".$todt."' group by trans_dt,fwd_no,ro_no,fwd_status,fin_yr"=> NULL
+						 );
+			$data['cpfwds'] = $this->Society_paymentModel->f_select('tdf_payment_forward',$select,$where,0);
 			$this->load->view("post_login/fertilizer_main");
 			$this->load->view("society_payment/socpayfwd_dashboard",$data);
 			$this->load->view('search/search');
@@ -3597,10 +3603,10 @@ public function deleteAccCd() {
 		}else{
 			$frmdt=date('Y-m-d');
 			$todt=$frmdt;
-			$select = array('trans_dt','ro_no','sum(fwd_qty) fwd_qty','fwd_status');
+			$select = array('trans_dt','fwd_no','ro_no','sum(fwd_qty) fwd_qty','fwd_status','fin_yr');
 			$where = array(
 			               "branch_id"  => $this->session->userdata['loggedin']['branch_id'],
-			               "trans_dt between '".$frmdt."' and '".$todt."' group by trans_dt,ro_no,fwd_status"=> NULL
+			               "trans_dt between '".$frmdt."' and '".$todt."' group by trans_dt,fwd_no,ro_no,fwd_status,fin_yr"=> NULL
 						 );
 			$data['cpfwds'] = $this->Society_paymentModel->f_select('tdf_payment_forward',$select,$where,0);
 			$this->load->view("post_login/fertilizer_main");
@@ -3649,7 +3655,7 @@ public function deleteAccCd() {
 	public function paididdetail(){
 
 		$paid_id  = trim($this->input->post('paid_id'));
-		$select = array('a.sale_invoice_no','b.qty','c.soc_name');
+		$select = array('a.sale_invoice_no','b.qty','c.soc_name','a.paid_qty');
 		$where  = array('a.sale_invoice_no = b.trans_do' => NULL,'a.soc_id = c.soc_id'=>NULL,'a.paid_id'=>$paid_id);
 		$result = $this->Society_paymentModel->f_select('tdf_payment_recv a,td_sale b,mm_ferti_soc c',$select,$where,1);
 		echo json_encode($result);
@@ -3678,15 +3684,21 @@ public function deleteAccCd() {
 		if($_SERVER['REQUEST_METHOD'] == "POST") {
 			$cntrow    = count($this->input->post('paid_id'));
 			$amt        = $this->input->post('amount');
-		
+			$fin_id         = $this->session->userdata['loggedin']['fin_id'];
+			$select  = array('ifnull(max(fwd_no),0) fwd_no');
+			$where   = array('fin_yr'=>$fin_id);
+			$result = $this->Society_paymentModel->f_select('tdf_payment_forward',$select,$where,1);
+			$fo_no  = ($result->fwd_no)+1;
 			for($i=0; $i<$cntrow; $i++) {
 					$data = array(
+						'fwd_no'    => $fo_no,
 						'trans_dt'  => $this->input->post('trans_dt'),
-						'ro_no'     => $this->input->post('ro_no'),
+						'ro_no'     => trim($this->input->post('ro_no')),
 						'fwd_date'  => date("Y-m-d"),
 						'paid_id'   => $this->input->post('paid_id')[$i],
 						'fwd_qty'   => $this->input->post('qty')[$i],
 						'branch_id' => $this->session->userdata['loggedin']['branch_id'],
+						'fin_yr'    => $fin_id,
 						'created_by'=> $this->session->userdata['loggedin']['user_name'],
 						'created_dt'=> date("Y-m-d h:i:s")
 					);
@@ -3713,10 +3725,10 @@ public function deleteAccCd() {
 	}
 	public function soc_payfwd_edit(){
 
-		$ro_no = $this->input->get('sl_no');
-		$data['spfwd'] = $this->AdvanceModel->f_select('tdf_payment_forward',NULL,array('ro_no'=>$ro_no),1);
-	
-		$data['result'] = $this->Society_paymentModel->f_getfwdpaydetls($ro_no);
+		$fwd_no = $this->input->get('fwd_no');
+		$fin_yr = $this->input->get('fin_yr');
+		$data['spfwd'] = $this->AdvanceModel->f_select('tdf_payment_forward',NULL,array('fwd_no'=>$fwd_no,'fin_yr'=>$fin_yr),1);
+		$data['result'] = $this->Society_paymentModel->f_getfwdpaydetls($fwd_no);
 		$this->load->view("post_login/fertilizer_main");
 		$this->load->view("society_payment/socpayfwdedit",$data);
 		$this->load->view('post_login/footer');
@@ -3728,7 +3740,7 @@ public function deleteAccCd() {
 		$data_array = array('fwd_status' => 'A',
 	                        'fwd_by' => $this->session->userdata['loggedin']['user_name'],
 							'fwd_date' => date("Y-m-d h:i:s")
-						);
+						    );
 		$this->Society_paymentModel->f_edit('tdf_payment_forward',$data_array,$where);
 		redirect('socpay/soc_payment_fwd');
 	}

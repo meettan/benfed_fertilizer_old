@@ -48,16 +48,14 @@
 
                 <tr>
                     <th>Sl No.</th>
-                    <!-- <th>Receipt No.</th> -->
+                    <th>Fwd No</th>
                     <th>Ro no</th>
                     <th>Qty</th>
-                    <!-- <th>Forward</th> -->
                     <th>View</th>
                     <!-- <th>Delete</th> -->
                 </tr>
 
             </thead>
-
             <tbody>
 
                 <?php
@@ -67,45 +65,23 @@
 		    ?>
 
                 <tr>
-
                     <td><?php echo ++$i; ?></td>
-                    <!-- <td><?php //echo $pay->paid_id; ?></td> -->
+                    <td><?php echo $pay->fwd_no; ?></td>
                     <td><?php echo $pay->ro_no;?></td>
                     <td><?php echo $pay->fwd_qty; ?></td>
 
-                    <!-- <td>
-                        <?php if($pay->fwd_status == 'U') { ?>
-                        <button class="btn btn-primary fButton"
-                            rono="<?=$pay->ro_no;?>,<?=$pay->paid_id;?>"
-                            id="fButton">Forward</button>
-                        <?php } ?>
-                    </td> -->
-
-                    <td><a href="soc_payfwd_edit?sl_no=<?=$pay->ro_no;?>" data-toggle="tooltip"
+                    <td><a href="soc_payfwd_edit?fwd_no=<?=$pay->fwd_no;?>&fin_yr=<?=$pay->fin_yr;?>" data-toggle="tooltip"
                             data-placement="bottom" title="Edit">
                             <i class="fa fa-eye fa-2x" style="color: #007bff"></i>
                         </a>
                     </td>
-
-                    
-
-
-                    <!-- </td> -->
-
                 </tr>
 
-
-
-                <?php
-                            
+                <?php 
                             }
-
                         }
-
                         else {
-
                             echo "<tr><td colspan='10' style='text-align: center;'>No data Found</td></tr>";
-
                         }
                     ?>
 
@@ -116,10 +92,9 @@
                 <tr>
 
                     <th>Sl No.</th>
-                    <!-- <th>Receipt No.</th> -->
+                    <th>Fwd No</th>
                     <th>Ro no</th>
                     <th>Qty</th>
-                    <!-- <th>Forward</th> -->
                     <th>View</th>
                   
                 </tr>
