@@ -38,7 +38,7 @@
 
     <div class="col-md-12 container form-wraper">
 
-        <form method="POST" action="<?php echo site_url("socpay/society_payAdd") ?>" onsubmit="return valid_data()"
+        <form method="POST" action="<?php echo site_url("socpay/socpayfwdAdd") ?>" onsubmit="return valid_data()"
             id="form">
             <div class="form-header">
                 <h4>Society Payment Forward</h4>
@@ -118,13 +118,14 @@
 
                         <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="5">
                                     Total:
                                 </td>
-                                <td colspan="2">
-                                    <input name="total" style="width:150px;" id="total" class="form-control total"
-                                        placeholder="Total" readonly>
+                                <td>
+                                    <input type='text' name="total" style="width:150px;" id="total" class="form-control total"
+                                        placeholder="0.00" readonly value='0.00'>
                                 </td>
+                                <td></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -160,6 +161,7 @@
 	$("#addrow").click(function()
 	{
 		var ro_no = $('#ro_no').val();
+        var tot_qty = $('#total').val();
 		if(ro_no != ''  ){
 
 			$.get('<?php echo site_url("socpay/get_paymentreceived_id") ?>', {ro_no: $('#ro_no').val()})
@@ -199,13 +201,7 @@
 
 				$("#intro").append($(newElement1));
 				$('.select2').select2();
-				   $(document).ready(function() {
-						var tot = 0.00;
-						$('.amount').each(function(){
-							tot += parseFloat($(this).val())?parseFloat($(this).val()):0.00;
-						});
-						$('#tot_amt').html(parseFloat(tot));
-					})
+                
 				})
 
 		}else{
@@ -219,10 +215,10 @@
 	$("#intro").on("click","#removeRow", function(){
 		var tot = 0.00;
 		$(this).parents('tr').remove();
-		$('.amount').each(function(){
+		$('.qty').each(function(){
 				tot += parseFloat($(this).val())?parseFloat($(this).val()):0.00;
 			});
-			$('#tot_amt').html(parseFloat(tot));
+			$('#total').val(parseFloat(tot));
 	});
 });
 </script>
@@ -232,6 +228,7 @@
 	var st  = parseFloat($('#st').html());
 	var tot = 0.00;
     var saleqty = 0.00;
+    var tot_qty = parseFloat($('#total').val())?parseFloat($('#total').val()):0.00;
 	var row = $(this).closest('tr');
 	var paid_id = $(this).val();
 		$.post('<?php echo site_url("socpay/paididdetail") ?>',{paid_id:paid_id})
@@ -239,12 +236,8 @@
 			var value = JSON.parse(data);
 			row.find("td:eq(1) input[type='text']").val(value.soc_name);
 			row.find("td:eq(2) input[type='text']").val(value.sale_invoice_no);
-			//row.find("td:eq(3) input[type='text']").val(value.ro_no);
 			row.find("td:eq(4) input[type='text']").val(value.qty);
-			$('.qty').each(function(){
-				tot += parseFloat($(this).val())?parseFloat($(this).val()):0.00;
-			});
-			$('#tot_qty').html(parseFloat(tot));
+			
             saleqty = value.qty
 		})
         $.post('<?php echo site_url("socpay/advqty") ?>',{paid_id:paid_id,advfwdid:$('#advfwdno').val() })
@@ -254,14 +247,15 @@
             if(parseFloat(value.qty) > parseFloat('0') ){
                 row.find("td:eq(3) input[type='text']").val(value.qty);
                 row.find("td:eq(5) input[type='text']").val(saleqty-(value.qty));
+                $('#total').val(parseFloat(tot_qty+(parseFloat(saleqty)-parseFloat(value.qty))));
             }else{
                 row.find("td:eq(3) input[type='text']").val('0');
                 row.find("td:eq(5) input[type='text']").val(saleqty-parseFloat('0'));
+                $('#total').val(parseFloat(tot_qty+(parseFloat(saleqty)-parseFloat('0'))));
             }
             
             
 		})
-       
 
     })
 

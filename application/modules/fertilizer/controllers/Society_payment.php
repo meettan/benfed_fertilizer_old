@@ -3595,10 +3595,14 @@ public function deleteAccCd() {
 			$this->load->view('post_login/footer');
 
 		}else{
-			$today=date('Y-m-d');
-			$fDate=$today;
-			$data['soc_pay']   = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$today,$fDate);
-
+			$frmdt=date('Y-m-d');
+			$todt=$frmdt;
+			$select = array('trans_dt','ro_no','sum(fwd_qty) fwd_qty','fwd_status');
+			$where = array(
+			               "branch_id"  => $this->session->userdata['loggedin']['branch_id'],
+			               "trans_dt between '".$frmdt."' and '".$todt."' group by trans_dt,ro_no,fwd_status"=> NULL
+						 );
+			$data['cpfwds'] = $this->Society_paymentModel->f_select('tdf_payment_forward',$select,$where,0);
 			$this->load->view("post_login/fertilizer_main");
 			$this->load->view("society_payment/socpayfwd_dashboard",$data);
 			$this->load->view('search/search');
@@ -3606,18 +3610,13 @@ public function deleteAccCd() {
 		}
 			
 	}
-	public function socpayfwdAdd(){
-
-		$this->load->view("post_login/fertilizer_main");
-		$this->load->view("society_payment/socpayfwdadd");
-		$this->load->view('post_login/footer');
-
-	}
+	
 
 	public function f_rodetail(){
         $ro_no  = trim($this->input->get('ro_no'));
+		$br     = $this->session->userdata['loggedin']['branch_id'];
 		$select = array('a.adv_status','a.advance_receipt_no','b.COMP_NAME','c.PROD_DESC');
-		$where  = array('a.comp_id = b.COMP_ID' => NULL,'a.prod_id = c.PROD_ID'=>NULL,'a.ro_no'=>$ro_no);
+		$where  = array('a.comp_id = b.COMP_ID' => NULL,'a.prod_id = c.PROD_ID'=>NULL,'a.ro_no'=>$ro_no,'a.br'=>$br);
 		$result = $this->Society_paymentModel->f_select('td_purchase a,mm_company_dtls b,mm_product c',$select,$where,1);
 		echo json_encode($result);
 	}
@@ -3642,7 +3641,8 @@ public function deleteAccCd() {
 	}
 	public function get_paymentreceived_id(){
 		$rono = $this->input->get('ro_no');
-		$sql = "SELECT distinct paid_id FROM tdf_payment_recv WHERE approval_status = 'U' AND ro_no = '".$rono."'";
+		$br     = $this->session->userdata['loggedin']['branch_id'];
+		$sql = "SELECT distinct paid_id FROM tdf_payment_recv WHERE approval_status = 'U' AND ro_no = '".$rono."' AND  branch_id ='".$br."'";
 		$data  = $this->db->query($sql)->result();
 		echo json_encode($data);
 	}
@@ -3671,8 +3671,69 @@ public function deleteAccCd() {
 		}else{
 			echo json_encode('0');
 		}
-		
 	}
+
+	public function socpayfwdAdd(){
+
+		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$cntrow    = count($this->input->post('paid_id'));
+			$amt        = $this->input->post('amount');
+		
+			for($i=0; $i<$cntrow; $i++) {
+					$data = array(
+						'trans_dt'  => $this->input->post('trans_dt'),
+						'ro_no'     => $this->input->post('ro_no'),
+						'fwd_date'  => date("Y-m-d"),
+						'paid_id'   => $this->input->post('paid_id')[$i],
+						'fwd_qty'   => $this->input->post('qty')[$i],
+						'branch_id' => $this->session->userdata['loggedin']['branch_id'],
+						'created_by'=> $this->session->userdata['loggedin']['user_name'],
+						'created_dt'=> date("Y-m-d h:i:s")
+					);
+				if($this->input->post('qty')[$i] > 0){
+					$this->AdvanceModel->f_insert('tdf_payment_forward', $data);
+					$this->AdvanceModel->f_edit('tdf_payment_recv',array('approval_status'=>'A'),array('paid_id'=>$this->input->post('paid_id')[$i]));
+				}	
+			}
+			redirect('socpay/soc_payment_fwd');
+		}else{
+				$this->load->view("post_login/fertilizer_main");
+				$this->load->view("society_payment/socpayfwdadd");
+				$this->load->view('post_login/footer');
+		}
+
+	}
+    public function socpayfwd_del(){
+
+
+        $where  = array('paid_id'=> $this->input->get('id')); 
+		$this->Society_paymentModel->f_edit('tdf_payment_recv',array('approval_status'=>'U'),$where);
+		$this->Society_paymentModel->f_delete('tdf_payment_forward', $where) ;	
+		redirect('socpay/soc_payment_fwd');	
+	}
+	public function soc_payfwd_edit(){
+
+		$ro_no = $this->input->get('sl_no');
+		$data['spfwd'] = $this->AdvanceModel->f_select('tdf_payment_forward',NULL,array('ro_no'=>$ro_no),1);
+	
+		$data['result'] = $this->Society_paymentModel->f_getfwdpaydetls($ro_no);
+		$this->load->view("post_login/fertilizer_main");
+		$this->load->view("society_payment/socpayfwdedit",$data);
+		$this->load->view('post_login/footer');
+	}
+
+	public function soc_payfwd_fwd(){
+
+		$where = array('ro_no' => $this->input->post('ro_no'));
+		$data_array = array('fwd_status' => 'A',
+	                        'fwd_by' => $this->session->userdata['loggedin']['user_name'],
+							'fwd_date' => date("Y-m-d h:i:s")
+						);
+		$this->Society_paymentModel->f_edit('tdf_payment_forward',$data_array,$where);
+		redirect('socpay/soc_payment_fwd');
+	}
+
+	
 	
 }
 ?>

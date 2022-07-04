@@ -48,15 +48,12 @@
 
                 <tr>
                     <th>Sl No.</th>
-                    <th>Receipt No.</th>
-                    <th>Receipt Date</th>
-                    <th>Product</th>
-                    <th>Society</th>
-                    <th>Amount</th>
-                    <th>Forward</th>
-                    <th>Print</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <!-- <th>Receipt No.</th> -->
+                    <th>Ro no</th>
+                    <th>Qty</th>
+                    <!-- <th>Forward</th> -->
+                    <th>View</th>
+                    <!-- <th>Delete</th> -->
                 </tr>
 
             </thead>
@@ -65,57 +62,32 @@
 
                 <?php
                         $i=0;
-                    if($soc_pay) {
-                            foreach($soc_pay as $pay) {
+                    if($cpfwds) {
+                            foreach($cpfwds as $pay) {
 		    ?>
 
                 <tr>
 
                     <td><?php echo ++$i; ?></td>
-                    <td><?php echo $pay->paid_id; ?></td>
-                    <td><?php echo date("d/m/Y",strtotime($pay->paid_dt)); ?></td>
-                    <td><?php echo $pay->prod_desc;?></td>
-                    <td><?php echo $pay->soc_name; ?></td>
-                    <td><?php echo $pay->amount; ?></td>
+                    <!-- <td><?php //echo $pay->paid_id; ?></td> -->
+                    <td><?php echo $pay->ro_no;?></td>
+                    <td><?php echo $pay->fwd_qty; ?></td>
 
-                    <td>
-                        <?php if($pay->approval_status == 'U') { ?>
-                        <!-- <a href="<?php echo site_url("socpay/f_cust_pay_forward");?>?ro_no=<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no;?>"> -->
-
+                    <!-- <td>
+                        <?php if($pay->fwd_status == 'U') { ?>
                         <button class="btn btn-primary fButton"
-                            rono="<?=$pay->ro_no;?>,<?=$pay->comp_id;?>,<?=$pay->prod_id;?>,<?=$pay->rate;?>,<?=$pay->pur_inv;?>,<?=$pay->sale_qty;?>,<?=$pay->paid_id;?>,<?=$pay->sale_invoice_no;?>"
+                            rono="<?=$pay->ro_no;?>,<?=$pay->paid_id;?>"
                             id="fButton">Forward</button>
-
-                        <!-- </a> -->
                         <?php } ?>
-                    </td>
+                    </td> -->
 
-                    <td>
-                        <a href="<?php echo site_url('socpay/money_recptReport?paid_id='.$pay->paid_id.''); ?>"
-                            title="Print">
-
-                            <i class="fa fa-print fa-2x" style="color:green;"></i>
-
-                        </a>
-                    </td>
-
-                    <td><a href="society_payEdit?paid_id=<?=$pay->paid_id;?>" data-toggle="tooltip"
+                    <td><a href="soc_payfwd_edit?sl_no=<?=$pay->ro_no;?>" data-toggle="tooltip"
                             data-placement="bottom" title="Edit">
-
-                            <i class="fa fa-edit fa-2x" style="color: #007bff"></i>
+                            <i class="fa fa-eye fa-2x" style="color: #007bff"></i>
                         </a>
                     </td>
 
-                    <td>
-
-                        <?php if($pay->approval_status == 'U') { ?>
-                        <button type="button" class="delete" id="<?=$pay->paid_id;?>" data-toggle="tooltip"
-                            data-placement="bottom" title="Delete">
-
-                            <i class="fa fa-trash-o fa-2x" style="color: #bd2130"></i>
-                        </button>
-                        <?php } ?>
-                    </td>
+                    
 
 
                     <!-- </td> -->
@@ -144,15 +116,12 @@
                 <tr>
 
                     <th>Sl No.</th>
-                    <th>Receipt No.</th>
-                    <th>Receipt Date</th>
-                    <th>Product</th>
-                    <th>Society</th>
-                    <th>Amount</th>
-                    <th>Forward</th>
-                    <th>Print</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <!-- <th>Receipt No.</th> -->
+                    <th>Ro no</th>
+                    <th>Qty</th>
+                    <!-- <th>Forward</th> -->
+                    <th>View</th>
+                  
                 </tr>
 
             </tfoot>
