@@ -992,6 +992,20 @@
 				return $data->result();
 		}
 
+		public function f_getfwdpaydetls($fwd_no){
+
+			$sql = "SELECT Distinct `a`.`sale_invoice_no`, 
+						`b`.`qty`, 
+						`c`.`soc_name`,`d`.`paid_id`,d.fwd_qty,d.fwd_status,'a.paid_id'
+						FROM `tdf_payment_recv` `a`,`td_sale` `b`,`mm_ferti_soc` `c`,`tdf_payment_forward` `d`
+						WHERE `a`.`sale_invoice_no` = `b`.`trans_do` 
+						AND `a`.`soc_id` = `c`.`soc_id` 
+						ANd `a`.`paid_id` = `d`.`paid_id`
+						AND `d`.`fwd_no` = '".$fwd_no."'  ";
+		    $result = $this->db->query($sql);	
+			return $result->result();
+		}
+
 
 	}
 ?>
