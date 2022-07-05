@@ -1,0 +1,77 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Generation Time: Jul 05, 2022 at 12:40 PM
+-- Server version: 10.5.15-MariaDB
+-- PHP Version: 7.4.29
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `benfed_fertilizer`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mm_company_dtls`
+--
+
+CREATE TABLE `mm_company_dtls` (
+  `COMP_ID` int(10) NOT NULL,
+  `COMP_NAME` varchar(100) NOT NULL,
+  `short_name` varchar(100) DEFAULT NULL,
+  `COMP_PN_NO` varchar(30) DEFAULT NULL,
+  `COMP_EMAIL_ID` varchar(50) DEFAULT NULL,
+  `CREATED_BY` varchar(50) DEFAULT NULL,
+  `CREATED_DT` datetime DEFAULT NULL,
+  `MODIFIED_BY` varchar(50) DEFAULT NULL,
+  `MODIFIED_DT` datetime DEFAULT NULL,
+  `COMP_ADD` text DEFAULT NULL,
+  `PAN_NO` varchar(20) NOT NULL,
+  `GST_NO` varchar(20) NOT NULL,
+  `CIN` varchar(50) DEFAULT NULL,
+  `MFMS` varchar(50) DEFAULT NULL,
+  `acc_cd` int(10) DEFAULT NULL,
+  `adv_acc` int(10) DEFAULT NULL,
+  `tds_acc` varchar(10) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mm_company_dtls`
+--
+
+INSERT INTO `mm_company_dtls` (`COMP_ID`, `COMP_NAME`, `short_name`, `COMP_PN_NO`, `COMP_EMAIL_ID`, `CREATED_BY`, `CREATED_DT`, `MODIFIED_BY`, `MODIFIED_DT`, `COMP_ADD`, `PAN_NO`, `GST_NO`, `CIN`, `MFMS`, `acc_cd`, `adv_acc`, `tds_acc`) VALUES
+(1, 'INDIAN FARMERS FERTILIZER COOPERATIVE LTD.', 'IFFCO', '', '', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-08 10:45:29', '8 A.J.C. BOSE ROAD, CIRCULAR ROAD (1ST Floor), KOLKATA 700017, WEST BENGAL\r\n    \r\n    \r\n   ', 'AAAI0050M', '19AAAAI0050M1ZS', '', '100006', 3857, 3980, '8232'),
+(2, 'KRISHAK BHARATI COOPERATIVE LIMITED', 'KRIBHCO', '033-25214157', 'KRIBHCOWB06@GMAIL.COM', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-08 10:48:36', '14B,LAKE TOWN BLOCK- A, KOLKATA-700089', 'AAAAK0203G', '19AAAAK0203G1Z8', '', '', 3861, 3981, '0'),
+(3, 'INDIAN POTASH LIMITED', 'IPL', '033-22882006', 'plcal@potindia.com', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-08 10:46:35', 'EVEREST HOUSE, 11TH FLOOR, 46-C, JAWAHARLAL NEHRU ROAD,KOLKATA 700071,WEST BENGAL\r\n    \r\n   ', 'AAAC10888H', '19AAAC10888H1ZD', 'U14219TN1955PLC000961', '', 3859, 3983, '8231'),
+(4, 'COROMANDEL INTERNATIONAL LTD.', 'CIL', '', '', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-08 11:13:27', 'COSSIMBAZAR DAMAN DAFTARI LANE, NEAR COSSIMBAZAR; WEST BENGAL-742102', 'AAACC7852K', '19AAACC7852K1ZA', 'L24120TG1961PLC000892', '', 3863, 3982, '8233'),
+(5, 'KHAITAN CHEMICALS AND FERTILIZERS LTD.', 'KCFL', '', '', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-08 11:14:27', '46, C RAFI AHMEND KIDWAI ROAD, KOLKATA\r\n   ', 'AAACK2342Q', '19AAACK2342Q1Z7', 'L24219MP1982PLC004937', '', 3858, 3984, '0'),
+(6, 'THE JAYASREE CHEMICALS & FERTIL', 'JCF', '033-2282-7531;9827;9436 ', 'JCF@JAYSHREETEA.COM', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-08 10:47:32', 'INDUSTRY , 15TH FLOOR, 10 CAMAC STREET, KOLKATA-700017   ', 'AAACJ7788D', '19AAACJ7788D1Z7', 'L15491WB1945PLCO12771', '', 3860, 3985, '0'),
+(7, 'MOSAIC INDIA PRIVATE LTD.', 'MIPL', '', '', 'synergic', '2020-03-04 00:00:00', 'synergic', '2020-09-24 05:28:31', '11TH FLOOR,DLF CYBER CITY-II ; GURGAON, HARYANA-122002', 'AACCC4033C', '19AACCC4033C1Z6', '', '', 3862, 3986, '0'),
+(8, 'KFL', 'KFL', '033-25214157', '', 'Biswajit Gangopadhyay', '2022-02-07 08:18:15', NULL, NULL, 'Kribhco Fertilizer Ltd., 148, Lake Town, Block- A, Kolkata- 700089, West Bengal, India', 'AACCK6999B', '19AACCK6999B1Z5', 'U24121DL2005PLC143452', '', 3989, 3990, '0');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `mm_company_dtls`
+--
+ALTER TABLE `mm_company_dtls`
+  ADD PRIMARY KEY (`COMP_ID`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
