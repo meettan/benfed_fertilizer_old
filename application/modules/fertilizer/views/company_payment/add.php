@@ -1,6 +1,6 @@
 <div class="wraper">
 
-    <div class="col-md-14 container form-wraper">
+    <div class="col-md-12 container form-wraper">
 
         <form method="POST" action="<?php echo site_url("compay/company_payAdd") ?>" onsubmit="return valid_data()"
             id="form">

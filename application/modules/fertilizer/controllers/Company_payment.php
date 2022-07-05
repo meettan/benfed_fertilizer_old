@@ -90,36 +90,35 @@
 			// $acc_cd 	= $this->Company_paymentModel->f_get_acc_cd();
 			
 
-$curl = curl_init();
+			$curl = curl_init();
 
-curl_setopt_array($curl, array(
-	//CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
- //CURLOPT_URL => 'http://localhost/benfed_fin/index.php/transaction/f_acc_code',
- //CURLOPT_URL => 'http://benfed.in/benfed_fin/index.php/transaction/f_acc_code',
- //CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/f_acc_code',
- CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'GET',
-  CURLOPT_HTTPHEADER => array(
-	'Cookie: ci_session=kdj63c5dnt6e3m0ursvh4rg4p269dtjr'
-  ),
-));
+			curl_setopt_array($curl, array(
+				//CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
+			//CURLOPT_URL => 'http://localhost/benfed_fin/index.php/transaction/f_acc_code',
+			//CURLOPT_URL => 'http://benfed.in/benfed_fin/index.php/transaction/f_acc_code',
+			//CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/f_acc_code',
+			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'GET',
+			CURLOPT_HTTPHEADER => array(
+				'Cookie: ci_session=kdj63c5dnt6e3m0ursvh4rg4p269dtjr'
+			),
+			));
 
-$response = curl_exec($curl);
+			$response = curl_exec($curl);
 
-curl_close($curl);
- //echo $response;
- //echo '<pre>';
- //var_dump(json_decode($response));exit;
-$product['acc_cd'] = json_decode($response);
-//echo $acc_cd;
-//  var_dump($acc_cd[0]->sl_no);
-//  exit;
+			curl_close($curl);
+
+			//var_dump(json_decode($response));exit;
+			$product['acc_cd'] = json_decode($response);
+			//echo $acc_cd;
+			//  var_dump($acc_cd[0]->sl_no);
+			//  exit;
 
 /*************************************** */
 			
