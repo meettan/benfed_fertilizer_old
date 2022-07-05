@@ -135,7 +135,7 @@
 					$total_tds=0;
 					$total_net_amount=0;
 					$total_gross_amount=0;
-					
+					print_r($paid_amt);die();
                     for($i = 0; $i < $amt_count; $i++){
 						$total_tds+=$_POST['tds'][$i];
 						$total_net_amount+=$_POST['net_amt'][$i];
@@ -182,12 +182,6 @@
 											'net_amt'         => $_POST['net_amt'][$i],
 
 											'qty'              => $_POST['qty'][$i]);
-
-				
-						//   $select_bnkacc         = array("acc_code");
-						//  $where_bnkacc          = array("sl_no"     => $this->input->post('bank_id'));
-
-						// $bnk_acc = $this->Company_paymentModel->f_select("mm_feri_bank",$select_bnkacc,$where_bnkacc,1);
 	                    
 					$where  =   array(
 		   
@@ -197,58 +191,13 @@
 
 					'prod_id'     => $_POST['prod_id'][$i]);
 
-				// 	$data_array_acc=$data;
-				// 	$data_array_acc['acc_code'] = $bnk_acc->acc_code; 
-				//    // 'virtual_ac'  => $_POST['virtual_no'][$i] );
-				//    $select_comp          = array("comp_name");
-				//    $where_comp           = array("comp_id"=> $comp_id );
-				//    $comp_name=$this->Company_paymentModel->f_select('mm_company_dtls',$select_comp,$where_comp,1);
-				//    $data_array_comp=$data_array_acc;
-				//    $data_array_comp['rem'] = " Amount Paid To. ".$comp_name->comp_name ; 
-
-				//    $this->Company_paymentModel->f_compayjnl($data_array_acc);
-
-				//$this->Company_paymentModel->f_compayjnl($data_array_comp);
+				   
 
 				   $this->Company_paymentModel->f_edit('tdf_company_payment', $data, $where);
-					// echo $this->db->last_query();
-					// die();
-
-
-// if ($trans_type=='2'){
-// 						$total = $_POST['paid_amt'][$i];
-
-// 						$data_adv_pay     = array('trans_dt'       => date('Y-m-d'),
-	   
-// 												   'sl_no'         => $adv_transCd->sl_no,
-	   
-// 												   'receipt_no'    => $receipt,
-	   
-// 												   'fin_yr'        => $fin_id,
-	   
-// 												   'branch_id'     => $br_cd,
-	   
-// 												   'soc_id'        => $this->input->post('soc_id'),
-	   
-// 												   'trans_type'    => 'O',
-	   
-// 												   'adv_amt'       => $total,
-	   
-// 												   'inv_no'        => $this->input->post('trans_do'),
-	   
-// 												   'ro_no'         => $this->input->post('sale_ro'),
-	   
-// 												   'remarks'       => 'ADV ADJ',
-	   
-// 												   'created_by'    => $this->session->userdata['loggedin']['user_name'],
-	   
-// 												   'created_dt'    => date('Y-m-d'));
-	   
-// 						   $this->Company_paymentModel->f_insert('tdf_advance', $data_adv_pay);
-//                }
+					
 
 						
-		}
+		        }
 		
 		
 
@@ -283,11 +232,6 @@
 	  
 		
 		$this->Company_paymentModel->f_compayjnl($data_array_comp);
-		
-
-
-
-
 
 
 		              $this->session->set_flashdata('msg', 'Successfully Added');

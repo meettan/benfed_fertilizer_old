@@ -7,7 +7,6 @@
             <div class="form-header">
                 <h4>Company Advance</h4>
             </div>
-
             <div class="form-group row">
                 <label for="company" class="col-sm-2 col-form-label">Company:</label>
                 <div class="col-sm-4">
@@ -22,7 +21,7 @@
                 <label for="trans_dt" class="col-sm-2 col-form-label">Date:</label>
                 <div class="col-sm-4">
 
-                    <input type="date" id=trans_dt name="trans_dt" class="form-control" value="<?=date('Y-m-d')?>"
+                    <input type="date" id=trans_dt name="trans_dt" class="form-control" value="<?php echo $pageData->trans_dt; ?>"
                         readonly />
 
                 </div>

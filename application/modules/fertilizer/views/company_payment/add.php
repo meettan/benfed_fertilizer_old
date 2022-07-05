@@ -21,17 +21,13 @@
                         <option value="">Select</option>
 
                         <?php
-                                
                                     foreach($distdtls as $dist){
-                                
                                 ?>
 
                         <option value="<?php echo $dist->district_code;?>"><?php echo $dist->district_name;?></option>
 
                         <?php
-	
 		                            }
-	
 	                            ?>
 
                     </select>
@@ -39,7 +35,7 @@
                 <label for="pay_dt" class="col-sm-2 col-form-label">Date Of Payment:</label>
                 <div class="col-sm-4">
 
-                    <input type="date" style="width:170px" id="pay_dt" name="pay_dt" class="form-control" />
+                    <input type="date" style="width:170px" id="pay_dt" name="pay_dt" class="form-control" value='<?=date('Y-m-d')?>' readonly />
                 </div>
                 <!-- </div> -->
             </div>
@@ -180,9 +176,12 @@
 
                             <tfoot>
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="4">
                                         Total:
                                     </td>
+                                    <td><input name="qty_total"  id="qty_total"
+                                            class="form-control qty_total" val='0.00' readonly></td>
+                                    <td></td>
                                     <td colspan="">
                                         <input name="taxable_total" style="width:150px;" id="taxable_total"
                                             class="form-control taxable_total" placeholder="Taxable Total" readonly>
@@ -664,12 +663,12 @@
             console.log('ok');
 
             $(this).parent().parent().remove();
-            // var total = 0;
-            // $('.paid_amt').each(function () {
+            var qty_total = 0;
+                    $('.qty').each(function () {
 
-            //     total += +$(this).val();
-            // })
-            // $("#total").val(total);
+                        qty_total += +$(this).val();
+                    })
+                    $("#qty_total").val(parseFloat(qty_total).toFixed(2));
             
             var taxableAmt = 0;
             $('.taxable_amt').each(function () {
@@ -942,7 +941,12 @@
                     })
                     $("#total").val( parseFloat(total).toFixed(2));
 
+                    var qty_total = 0;
+                    $('.qty').each(function () {
 
+                        qty_total += +$(this).val();
+                    })
+                    $("#qty_total").val(parseFloat(qty_total).toFixed(2));
 
                     var taxable_total = 0;
                     $('.taxable_amt').each(function () {

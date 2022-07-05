@@ -101,7 +101,8 @@ tr:hover {background-color: #f5f5f5;}
                                     $total=0;
 
                                     foreach($tableData as $ptableData){
-                                        $total=($ptableData->adv_amt+$total);
+                                       // $total=($ptableData->adv_amt+$total);
+                                       $total +=$ptableData->adv_amt;
                             ?>
 
                                 <tr>

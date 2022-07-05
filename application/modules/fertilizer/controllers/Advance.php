@@ -160,7 +160,7 @@ public function company_advAdd(){
 
                     "trans_dt" 			=> $this->input->post('trans_dt'),
 
-                    "sl_no" 			=> $transCd->sl_no,
+                   // "sl_no" 			=> $transCd->sl_no,
                     
                     "receipt_no"        => $receipt,
 
@@ -191,9 +191,7 @@ public function company_advAdd(){
 
 					"created_dt"    	=>  date('Y-m-d h:i:s')
 				);
-				// print_r($key);
-                // print_r($data_array);
-				// die();
+				
 					$this->AdvanceModel->f_insert('tdf_company_advance', $data_array);
 					
 					$data_array_comp=$data_array;
@@ -278,41 +276,25 @@ public function company_editadv(){
 		redirect('adv/company_advance');
 
 	}else{
-			// $select = array(
-			// 			"trans_dt",
-
-			// 			"receipt_no",
-
-			// 			"comp_id",
-					
-			// 			"trans_type",
-					
-			// 			"adv_amt",
-					
-			// 			"remarks"                          
-			// 	);
-
-			// $where = array(
-
-			// 	"receipt_no" => $this->input->get('rcpt')
-				
-            //     );
-                
-            // $select1          		= array("comp_id","comp_name");
-            
-            // // $where1                 = array(
-            // //     "district"  =>  $this->session->userdata['loggedin']['branch_id']
-            // // );       
-
-            // $data['advDtls']        = $this->AdvanceModel->f_select("tdf_company_advance",$select,$where,1);
-
-            // $data['societyDtls']    = $this->AdvanceModel->f_select("mm_company_dtls",$select1,NULL,0);
 
 			
 			$rcpt=$this->input->get('rcpt');
+			$result = $this->AdvanceModel->f_select('tdf_company_advance',array('trans_dt'),array('receipt_no'=>$rcpt),1);
 			
-			$data['pageData']=$this->AdvanceModel->getBranchId($rcpt);
-			//$data['pageInfo']=$this->AdvanceModel->getpInfo($rcpt);
+			if($result->trans_dt > '2022-07-03'){
+			$where =array('a.adv_dtl_id = b.fwd_receipt_no'=>  NULL,
+			             'b.detail_receipt_no = c.detail_receipt_no'=>  NULL,
+						 'c.comp_id = d.COMP_ID'=>  NULL,
+						 'c.receipt_no = f.receipt_no'=>  NULL,
+				          'a.receipt_no'=>$rcpt);
+            $select = array('a.dr_head','a.bank','a.trans_dt','d.COMP_NAME','d.COMP_ID','e.branch_name','c.branch_id','f.remarks');
+			$data['pageData']=$this->AdvanceModel->f_select('tdf_company_advance a,tdf_adv_fwd b,td_adv_details c,mm_company_dtls d,md_branch e,tdf_advance f',$select,$where,1);
+			}else{
+             //$data['pageInfo']=$this->AdvanceModel->getpInfo($rcpt);
+              $data['pageData']=$this->AdvanceModel->getBranchId($rcpt);
+			}
+			
+			
 
 			$select_bank           = array("sl_no","bank_name");	
 			$where_bank            = array("dist_cd"     => '342');

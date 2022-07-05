@@ -1902,7 +1902,17 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
 
         public function getallAdvData($comp_id,$frm_date,$to_date){
 
-            $q=$this->db->query("select a.trans_dt,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
+            // $q=$this->db->query("select a.trans_dt,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
+            // from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d
+            // where c.branch_id = b.id
+            // and   a.adv_dtl_id = c.receipt_no
+            // and   a.adv_receive_no = c.detail_receipt_no
+            // and   c.prod_id = d.PROD_ID
+            // and   a.trans_dt between '$frm_date' and '$to_date'
+            // and   a.comp_id = '$comp_id'
+            // and   c.comp_pay_flag = 'Y';"
+            //);
+            $sql = "select a.trans_dt,a.receipt_no,a.adv_receive_no,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
             from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d
             where c.branch_id = b.id
             and   a.adv_dtl_id = c.receipt_no
@@ -1910,10 +1920,19 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
             and   c.prod_id = d.PROD_ID
             and   a.trans_dt between '$frm_date' and '$to_date'
             and   a.comp_id = '$comp_id'
-            and   c.comp_pay_flag = 'Y';"
-                
-            );
-            
+            and   c.comp_pay_flag = 'Y'
+            UNION
+            select a.trans_dt,a.receipt_no,a.adv_receive_no,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
+                        from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d,tdf_adv_fwd e
+                        where c.branch_id = b.id
+                        and   a.adv_receive_no = c.detail_receipt_no
+                        and   c.prod_id = d.PROD_ID
+                        and   a.adv_dtl_id = e.fwd_receipt_no
+                        and   c.detail_receipt_no = e.detail_receipt_no
+                        and   a.trans_dt between '$frm_date' and '$to_date'
+                        and   a.comp_id = '$comp_id'
+                        and   e.comp_pay_flag = 'Y'" ;
+            $q=$this->db->query($sql);
             return $q->result();
         }
 

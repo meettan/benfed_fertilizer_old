@@ -3744,6 +3744,7 @@ public function deleteAccCd() {
 							'pur_inv_no' => $purchase_data->invoice_no,
 							'sale_inv_no'=>$this->input->post('sale_invoice')[$i],
 							'paid_id'    =>$this->input->post('paid_id')[$i],
+							'paid_amt'   =>'0.00',
 							'qty'        =>$this->input->post('qty')[$i],
 							'district'   =>$this->session->userdata['loggedin']['branch_id'],
 							'fin_yr'     => $this->session->userdata['loggedin']['fin_id']
