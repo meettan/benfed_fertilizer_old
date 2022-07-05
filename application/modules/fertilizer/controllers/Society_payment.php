@@ -521,7 +521,6 @@ public function society_payEdit(){
 
 		if($this->input->post()){
 			$data['soc_pay']    = $this->Society_paymentModel->f_get_soc_payment_dtls($br_cd,$fin_id,$to_date,$from_date);
-			
 			$this->load->view("post_login/fertilizer_main");
 			$this->load->view("society_payment/dashboard",$data);
 			$this->load->view('search/search');
@@ -3717,7 +3716,6 @@ public function deleteAccCd() {
 	}
     public function socpayfwd_del(){
 
-
         $where  = array('paid_id'=> $this->input->get('id')); 
 		$this->Society_paymentModel->f_edit('tdf_payment_recv',array('approval_status'=>'U'),$where);
 		$this->Society_paymentModel->f_delete('tdf_payment_forward', $where) ;	
@@ -3735,13 +3733,30 @@ public function deleteAccCd() {
 	}
 
 	public function soc_payfwd_fwd(){
-
-		$where = array('ro_no' => $this->input->post('ro_no'));
+		$cntrow    = count($this->input->post('paid_id'));
+		
+		$purchase_data = $this->Society_paymentModel->f_select('td_purchase',array('comp_id','prod_id','rate','invoice_no'),array('ro_no'=>$this->input->post('ro_no')),1);
+		for($i=0; $i<$cntrow; $i++) {
+		$data       = array('pur_ro'     =>$this->input->post('ro_no'),
+							'comp_id'    => $purchase_data->comp_id,
+							'prod_id'    => $purchase_data->prod_id,
+							'purchase_rt'=> $purchase_data->rate,
+							'pur_inv_no' => $purchase_data->invoice_no,
+							'sale_inv_no'=>$this->input->post('sale_invoice')[$i],
+							'paid_id'    =>$this->input->post('paid_id')[$i],
+							'qty'        =>$this->input->post('sale_qty')[$i],
+							'district'   =>$this->session->userdata['loggedin']['branch_id'],
+							'fin_yr'     => $this->session->userdata['loggedin']['fin_id']
+						);
+		$this->Society_paymentModel->f_insert('tdf_company_payment',$data);					
 		$data_array = array('fwd_status' => 'A',
 	                        'fwd_by' => $this->session->userdata['loggedin']['user_name'],
 							'fwd_date' => date("Y-m-d h:i:s")
 						    );
+		$where = array('ro_no' => $this->input->post('ro_no'),
+		               'paid_id'    =>$this->input->post('paid_id')[$i]);					
 		$this->Society_paymentModel->f_edit('tdf_payment_forward',$data_array,$where);
+		}
 		redirect('socpay/soc_payment_fwd');
 	}
 
