@@ -334,7 +334,8 @@
         {
 			$thisfnyear=$this->session->userdata('loggedin')['fin_yr'];
 			$yearex=explode('-',$thisfnyear);
-			$opdate=$yearex[1].'-04-01';
+
+			$opdate=$yearex[0].'-04-01';
             $sql = $this->db->query("SELECT ifnull(sum(a.adv_amt),0) -(select  ifnull(sum(adv_amt),0) 
 																		from tdf_advance 
 																		WHERE soc_id ='$soc_id'
