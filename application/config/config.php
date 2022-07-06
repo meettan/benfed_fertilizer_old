@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 
 //$config['base_url'] = 'https://benfed.in/fertilizer/';
-$config['base_url'] = 'http://localhost/benfed_fertilizer/';
+$config['base_url'] = 'http://localhost:8080/Benfed_fertilizer/';
 
 /*
 |--------------------------------------------------------------------------

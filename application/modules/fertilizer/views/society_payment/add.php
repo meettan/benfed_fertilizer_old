@@ -714,7 +714,7 @@
 
         var i = 0;
 
-        $('#sale_ro').change(function () {
+        $('#soc_id').change(function () {
 
             $.get(
 
@@ -722,7 +722,7 @@
 
                 {
 
-                    soc_id: $('#soc_id').val()
+                    soc_id: $(this).val()
 
                 }
 
