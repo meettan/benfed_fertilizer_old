@@ -1573,7 +1573,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                    where b.district=c.branch_id
                     and  b.district=$branch
                      and c.soc_id=b.soc_id 
-                      and c.sale_invoice_dt between '$frmDt' and '$toDt'
+                      and c.paid_dt between '$frmDt' and '$toDt'
                       and c.pay_type='6'
                 group by b.soc_id,b.soc_name
             
@@ -1592,7 +1592,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                    where b.district=c.branch_id
                     and  b.district=$branch
                      and c.soc_id=b.soc_id 
-                      and c.sale_invoice_dt between '$frmDt' and '$toDt'
+                      and c.paid_dt between '$frmDt' and '$toDt'
                       and c.pay_type='2'
                 group by b.soc_id,b.soc_name
             
