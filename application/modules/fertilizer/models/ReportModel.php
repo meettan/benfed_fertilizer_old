@@ -1568,7 +1568,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                                                     and c.paid_dt   between '$frmDt' and '$toDt'
                                                     group by soc_name,c.soc_id
                 UNION
-              select b.soc_id,b.soc_name,0,0,0,0,sum(c.tot_recvble_amt) cramt,0
+              select b.soc_id,b.soc_name,0,0,0,0,sum(c.paid_amt) cramt,0
                   from  mm_ferti_soc b, tdf_payment_recv c
                    where b.district=c.branch_id
                     and  b.district=$branch
@@ -1587,7 +1587,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                 group by b.soc_id,b.soc_name
                 
                UNION
-               select b.soc_id,b.soc_name,0,0,0,sum(c.tot_recvble_amt) adv_adj,0,0
+               select b.soc_id,b.soc_name,0,0,0,sum(c.paid_amt) adv_adj,0,0
                   from  mm_ferti_soc b, tdf_payment_recv c
                    where b.district=c.branch_id
                     and  b.district=$branch

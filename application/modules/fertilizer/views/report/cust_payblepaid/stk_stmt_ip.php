@@ -180,14 +180,14 @@ tr:hover {background-color: #f5f5f5;}
                                        <?php  if($prodtls->op_bln < 0){echo abs($prodtls->op_bln).'.Cr';}else{echo abs($prodtls->op_bln).'.Dr';} ?>
                                      </td>
 									  <td class="report purchase" id="purchase">
-                                     <?php echo $prodtls->adv_dep;?>
+                                     <?php echo $prodtls->adv;?>
                                      </td>
 									  <td class="report sale" id="sale">
                                      <?php echo $prodtls->tot_sale; ?>
                                        
                                      </td>
                                      <td class="report advance" id="advance">
-                                     <?php echo $prodtls->adv; ?>
+                                     <?php echo $prodtls->adv_adj; ?>
                                      
                                      </td>
                                      <td class="report cramt" id="cramt">
