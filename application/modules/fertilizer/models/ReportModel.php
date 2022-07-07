@@ -1561,7 +1561,7 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                    		 0 paybl,( SELECT sum(adv_amt)FROM `tdf_advance` 
                                 where `trans_type`='I'
                                 and branch_id=$branch and soc_id=c.soc_id
-                                and trans_dt between '$frmDt' and '$toDt')adv, 0 cramt,0 adv_adj ,0 op_bln
+                                and trans_dt between '$frmDt' and '$toDt')adv, 0 adv_adj ,0 cramt,0 op_bln
                                  FROM tdf_payment_recv c,mm_ferti_soc b
                                                     where c.soc_id=b.soc_id
                                                     and c.branch_id=$branch
