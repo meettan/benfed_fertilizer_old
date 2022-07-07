@@ -50,7 +50,8 @@ tr:hover {background-color: #f5f5f5;}
                                class="form-control required"
                                min='<?php echo explode('-',$this->session->userdata('loggedin')['fin_yr'])[0].'-04-01' ?>'
                                max='<?php echo ((explode('-',$this->session->userdata('loggedin')['fin_yr'])[0])+1).'-03-31' ?>'
-                               value="<?= $frm_dt;?>"
+                               value="<?= explode('-',$this->session->userdata('loggedin')['fin_yr'])[0].'-04-01';//$frm_dt;?>"
+                               readonly
                         />  
 
                     </div>
