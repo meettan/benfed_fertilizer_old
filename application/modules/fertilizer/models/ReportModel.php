@@ -1553,38 +1553,63 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
             
         }
         public function f_get_soc_pay($frmDt,$toDt,$branch){
+            $opdate=explode('-',$frmDt)[0].'-04-01';
             $query  = $this->db->query("
-                                    
-            select soc_id,soc_name,sum(paid_amt)tot_paid,sum(paybl)tot_payble,sum(adv)adv,sum(cramt)cramt
+            select soc_id,soc_name,sum(op_bln)op_bln,sum(paid_amt)adv_dep,sum(paybl)tot_sale,sum(adv)adv,sum(cramt)cramt_adj,sum(adv_adj)adv_adj
             from(
-                                                  SELECT c.soc_id soc_id,soc_name,sum(c.paid_amt)paid_amt,0 paybl,
-                                                  ( SELECT sum(adv_amt) FROM `tdf_advance` where `trans_type`='I'
-                                                   
-                                                    and branch_id=$branch and soc_id=c.soc_id
-													 and trans_dt between '$frmDt' and '$toDt'
-  														)adv,
-                                                    (select  sum(tot_amt)
-                                                        from  tdf_dr_cr_note
-                                                        where trans_flag='R'
-                                                        and note_type='D'
-                                                 		 and trans_dt between '$frmDt' and '$toDt'
-  														and soc_id=c.soc_id
-                                                    	and branch_id=$branch)cramt
-
-                                                    FROM tdf_payment_recv c,mm_ferti_soc b
+                SELECT c.soc_id soc_id,b.soc_name,sum(c.paid_amt)paid_amt,
+                   		 0 paybl,( SELECT sum(adv_amt)FROM `tdf_advance` 
+                                where `trans_type`='I'
+                                and branch_id=$branch and soc_id=c.soc_id
+                                and trans_dt between '$frmDt' and '$toDt')adv, 0 cramt,0 adv_adj ,0 op_bln
+                                 FROM tdf_payment_recv c,mm_ferti_soc b
                                                     where c.soc_id=b.soc_id
                                                     and c.branch_id=$branch
                                                     and c.paid_dt   between '$frmDt' and '$toDt'
                                                     group by soc_name,c.soc_id
-                                                UNION
-                                                    SELECT b.soc_id,soc_name,0,sum(c.round_tot_amt),0,0
-                                                        FROM td_sale c,mm_ferti_soc b
-                                                        where c.soc_id=b.soc_id
-                                                        and c.br_cd=$branch
-                                                    and c.do_dt between  '$frmDt' and '$toDt'
-                                                    group by soc_name,b.soc_id
-                                                Union
-                                               SELECT c.soc_id,b.soc_name,0 tot_paid ,sum(c.round_tot_amt) tot_payble,0,0
+                UNION
+              select b.soc_id,b.soc_name,0,0,0,0,sum(c.tot_recvble_amt) cramt,0
+                  from  mm_ferti_soc b, tdf_payment_recv c
+                   where b.district=c.branch_id
+                    and  b.district=$branch
+                     and c.soc_id=b.soc_id 
+                      and c.sale_invoice_dt between '$frmDt' and '$toDt'
+                      and c.pay_type='6'
+                group by b.soc_id,b.soc_name
+            
+                UNION
+                  select b.soc_id,b.soc_name,0,0,0,0 ,0,balance as op_bln
+                  from  mm_ferti_soc b, td_soc_opening  c
+                   where b.district=$branch
+                     and c.soc_id=b.soc_id 
+                      and c.op_dt='$opdate'
+                    
+                group by b.soc_id,b.soc_name
+                
+               UNION
+               select b.soc_id,b.soc_name,0,0,0,sum(c.tot_recvble_amt) adv_adj,0,0
+                  from  mm_ferti_soc b, tdf_payment_recv c
+                   where b.district=c.branch_id
+                    and  b.district=$branch
+                     and c.soc_id=b.soc_id 
+                      and c.sale_invoice_dt between '$frmDt' and '$toDt'
+                      and c.pay_type='2'
+                group by b.soc_id,b.soc_name
+            
+                
+               UNION
+                
+               SELECT b.soc_id,b.soc_name,0,sum(c.round_tot_amt),0,0,0,0
+               FROM td_sale c,mm_ferti_soc b
+               where c.soc_id=b.soc_id
+               and c.br_cd=$branch
+               and c.do_dt between  '$frmDt' and '$toDt'
+              group by b.soc_name,b.soc_id
+                
+                
+                
+              Union
+                SELECT c.soc_id,b.soc_name,0 tot_paid ,sum(c.round_tot_amt) tot_payble,0,0,0,0
                                                 FROM mm_ferti_soc b ,td_sale c
                                                 where c.br_cd=b.district 
                                                 and c.br_cd=$branch
@@ -1592,23 +1617,86 @@ public function p_ro_wise_prof_calc_all_comp_pro_dist($fdate,$tdate,$comp,$produ
                                                 and c.do_dt between '$frmDt' and '$toDt'
                                                 and c.soc_id not in(select  soc_id from  tdf_payment_recv where  paid_dt between '2020-04-01' and '2021-03-31' and branch_id=343)
                                                 group by b.soc_name,c.soc_id
-                                                union 
-                                            select  b.soc_id,b.soc_name,0 tot_paid ,sum(c.tot_recvble_amt) tot_payble,0,0
-                                                from  mm_ferti_soc b, tdf_payment_recv c
-                                                where b.district=c.branch_id
-                                                and  b.district=$branch
-                                                and c.soc_id=b.soc_id 
-                                                and c.sale_invoice_dt between '$frmDt' and '$toDt'
-                                                and c.pay_type='O'
-                                                group by  b.soc_id,b.soc_name)a
-                    group by soc_id,soc_name");
-
-
-
-
+                
+                                             )a
+                    group by soc_id,soc_name  
+ORDER BY `op_bln` ASC");
             return $query->result();
-        }
+}
 
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // select soc_id,
+        // soc_name,
+        // sum(paid_amt)tot_paid,
+        // sum(paybl)tot_payble,
+        // sum(adv)adv,
+        // sum(cramt)cramt
+        // from(SELECT c.soc_id soc_id,
+        //         soc_name,sum(c.paid_amt)paid_amt,
+        //         0 paybl,
+        //         ( SELECT sum(adv_amt) FROM `tdf_advance` 
+        //             where `trans_type`='I'
+        //             and branch_id=$branch and soc_id=c.soc_id
+        //             and trans_dt between '$frmDt' and '$toDt'
+        //                                             )adv,(select  sum(tot_amt)
+        //                                             from  tdf_dr_cr_note
+        //             where trans_flag='R'
+        //             and note_type='D'
+        //                 and trans_dt between '$frmDt' and '$toDt'
+        //             and soc_id=c.soc_id
+        //             and branch_id=$branch)cramt
+
+        //                                         FROM tdf_payment_recv c,mm_ferti_soc b
+        //                                         where c.soc_id=b.soc_id
+        //                                         and c.branch_id=$branch
+        //                                         and c.paid_dt   between '$frmDt' and '$toDt'
+        //                                         group by soc_name,c.soc_id
+        //                                     UNION
+        // SELECT b.soc_id,soc_name,0,sum(c.round_tot_amt),0,0
+        //                                             FROM td_sale c,mm_ferti_soc b
+        //                                             where c.soc_id=b.soc_id
+        //                                             and c.br_cd=$branch
+        //                                         and c.do_dt between  '$frmDt' and '$toDt'
+        //                                         group by soc_name,b.soc_id
+        //                                     Union
+        //     SELECT c.soc_id,b.soc_name,0 tot_paid ,sum(c.round_tot_amt) tot_payble,0,0
+        //                                     FROM mm_ferti_soc b ,td_sale c
+        //                                     where c.br_cd=b.district 
+        //                                     and c.br_cd=$branch
+        //                                     and c.soc_id=b.soc_id 
+        //                                     and c.do_dt between '$frmDt' and '$toDt'
+        //                                     and c.soc_id not in(select  soc_id from  tdf_payment_recv where  paid_dt between '2020-04-01' and '2021-03-31' and branch_id=343)
+        //                                     group by b.soc_name,c.soc_id
+        //                                     union 
+        // select  b.soc_id,b.soc_name,0 tot_paid ,sum(c.tot_recvble_amt) tot_payble,0,0
+        //                                     from  mm_ferti_soc b, tdf_payment_recv c
+        //                                     where b.district=c.branch_id
+        //                                     and  b.district=$branch
+        //                                     and c.soc_id=b.soc_id 
+        //                                     and c.sale_invoice_dt between '$frmDt' and '$toDt'
+        //                                     and c.pay_type='O'
+        //                                     group by  b.soc_id,b.soc_name)a
+        //         group by soc_id,soc_name
         // public function f_get_soc_ledger($frmDt,$toDt,$branch,$soc_id){
         //     $query  = $this->db->query("select  prod,inv_no, soc_id,soc_name,sum(paid_amt) as tot_paid,sum(paybl) as tot_payble,sum(cgst)cgst,sum(sgst)sgst,ro_no,ro_dt,sum(qty) qty ,sum(tot_recv) tot_recv,remarks
         //     from(

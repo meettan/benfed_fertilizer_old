@@ -2179,6 +2179,7 @@ public function cust_payblepaid(){
        
         $all_data=$this->ReportModel->f_get_soc_pay($from_dt,$to_dt , $branch);
         //  echo $this->db->last_query();
+        //  exit();
         $paid=$this->ReportModel->f_get_soc_paid($from_dt,$to_dt , $branch);
         // $adv=$this->ReportModel->f_get_advrecv($from_dt,$to_dt , $branch);
         // echo '<pre>';var_dump($all_data);exit;

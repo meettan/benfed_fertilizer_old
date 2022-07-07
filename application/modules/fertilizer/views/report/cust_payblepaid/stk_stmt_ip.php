@@ -27,8 +27,8 @@ tr:hover {background-color: #f5f5f5;}
 
 
     
-    <div class="wraper">      
-
+    <div class="wraper">  
+        <?php //print_r($this->session->userdata('loggedin')); ?>
         <div class="col-md-12 container form-wraper">
     
                  <form method="POST" id="form" action="<?php echo site_url("fert/rep/cust_payblepaid");?>" >
@@ -48,6 +48,8 @@ tr:hover {background-color: #f5f5f5;}
                         <input type="date"
                                name="from_date"
                                class="form-control required"
+                               min='<?php echo explode('-',$this->session->userdata('loggedin')['fin_yr'])[0].'-04-01' ?>'
+                               max='<?php echo ((explode('-',$this->session->userdata('loggedin')['fin_yr'])[0])+1).'-03-31' ?>'
                                value="<?= $frm_dt;?>"
                         />  
 
@@ -64,6 +66,8 @@ tr:hover {background-color: #f5f5f5;}
                         <input type="date"
                                name="to_date"
                                class="form-control required"
+                               min='<?php echo explode('-',$this->session->userdata('loggedin')['fin_yr'])[0].'-04-01' ?>'
+                               max='<?php echo ((explode('-',$this->session->userdata('loggedin')['fin_yr'])[0])+1).'-03-31' ?>'
                                value="<?= $to_dt;?>"
                         />  
 
@@ -88,6 +92,7 @@ tr:hover {background-color: #f5f5f5;}
 
     <!-- </div> -->
     <?php if(isset($_POST["submit"])){ ?>
+        <?php //echo '<pre>'; print_r($all_data); echo '</pre>';?>
  <!-- <div class="wraper">  -->
 
             <div class="col-lg-12 contant-wraper">
@@ -107,8 +112,25 @@ tr:hover {background-color: #f5f5f5;}
                     <table style="width: 100%;" id="example">
 
                         <thead>
+                        <tr>
+                            
+                            <th>Sl No.</th>
 
-                            <tr>
+                            <th>Society</th>
+
+                            <th>Opening</th>
+                            <th>Advance Deposited</th>
+                            <th>Sale Amount</th>
+                            <th>Advance Adjustment</th>
+                            <th>Credit Note</th>
+                            <th>Other Adjustment</th>
+
+                            <th>Due Amount</th>
+                            <!-- (Opening + Adjustment Deposited) - (Sale + Adjustment + Credit Note + Others Adjustment) -->
+
+                        </tr>
+
+                            <!-- <tr>
                             
                                 <th>Sl No.</th>
 
@@ -128,7 +150,7 @@ tr:hover {background-color: #f5f5f5;}
                              
                                 <th>Due Amount</th>
 
-                            </tr>
+                            </tr> -->
 
                         </thead>
 
@@ -154,42 +176,40 @@ tr:hover {background-color: #f5f5f5;}
                                      <td class="report"><?php echo $prodtls->soc_name; ?>
                                      
                                      <td class="report opening" id="opening">
-                                        <!-- <?php 
-                                            foreach($opening as $opndtls){
-                                                if($prodtls->prod_id==$opndtls->prod_id){
-                                                    echo $opndtls->opn_qty;
-                                                }
-                                            }
-                                        ?> -->
-									 </td>
+                                       <?php  if($prodtls->op_bln < 0){echo abs($prodtls->op_bln).'.Cr';}else{echo abs($prodtls->op_bln).'.Dr';} ?>
+                                     </td>
 									  <td class="report purchase" id="purchase">
-                                     <?php echo $prodtls->tot_payble;
-                                      $tot_pur += $prodtls->tot_payble  ?>
+                                     <?php echo $prodtls->adv_dep;?>
                                      </td>
 									  <td class="report sale" id="sale">
-                                     <?php echo $prodtls->tot_paid; 
-                                     $tot_sale += $prodtls->tot_paid ;?>
+                                     <?php echo $prodtls->tot_sale; ?>
                                        
                                      </td>
                                      <td class="report advance" id="advance">
-                                     <?php echo $prodtls->adv;
-                                     $tot_adv += $prodtls->adv;
-                                     ?>
+                                     <?php echo $prodtls->adv; ?>
                                      
                                      </td>
                                      <td class="report cramt" id="cramt">
-                                     <?php echo $prodtls->cramt;
-                                      $tot_cr += $prodtls->cramt;
-                                     ?>
+                                     <?php echo $prodtls->cramt_adj; ?>
                                      
                                      </td>
 
                                   
 
-                                     <td class="report closing" id="closing">
-                                     <?php echo number_format($prodtls->tot_payble - $prodtls->tot_paid,2) ;
-                                         $total += $prodtls->tot_payble - $prodtls->tot_paid ; ?>  
+                                     <td class="report closing" id="closing">0.00
+                                     <?php //echo number_format($prodtls->tot_sale - $prodtls->adv_dep,2) ;
+                                        // $total += $prodtls->tot_sale - $prodtls->adv_dep ; ?>  
                                      </td>
+                                     <td>
+                                         <!-- $dueAmount=($prodtls->op_bln + $prodtls->adv) - ($prodtls->tot_sale + Adjustment + $prodtls->cramt_adj + Others Adjustment) ; -->
+                                        <?php $dueAmount=($prodtls->op_bln + $prodtls->adv) - ($prodtls->tot_sale + 0 + $prodtls->cramt_adj + 0) ;
+                                            if($dueAmount<0){
+                                                echo abs($dueAmount).'Cr';
+                                            }else{
+                                                echo abs($dueAmount).'Dr';
+                                            }
+                                        ?>
+                                    </td>
                                    
                                 </tr>
  

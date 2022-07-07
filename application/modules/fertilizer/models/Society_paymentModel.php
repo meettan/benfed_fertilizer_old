@@ -349,6 +349,15 @@
 
 		}
 
+// 		$sql = $this->db->query("SELECT ifnull(sum(a.adv_amt),0) -(select  ifnull(sum(adv_amt),0) 
+// 		from tdf_advance 
+// 		WHERE soc_id ='$soc_id'
+// 		and trans_type='O')as adv_amt
+// FROM tdf_advance a 
+// WHERE a.soc_id ='$soc_id'
+// and a.trans_type='I'");
+// return $sql->result();
+
 
 
 		function f_recvjnl($data){
