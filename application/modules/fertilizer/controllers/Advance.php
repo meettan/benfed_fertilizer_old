@@ -41,7 +41,7 @@ public function company_advAddlist(){
    //$dis=$dist->branch_id;
    
     //if($dis==$this->input->post('branch_id')){
-		$select = array('a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
+		$select = array('a.qty','a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
 		$where = array(
 					'a.comp_id = b.COMP_ID' =>NULL, 
 					'a.prod_id = c.PROD_ID' =>NULL,
@@ -65,7 +65,7 @@ public function company_advAddlistedit(){
 	$dist= $this->AdvanceModel->f_select('tdf_advance' ,array('branch_id'),array('receipt_no'=>$rcno->adv_dtl_id),1);
 	$dis=$dist->branch_id;
 	
-	
+
 	 if($dis==$this->input->post('branch_id')){
 		 $select = array('a.qty','a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
 		 $where = array(

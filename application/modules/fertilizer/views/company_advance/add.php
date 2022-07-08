@@ -168,15 +168,15 @@ $( document ).ajaxComplete(function() {
         //     }else{
             var tot_amt = 0.0;
             var i  = 1; var j = 0;
-            var list = '<tr><th>Sl No</th><th style="width:33%">Advance No</th><th style="width:33%">Company Name</th><th style="width:33%">Product</th><th style="width:33%">Amount</th><th>Option</th></tr>';
+            var list = '<tr><th>Sl No</th><th style="width:33%">Advance No</th><th style="width:33%">Company Name</th><th style="width:33%">Product</th><th style="width:33%">Qty</th><th style="width:33%">Amount</th><th>Option</th></tr>';
             $.each(JSON.parse(data), function(index, value) {
-                list += '<tr><td>'+ i +'</td><td><input type="hidden" class="form-control" value="'+value.detail_receipt_no+'" name="adv_receive_no[]" readonly>'+value.detail_receipt_no+'</td><td>'+value.COMP_NAME+'</td><td>'+value.PROD_DESC+'</td><td>'+value.amount+'</td><td><input type="checkbox" id="ckamt" name="ckamt['+i +'][list]"  value ='+value.detail_receipt_no+' class="ckamt"><input type="hidden" name="ckamt['+ i +'][amt]" value="'+value.amount+'"></td></tr>';
+                list += '<tr><td>'+ i +'</td><td><input type="hidden" class="form-control" value="'+value.detail_receipt_no+'" name="adv_receive_no[]" readonly>'+value.detail_receipt_no+'</td><td>'+value.COMP_NAME+'</td><td>'+value.PROD_DESC+'</td><td>'+value.qty+'</td><td>'+value.amount+'</td><td><input type="checkbox" id="ckamt" name="ckamt['+i +'][list]"  value ='+value.detail_receipt_no+' class="ckamt"><input type="hidden" name="ckamt['+ i +'][amt]" value="'+value.amount+'"></td></tr>';
                 
                 tot_amt += parseFloat(value.adv_amt);
                 i++;
             });  
             
-            list += '<tr style="font-weight: bold;"><td colspan="3">Total</td><td></td><td id="approve_tot">0.00</td></tr>';
+            list += '<tr style="font-weight: bold;"><td colspan="4">Total</td><td></td><td id="approve_tot">0.00</td></tr>';
         $("#list").html(list);
 		    $.ajax({
             type:'POST',
