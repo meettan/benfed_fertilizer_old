@@ -162,7 +162,7 @@
                         var i = 0;
                         var j = 0;
                         var list =
-                            '<tr><th>Sl No</th><th style="width:33%">Advance No</th><th style="width:33%">Company Name</th><th style="width:33%">Product</th><th style="width:33%">Amount</th></tr>';
+                            '<tr><th>Sl No</th><th style="width:33%">Advance No</th><th style="width:33%">Company Name</th><th style="width:33%">Product</th><th style="width:33%">Qty</th><th style="width:33%">Amount</th></tr>';
                             var totAmount=0;
                         $.each(JSON.parse(data), function (index, value) {
                             totAmount=(parseFloat(totAmount)+parseFloat(value.amount));
@@ -171,13 +171,13 @@
                                 value.detail_receipt_no +
                                 '" name="adv_receive_no[]" readonly>' + value
                                 .detail_receipt_no + '</td><td>' + value.COMP_NAME +
-                                '</td><td>' + value.PROD_DESC + '</td><td>' + value
+                                '</td><td>' + value.PROD_DESC + '</td><td>' + value.qty + '</td><td>' + value
                                 .amount +
                                 '</td></tr>';
                             tot_amt += parseFloat(value.adv_amt);
                         });
                         list +=
-                            '<tr style="font-weight: bold;"><td colspan="3">Total</td><td></td><td id="approve_tot">'+totAmount+'</td></tr>';
+                            '<tr style="font-weight: bold;"><td colspan="4">Total</td><td></td><td id="approve_tot">'+totAmount+'</td></tr>';
                         $("#list").html(list);
                         $.ajax({
                             type: 'POST',

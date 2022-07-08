@@ -2000,7 +2000,7 @@ ORDER BY `op_bln` ASC");
             // and   a.comp_id = '$comp_id'
             // and   c.comp_pay_flag = 'Y';"
             //);
-            $sql = "select a.trans_dt,a.receipt_no,a.adv_receive_no,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
+            $sql = "select c.qty, a.trans_dt,a.receipt_no,a.adv_receive_no,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
             from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d
             where c.branch_id = b.id
             and   a.adv_dtl_id = c.receipt_no
@@ -2010,7 +2010,7 @@ ORDER BY `op_bln` ASC");
             and   a.comp_id = '$comp_id'
             and   c.comp_pay_flag = 'Y'
             UNION
-            select a.trans_dt,a.receipt_no,a.adv_receive_no,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
+            select c.qty, a.trans_dt,a.receipt_no,a.adv_receive_no,c.branch_id,b.branch_name,c.prod_id,d.PROD_DESC,c.ro_no,c.fo_no,a.adv_amt
                         from tdf_company_advance a, md_branch b,td_adv_details c,mm_product d,tdf_adv_fwd e
                         where c.branch_id = b.id
                         and   a.adv_receive_no = c.detail_receipt_no

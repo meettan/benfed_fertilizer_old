@@ -83,6 +83,7 @@ tr:hover {background-color: #f5f5f5;}
                                 <th>Date</th>
                                 <th>Branch Name.</th>
                                 <th>Product Name</th>
+                                <th>Qty</th>
                                 <th>Ro No</th>
                                 <th>Fo No</th>
                                 <th>Amount</th>
@@ -111,6 +112,7 @@ tr:hover {background-color: #f5f5f5;}
                                      <td><?php echo $ptableData->branch_name; ?></td>
                                      
                                      <td><?php echo $ptableData->PROD_DESC; ?></td>
+                                     <td><?= $ptableData->qty; ?></td>
                                      <td><?php echo $ptableData->ro_no; ?></td>
                                      <td><?php echo $ptableData->fo_no; ?></td>
                                      <td><?php echo $ptableData->adv_amt ; ?></td>

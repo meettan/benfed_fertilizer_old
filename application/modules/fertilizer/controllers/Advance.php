@@ -66,7 +66,7 @@ public function company_advAddlistedit(){
 	$dis=$dist->branch_id;
 	
 	 if($dis==$this->input->post('branch_id')){
-		 $select = array('a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
+		 $select = array('a.qty','a.receipt_no','a.detail_receipt_no','a.amount','b.COMP_NAME','c.PROD_DESC','a.branch_id');
 		 $where = array(
 					 'a.comp_id = b.COMP_ID' =>NULL, 
 					 'a.prod_id = C.prod_id' =>NULL, 
@@ -287,7 +287,7 @@ public function company_editadv(){
 						 'c.comp_id = d.COMP_ID'=>  NULL,
 						 'c.receipt_no = f.receipt_no'=>  NULL,
 				          'a.receipt_no'=>$rcpt);
-            $select = array('a.dr_head','a.bank','a.trans_dt','d.COMP_NAME','d.COMP_ID','e.branch_name','c.branch_id','f.remarks');
+            $select = array('a.dr_head','a.bank','a.trans_dt','d.COMP_NAME','d.COMP_ID','e.branch_name','c.branch_id','f.remarks','c.qty');
 			$data['pageData']=$this->AdvanceModel->f_select('tdf_company_advance a,tdf_adv_fwd b,td_adv_details c,mm_company_dtls d,md_branch e,tdf_advance f',$select,$where,1);
 			}else{
              //$data['pageInfo']=$this->AdvanceModel->getpInfo($rcpt);
