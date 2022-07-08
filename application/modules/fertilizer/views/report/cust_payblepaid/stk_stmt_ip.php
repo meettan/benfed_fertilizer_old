@@ -194,27 +194,39 @@ tr:hover {background-color: #f5f5f5;}
                                      <?php echo $prodtls->cramt_adj; ?>
                                      
                                      </td>
-
-                                  
-
                                      <td class="report closing" id="closing">0.00
                                      <?php //echo number_format($prodtls->tot_sale - $prodtls->adv_dep,2) ;
                                         // $total += $prodtls->tot_sale - $prodtls->adv_dep ; ?>  
                                      </td>
                                      <td>
                                          <!-- $dueAmount=($prodtls->op_bln + $prodtls->adv) - ($prodtls->tot_sale + Adjustment + $prodtls->cramt_adj + Others Adjustment) ; -->
-                                        <?php $dueAmount=($prodtls->op_bln + $prodtls->adv) - ($prodtls->tot_sale + 0 + $prodtls->cramt_adj + 0) ;
-                                            if($dueAmount<0){
-                                                echo abs($dueAmount).'Cr';
-                                            }else{
-                                                echo abs($dueAmount).'Dr';
-                                            }
+                                        <?php 
+
+$op_adv=(-1*$prodtls->op_bln)+(($prodtls->adv))-($prodtls->tot_sale + $prodtls->adv_adj);
+//-($prodtls->tot_sale)-($prodtls->adv_adj)-($prodtls->cramt_adj);
+// $advAdj_totSale_crnAdj=;
+// $closihg=$op_adv-$advAdj_totSale_crnAdj;
+
+
+if($op_adv<0){
+        echo abs($op_adv).'Cr';
+}else{
+    echo abs($op_adv).'Dr';
+}
+                                        // $dueAmount=($prodtls->op_bln + $prodtls->adv) - ($prodtls->adv_adj  + $prodtls->cramt_adj + 0) ;
+                                        //     if($dueAmount<0){
+                                        //         echo abs($dueAmount).'Cr';
+                                        //     }else{
+                                        //         echo abs($dueAmount).'Dr';
+                                        //     }
                                         ?>
                                     </td>
                                    
                                 </tr>
  
                                 <?php  
+
+
                                                         
                                     }
                                 ?>
