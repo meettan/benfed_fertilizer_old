@@ -169,7 +169,7 @@
                                         <input type="text" name="virtual_no[]" style="width:100px;"
                                             class="form-control virtual_no" value="" id="virtual_no">
                                     </td>
-
+                                    
                                 </tr>
 
                             </tbody>
@@ -923,6 +923,7 @@
                     var qty = unitData.qty;
                     var rate = unitData.rate;
                     $('.prod_id').eq($('.pur_inv').index(this)).val(unitData.prod_id);
+                   // alert(unitData.prod_id);
                     $('.prod_desc').eq($('.pur_inv').index(this)).val(unitData.PROD_DESC);
                     $('.pur_ro').eq($('.pur_inv').index(this)).val(unitData.pur_ro);
                     $('.pur_ro_dt').eq($('.pur_inv').index(this)).val(unitData.ro_dt);

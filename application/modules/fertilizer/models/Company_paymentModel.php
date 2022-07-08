@@ -87,7 +87,7 @@
             }
 			public function f_get_comppay_ro_gb_dtls($pur_inv,$rcno){
 
-				$this->db->select('a.qty,a.rate_amt,b.PROD_DESC,a.pur_ro,c.ro_dt,round((c.tot_amt/c.qty),3)as rate')->from('tdf_company_payment a')->where('pur_inv_no',$pur_inv)->where('sale_inv_no',$rcno);
+				$this->db->select('a.prod_id,a.qty,a.rate_amt,b.PROD_DESC,a.pur_ro,c.ro_dt,round((c.tot_amt/c.qty),3)as rate')->from('tdf_company_payment a')->where('pur_inv_no',$pur_inv)->where('sale_inv_no',$rcno);
 				$this->db->join('mm_product b','a.prod_id = b.PROD_ID');
 				$this->db->join('td_purchase c','a.pur_ro = c.ro_no');
 				
@@ -332,7 +332,7 @@
 	
 		curl_setopt_array($curl, array(
 		//   CURLOPT_URL => 'http://localhost/benfed_fertilizer/index.php/fertilizer/api_journal/compay_voucher',
-		CURLOPT_URL => 'http://localhost/Benfed_finance/index.php/api_voucher/compay_voucher',
+		CURLOPT_URL => 'http://localhost:8080/Benfed_finance/index.php/api_voucher/compay_voucher',
 		//  CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/compay_voucher',
 		
 		  CURLOPT_RETURNTRANSFER => true,

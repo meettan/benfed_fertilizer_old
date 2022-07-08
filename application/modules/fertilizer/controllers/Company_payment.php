@@ -97,7 +97,7 @@
 			//CURLOPT_URL => 'http://localhost/benfed_fin/index.php/transaction/f_acc_code',
 			//CURLOPT_URL => 'http://benfed.in/benfed_fin/index.php/transaction/f_acc_code',
 			//CURLOPT_URL => 'https://benfed.in/benfed_fin/index.php/api_voucher/f_acc_code',
-			CURLOPT_URL => 'http://localhost/benfed_fin/index.php/api_voucher/f_acc_code',
+			CURLOPT_URL => 'http://localhost:8080/benfed_fin/index.php/api_voucher/f_acc_code',
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => '',
 			CURLOPT_MAXREDIRS => 10,
@@ -128,26 +128,27 @@
             $adv_transCd 	    = $this->Company_paymentModel->get_payment_code($fin_id);
                  
 			if($_SERVER['REQUEST_METHOD'] == "POST") {
-                    $paid_amt = $this->input->post('paid_amt');
+                    $paid_amt = $this->input->post('net_amt');
 					
 					$amt_count=count($paid_amt);
 
 					$total_tds=0;
 					$total_net_amount=0;
 					$total_gross_amount=0;
-					print_r($paid_amt);die();
+					//print_r($paid_amt);die();
                     for($i = 0; $i < $amt_count; $i++){
 						$total_tds+=$_POST['tds'][$i];
 						$total_net_amount+=$_POST['net_amt'][$i];
-						$total_gross_amount+=$_POST['paid_amt'][$i];
+						$total_gross_amount+=(($_POST['net_amt'][$i])+($_POST['tds'][$i]));
 
 						
 						//$trans_type= $_POST['pay_type'][$i];
-						$paid_amt  = $_POST['paid_amt'][$i];
+						$paid_amt  = (($_POST['net_amt'][$i])+($_POST['tds'][$i]));
 						$receipt   = 'PMT/'.$brn->short_name.'/'.$month.'/'.$fin_year.'/'.$adv_transCd->sl_no;
 						
                         $data     = array(
-											'dr_acCode'=>$this->input->post('acc_cd'),
+											// 'dr_acCode'=>$this->input->post('acc_cd'),
+											'dr_acCode'=>1,
 											'pay_no'           => $receipt ,
 											
 											'pay_dt'           => $this->input->post('pay_dt'),
@@ -178,26 +179,35 @@
 											'rate_amt'         => $_POST['rate'][$i],
 											'taxable_amt'         => $_POST['taxable_amt'][$i],
 											'tds_amt'         => $_POST['tds'][$i],
-											'paid_amt'         => $_POST['paid_amt'][$i],
+											'paid_amt'         => (($_POST['net_amt'][$i])+($_POST['tds'][$i])),
+											// 'paid_amt'         =>$_POST['paid_amt'][$i],
 											'net_amt'         => $_POST['net_amt'][$i],
 
 											'qty'              => $_POST['qty'][$i]);
+											$p_invno=explode(',',$_POST['pur_inv'][$i])[1];
 	                    
 					$where  =   array(
 		   
-					'pur_inv_no'  => $_POST['pur_inv'][$i],
+					// 'pur_inv_no'  => $_POST['pur_inv'][$i],
+					'sale_inv_no'  => $p_invno,
 
 					'pur_ro'      => $_POST['pur_ro'][$i],
 
 					'prod_id'     => $_POST['prod_id'][$i]);
 
+
+
+
 				   
 
 				   $this->Company_paymentModel->f_edit('tdf_company_payment', $data, $where);
-					
+				//    echo $this->db->last_query();
+				//    exit();
 
 						
 		        }
+				print_r($data);
+				
 		
 		
 
