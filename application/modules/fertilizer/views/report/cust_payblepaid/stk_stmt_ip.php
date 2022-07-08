@@ -177,7 +177,7 @@ tr:hover {background-color: #f5f5f5;}
                                      <td class="report"><?php echo $prodtls->soc_name; ?>
                                      
                                      <td class="report opening" id="opening">
-                                       <?php  if($prodtls->op_bln < 0){echo abs($prodtls->op_bln).'.Cr';}else{echo abs($prodtls->op_bln).'.Dr';} ?>
+                                       <?php  if($prodtls->op_bln < 0){echo abs($prodtls->op_bln).' Cr';}else{echo abs($prodtls->op_bln).' Dr';} ?>
                                      </td>
 									  <td class="report purchase" id="purchase">
                                      <?php echo $prodtls->adv;?>
@@ -208,7 +208,7 @@ $op_adv=(-1*$prodtls->op_bln)+(($prodtls->adv))-($prodtls->tot_sale + $prodtls->
 // $closihg=$op_adv-$advAdj_totSale_crnAdj;
 
 
-if($op_adv<0){
+if($op_adv>0){
         echo abs($op_adv).'Cr';
 }else{
     echo abs($op_adv).'Dr';
