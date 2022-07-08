@@ -122,7 +122,7 @@ tr:hover {background-color: #f5f5f5;}
                                 <?php    } ?>
 
                                 <tr>
-                                    <td colspan="6"><b>Total</b></td>
+                                    <td colspan="7"><b>Total</b></td>
                                     <td><b><?php echo $total ?></b></td>
                                 </tr>
                                 <?php 
