@@ -5,7 +5,7 @@
 		<form method="POST" id="form" action="<?php echo site_url("adv/company_advAdd") ?>" >
 
 			<div class="form-header">
-				<h4>Add Company Advance</h4>
+				<h4>Add Company Advance </h4>
 			</div>
 
             <div class="form-group row">
@@ -176,7 +176,7 @@ $( document ).ajaxComplete(function() {
                 i++;
             });  
             
-            list += '<tr style="font-weight: bold;"><td colspan="4">Total</td><td></td><td id="approve_tot">0.00</td></tr>';
+            list += '<tr style="font-weight: bold;"><td colspan="4">Total</td><td id="approve_qty"></td><td id="approve_tot">0.00</td></tr>';
         $("#list").html(list);
 		    $.ajax({
             type:'POST',
@@ -213,10 +213,16 @@ $("#submit").hide();
         $('.ckamt').change(function() {
             var approve_tot = parseFloat($('#approve_tot').html());
             var amt = 0.00; 
+			var qty = 0.00; 
             $('.ckamt:checked').each(function() {
-                amt += parseFloat($(this).parents('tr').find("td").eq(4).html()); 
+                qty += parseFloat($(this).parents('tr').find("td").eq(4).html()); 
             });
+			$('.ckamt:checked').each(function() {
+                amt += parseFloat($(this).parents('tr').find("td").eq(5).html()); 
+            });
+			$('#approve_qty').html(qty);
             $('#approve_tot').html(amt);
+			
 			 $('#p_tot').val(amt);
             if(amt!=0.00){
                 $("#submit").show();
